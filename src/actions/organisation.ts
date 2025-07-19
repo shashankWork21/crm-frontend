@@ -36,7 +36,6 @@ export async function createEmployedOrganisation(
   let createdRegionId: string = regionId || "";
 
   try {
-    // Create organisation
     const organisation = await axios.post(
       orgaisationPath(),
       { name },
@@ -58,7 +57,6 @@ export async function createEmployedOrganisation(
           name: regionName,
           country,
           state,
-          createdOrgId: organisationId,
         },
         {
           headers: {
@@ -70,7 +68,6 @@ export async function createEmployedOrganisation(
       createdRegionId = region.data.id;
     }
 
-    // Create a branch for the organisation
     await axios.post(
       branchPath(),
       {
