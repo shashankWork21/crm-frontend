@@ -22,6 +22,7 @@ export default function ContactFollowUpForm({
   contact,
   setOpen,
   team,
+  successCallback,
 }: ContactEditFormProps) {
   const [userId, setUserId] = useState<string>("");
   const [popoverOpen, setPopoverOpen] = useState<boolean>(false);
@@ -38,8 +39,9 @@ export default function ContactFollowUpForm({
   useEffect(() => {
     if (formState.success) {
       setOpen(false);
+      successCallback?.();
     }
-  }, [formState.success, setOpen]);
+  }, [formState.success, setOpen, successCallback]);
 
   const handleSearchTermChange = (value: string) => {
     setSearchTerm(value);

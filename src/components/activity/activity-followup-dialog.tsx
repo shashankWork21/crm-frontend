@@ -22,11 +22,13 @@ import {
 interface ActivityDialogProps {
   contactId: string;
   followUpActivityId: string;
+  successCallback?: () => void;
 }
 
 export default function FollowUpActivityDialog({
   contactId,
   followUpActivityId,
+  successCallback,
 }: ActivityDialogProps) {
   const [open, setOpen] = useState(false);
 
@@ -58,6 +60,7 @@ export default function FollowUpActivityDialog({
           contactId={contactId}
           submitFormText="Create Followup Activity"
           followUpActivityId={followUpActivityId}
+          successCallback={successCallback}
         />
       </DialogContent>
     </Dialog>

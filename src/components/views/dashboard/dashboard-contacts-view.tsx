@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Contact, DashboardContactView, DateOptions, User } from "@/lib/types";
 import {
   getContactsByRegionSchedule,
@@ -28,39 +28,54 @@ export default function DashboardContactsView({
   const [viewDatePicker, setViewDatePicker] = useState<boolean>(false);
   const [contacts, setContacts] = useState<Contact[]>([]);
 
+  const [successCallback, setSuccessCallback] = useState<() => void>(() => {});
+
+  const handleSuccessCallbackChange = useCallback((callback: () => void) => {
+    callback();
+    setSuccessCallback(() => callback);
+  }, []);
+
   useEffect(() => {
     async function fetchContacts() {
       let contactsData;
       switch (contactView) {
         case DashboardContactView.REGION_FOLLOW_UPS:
-          contactsData = await getContactsByRegionSchedule(
-            organisationId,
-            date.getDate()
-          );
-          setContacts(contactsData);
+          handleSuccessCallbackChange(async () => {
+            contactsData = await getContactsByRegionSchedule(
+              organisationId,
+              date.getDate()
+            );
+            setContacts(contactsData);
+          });
           break;
 
         case DashboardContactView.UPCOMING_FOLLOWUPS:
-          contactsData = await getUpcomingFollowUps(organisationId);
-          setContacts(contactsData);
+          handleSuccessCallbackChange(async () => {
+            contactsData = await getUpcomingFollowUps(organisationId);
+            setContacts(contactsData);
+          });
           break;
 
         case DashboardContactView.OVERDUE_FOLLOWUPS:
-          contactsData = await getOverdueFollowUps(organisationId);
-          setContacts(contactsData);
+          handleSuccessCallbackChange(async () => {
+            contactsData = await getOverdueFollowUps(organisationId);
+            setContacts(contactsData);
+          });
           break;
 
         default:
-          contactsData = await getContactsByRegionSchedule(
-            organisationId,
-            date.getDate()
-          );
-          setContacts(contactsData);
+          handleSuccessCallbackChange(async () => {
+            contactsData = await getContactsByRegionSchedule(
+              organisationId,
+              date.getDate()
+            );
+            setContacts(contactsData);
+          });
           break;
       }
     }
     fetchContacts();
-  }, [contactView, date, organisationId]);
+  }, [contactView, date, organisationId, handleSuccessCallbackChange]);
 
   return (
     <div className="w-full mx-auto p-6 space-y-8">
@@ -149,7 +164,11 @@ export default function DashboardContactsView({
 
       <div className="min-h-[400px]">
         {contacts.length > 0 ? (
-          <ContactCardView contacts={contacts} team={team} />
+          <ContactCardView
+            contacts={contacts}
+            team={team}
+            successCallback={successCallback}
+          />
         ) : (
           <div className="max-w-6xl mx-auto flex flex-col items-center justify-center h-64 bg-white rounded-lg border shadow-sm">
             <div className="text-center space-y-2">

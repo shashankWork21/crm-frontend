@@ -248,6 +248,7 @@ export interface FormState {
 export interface DeleteFormProps {
   setOpen: (open: boolean) => void;
   id: string;
+  successCallback?: () => void;
 }
 
 export enum DashboardContactView {

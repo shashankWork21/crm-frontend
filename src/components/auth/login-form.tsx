@@ -16,7 +16,7 @@ export default function LoginForm() {
 
   useEffect(() => {
     if (user) {
-      router.push("/dashboard/contacts");
+      router.push("/dashboard");
     }
   }, [user, router]);
 
@@ -37,7 +37,7 @@ export default function LoginForm() {
           if (setUser) {
             setUser(result);
           }
-          router.push("/dashboard/contacts");
+          router.push("/dashboard");
         } catch (error) {
           console.error("Failed to refresh session:", error);
         }

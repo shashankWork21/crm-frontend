@@ -5,7 +5,11 @@ import { Button } from "@/components/ui/button";
 import { DeleteFormProps } from "@/lib/types";
 import { deleteContactById } from "@/actions/contact";
 
-export default function ContactDeleteForm({ setOpen, id }: DeleteFormProps) {
+export default function ContactDeleteForm({
+  setOpen,
+  id,
+  successCallback,
+}: DeleteFormProps) {
   const [formState, action] = useActionState(deleteContactById.bind(null, id), {
     success: false,
     message: "",
@@ -15,8 +19,9 @@ export default function ContactDeleteForm({ setOpen, id }: DeleteFormProps) {
   useEffect(() => {
     if (formState.success) {
       setOpen(false);
+      successCallback?.();
     }
-  }, [formState.success, setOpen]);
+  }, [formState.success, setOpen, successCallback]);
 
   return (
     <div className="flex flex-col space-y-3 p-4">

@@ -7,13 +7,15 @@ import { getActivitiesByContactId } from "@/db/activities.queries";
 interface ContactCardViewProps {
   contacts: Contact[];
   team: User[];
+  successCallback?: () => void;
 }
 export default function ContactCardView({
   contacts,
   team,
+  successCallback,
 }: ContactCardViewProps) {
   return (
-    <div className="flex items-center justify-center w-full mx-auto h-screen flex-wrap gap-4">
+    <div className="flex flex-col items-center justify-start w-full mx-auto h-screen gap-4">
       {contacts.map((contact) => (
         <ContactCard
           key={contact.id}
@@ -23,6 +25,7 @@ export default function ContactCardView({
             null,
             contact.id
           )}
+          successCallback={successCallback}
         />
       ))}
     </div>

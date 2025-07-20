@@ -330,6 +330,7 @@ export async function bulkCreateContacts(
       },
     });
 
+    revalidatePath("/dashboard");
     revalidatePath("/dashboard/contacts");
     revalidatePath("/dashboard/contacts/organisation");
 
@@ -453,6 +454,7 @@ export async function deleteContactById(contactId: string) {
         Cookie: `session=${c.get("session")?.value || ""}`,
       },
     });
+    revalidatePath("/dashboard");
     revalidatePath("/dashboard/contacts");
     revalidatePath("/dashboard/contacts/organisation");
     return {
@@ -506,6 +508,7 @@ export async function updateContact(
         },
       }
     );
+    revalidatePath("/dashboard");
     revalidatePath("/dashboard/contacts");
     revalidatePath("/dashboard/contacts/organisation");
 
@@ -563,6 +566,58 @@ export async function updateContactFollowup(
         },
       }
     );
+    revalidatePath("/dashboard");
+    revalidatePath("/dashboard/contacts");
+    revalidatePath("/dashboard/contacts/organisation");
+
+    return {
+      success: true,
+      message: "Contact updated successfully",
+      errors: {},
+    };
+  } catch (error) {
+    if (axios.isAxiosError(error) && error.response) {
+      const { data } = error.response;
+      return {
+        success: false,
+        message: "Failed to update contact",
+        errors: JSON.parse(data.errors),
+      };
+    } else {
+      return {
+        success: false,
+        message: "An unexpected error occurred",
+        errors: {},
+      };
+    }
+  }
+}
+
+export async function cascadeFollowup(
+  contactId: string,
+  followUpFrequency: number = 0
+) {
+  const c = await cookies();
+
+  const now = new Date();
+  const followUpOn = new Date(
+    now.getTime() + followUpFrequency * 24 * 60 * 60 * 1000
+  );
+
+  try {
+    await axios.put(
+      contactPathById(contactId),
+      {
+        followUpOn,
+      },
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Cookie: `session=${c.get("session")?.value || ""}`,
+        },
+      }
+    );
+    revalidatePath("/dashboard");
     revalidatePath("/dashboard/contacts");
     revalidatePath("/dashboard/contacts/organisation");
 

@@ -40,6 +40,7 @@ interface ActivityFormProps {
   submitFormText: string;
   activity?: Activity;
   followUpActivityId?: string;
+  successCallback?: () => void;
 }
 
 export default function ActivityForm({
@@ -48,6 +49,7 @@ export default function ActivityForm({
   activity,
   submitFormText,
   followUpActivityId,
+  successCallback,
 }: ActivityFormProps) {
   const [needFollowUp, setNeedFollowUp] = useState<boolean>(
     activity ? activity.needFollowUp : false
@@ -122,8 +124,9 @@ export default function ActivityForm({
   useEffect(() => {
     if (formState.success) {
       setOpen(false);
+      successCallback?.();
     }
-  }, [formState.success, setOpen]);
+  }, [formState.success, setOpen, successCallback]);
 
   function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();

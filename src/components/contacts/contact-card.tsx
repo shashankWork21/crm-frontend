@@ -1,13 +1,16 @@
 "use client";
 
 import { Activity, Contact, User } from "@/lib/types";
+import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-} from "../ui/card";
-import { Building, Calendar, Mail, Map, MapPin, Phone } from "lucide-react";
+  Building,
+  Calendar,
+  CheckCircle,
+  Mail,
+  Map,
+  MapPin,
+  Phone,
+} from "lucide-react";
 import {
   TooltipProvider,
   Tooltip,
@@ -16,17 +19,24 @@ import {
 } from "../ui/tooltip";
 import ContactActions from "./contact-actions";
 import { formatDate } from "@/lib/date";
-import { useEffect, useState } from "react";
+import { useActionState, useEffect, useState } from "react";
 import { Button } from "../ui/button";
 import ActivityCard from "../activity/activity-card";
+import { cascadeFollowup } from "@/actions/contact";
 
 interface ContactCardProps {
   contact: Contact;
   team: User[];
   activityFetchFunction: () => Promise<Activity[]>;
+  successCallback?: () => void;
 }
 
-export default function ContactCard({ contact, team, activityFetchFunction }: ContactCardProps) {
+export default function ContactCard({
+  contact,
+  team,
+  activityFetchFunction,
+  successCallback,
+}: ContactCardProps) {
   const [viewActivities, setViewActivities] = useState(false);
   const [activities, setActivities] = useState<Activity[]>([]);
 
@@ -34,9 +44,28 @@ export default function ContactCard({ contact, team, activityFetchFunction }: Co
     const fetchActivities = async () => {
       const activities = await activityFetchFunction();
       setActivities(activities);
-    }
+    };
     fetchActivities();
-  }, [viewActivities, activityFetchFunction])
+  }, [viewActivities, activityFetchFunction]);
+
+  const [cascadeFollowupFormState, cascadeFollowupAction] = useActionState(
+    cascadeFollowup.bind(
+      null,
+      contact.id,
+      contact.followUpFrequency ? contact.followUpFrequency : 0
+    ),
+    {
+      success: false,
+      errors: {},
+      message: "",
+    }
+  );
+
+  useEffect(() => {
+    if (cascadeFollowupFormState.success) {
+      successCallback?.();
+    }
+  }, [cascadeFollowupFormState.success, successCallback]);
 
   return (
     <Card className="w-7/10 mx-auto mt-20 p-0 pb-5 shadow-lg bg-gradient-to-br from-slate-200 to-slate-300">
@@ -58,7 +87,6 @@ export default function ContactCard({ contact, team, activityFetchFunction }: Co
             )}
           </div>
         </div>
-
       </CardHeader>
       <CardContent className="w-full">
         <div className="flex flex-col gap-3 w-full">
@@ -68,7 +96,9 @@ export default function ContactCard({ contact, team, activityFetchFunction }: Co
                 <div className="w-fit rounded bg-gradient-to-br from-slate-500 to-slate-600 text-white py-2 px-4 flex flex-row items-center justify-between mx-0">
                   <p>
                     Follow up every{" "}
-                    <span className="font-bold">{contact.followUpFrequency}</span>{" "}
+                    <span className="font-bold">
+                      {contact.followUpFrequency}
+                    </span>{" "}
                     days
                     {contact.assignedTo && (
                       <>
@@ -82,7 +112,7 @@ export default function ContactCard({ contact, team, activityFetchFunction }: Co
                     )}
                   </p>
                 </div>
-                <div className="w-fit rounded bg-gradient-to-br from-slate-500 to-slate-600 text-white py-2 px-4 flex flex-row items-center justify-between gap-2">
+                <div className="w-fit rounded bg-gradient-to-br from-slate-500 to-slate-600 text-white py-2 px-4 flex flex-row items-center justify-between space-x-2">
                   <Calendar className="h-6 w-6" />
                   <p>
                     {formatDate(contact.followUpOn).day}
@@ -90,6 +120,11 @@ export default function ContactCard({ contact, team, activityFetchFunction }: Co
                     {formatDate(contact.followUpOn).month},{" "}
                     {formatDate(contact.followUpOn).year}
                   </p>
+                  <form action={cascadeFollowupAction}>
+                    <button type="submit">
+                      <CheckCircle className="h-6 w-6 text-white cursor-pointer hover:h-8 hover:w-8 hover:text-green-400" />
+                    </button>
+                  </form>
                 </div>
               </div>
             )}
@@ -102,7 +137,11 @@ export default function ContactCard({ contact, team, activityFetchFunction }: Co
                   </span>
                 </div>
               )}
-            <ContactActions contact={contact} team={team} />
+            <ContactActions
+              contact={contact}
+              team={team}
+              successCallback={successCallback}
+            />
           </div>
           <div className="flex flex-row items-center justify-start gap-2">
             <TooltipProvider>
@@ -170,13 +209,23 @@ export default function ContactCard({ contact, team, activityFetchFunction }: Co
         {viewActivities && (
           <div className="flex flex-col items-start w-full">
             {activities?.map((activity) => (
-              <ActivityCard key={activity.id} activity={activity} contactId={contact.id} />
+              <ActivityCard
+                key={activity.id}
+                activity={activity}
+                contactId={contact.id}
+              />
             ))}
           </div>
         )}
-
+        {cascadeFollowupFormState.success && (
+          <div className="text-green-600">
+            {cascadeFollowupFormState.message}
+          </div>
+        )}
+        {!cascadeFollowupFormState.success && (
+          <div className="text-red-600">{cascadeFollowupFormState.message}</div>
+        )}
       </CardContent>
-
     </Card>
   );
 }

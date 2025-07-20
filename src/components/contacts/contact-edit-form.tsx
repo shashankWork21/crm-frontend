@@ -10,11 +10,13 @@ export interface ContactEditFormProps {
   contact: Contact;
   setOpen: (open: boolean) => void;
   team?: User[];
+  successCallback?: () => void;
 }
 
 export default function ContactEditForm({
   contact,
   setOpen,
+  successCallback,
 }: ContactEditFormProps) {
   const [formState, action] = useActionState(
     updateContact.bind(null, contact.id),
@@ -28,8 +30,9 @@ export default function ContactEditForm({
   useEffect(() => {
     if (formState.success) {
       setOpen(false);
+      successCallback?.();
     }
-  }, [formState.success, setOpen]);
+  }, [formState.success, setOpen, successCallback]);
 
   function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();

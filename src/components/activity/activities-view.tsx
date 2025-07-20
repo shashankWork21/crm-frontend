@@ -1,7 +1,7 @@
 "use client";
 
 import { Activity } from "@/lib/types";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import ActivityCard from "./activity-card";
 import { ActivityIcon } from "lucide-react";
 
@@ -14,13 +14,14 @@ export default function ActivitiesView({
 }: ActivityViewProps) {
   const [activities, setActivities] = useState<Activity[]>([]);
 
-  useEffect(() => {
-    const fetchActivities = async () => {
-      const activities = await activityFetchFunction();
-      setActivities(activities);
-    };
-    fetchActivities();
+  const fetchActivities = useCallback(async () => {
+    const activities = await activityFetchFunction();
+    setActivities(activities);
   }, [activityFetchFunction]);
+
+  useEffect(() => {
+    fetchActivities();
+  }, [activityFetchFunction, fetchActivities]);
 
   return (
     <div>
@@ -31,6 +32,7 @@ export default function ActivitiesView({
               key={activity.id}
               activity={activity}
               contactId={activity.contactId}
+              successCallback={fetchActivities}
             />
           ))}
         </div>

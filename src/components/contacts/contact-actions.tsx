@@ -12,13 +12,22 @@ import ActivityDialog from "../activity/activity-dialog";
 interface ContactActionProps {
   contact: Contact;
   team: User[];
+  successCallback?: () => void;
 }
 
-export default function ContactActions({ contact, team }: ContactActionProps) {
+export default function ContactActions({
+  contact,
+  team,
+  successCallback,
+}: ContactActionProps) {
   return (
     <div className="flex flex-row justify-center items-start space-x-3 ml-auto mt-1">
-      <ActivityDialog contactId={contact.id} />
+      <ActivityDialog
+        contactId={contact.id}
+        successCallback={successCallback}
+      />
       <ContactEditDialog
+        successCallback={successCallback}
         contact={contact}
         team={team}
         EditForm={ContactFollowUpForm}
@@ -28,6 +37,7 @@ export default function ContactActions({ contact, team }: ContactActionProps) {
         description="Adjust how often you want to follow up with this contact."
       />
       <ContactEditDialog
+        successCallback={successCallback}
         contact={contact}
         EditForm={ContactEditForm}
         icon={SquarePen}
@@ -40,6 +50,7 @@ export default function ContactActions({ contact, team }: ContactActionProps) {
         title="Delete Contact"
         description="Are you sure you want to delete this contact? This action cannot be undone."
         DeleteForm={ContactDeleteForm}
+        successCallback={successCallback}
       />
     </div>
   );

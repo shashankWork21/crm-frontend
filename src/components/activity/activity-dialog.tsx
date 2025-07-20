@@ -17,24 +17,25 @@ import ActivityForm from "./activity-form";
 interface ActivityDialogProps {
   activity?: Activity;
   contactId: string;
-  followUpActivityId?: string;
+
+  successCallback?: () => void;
 }
 
 export default function ActivityDialog({
   activity,
   contactId,
+  successCallback,
 }: ActivityDialogProps) {
   const [open, setOpen] = useState(false);
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        {
-          activity ?
-            <SquarePen className="w-6 h-6 text-yellow-700 hover:text-yellow-900 transition-colors duration-200 cursor-pointer" />
-            :
-            <ActivityIcon className="w-6 h-6 text-green-700 hover:text-green-900 transition-colors duration-200 cursor-pointer" />
-        }
+        {activity ? (
+          <SquarePen className="w-6 h-6 text-yellow-700 hover:text-yellow-900 transition-colors duration-200 cursor-pointer" />
+        ) : (
+          <ActivityIcon className="w-6 h-6 text-green-700 hover:text-green-900 transition-colors duration-200 cursor-pointer" />
+        )}
       </DialogTrigger>
       <DialogContent className="bg-gradient-to-br from-slate-200 to-slate-300 border-none">
         <DialogHeader>
@@ -50,6 +51,7 @@ export default function ActivityDialog({
           activity={activity}
           contactId={contactId}
           submitFormText={activity ? "Update Activity" : "Create Activity"}
+          successCallback={successCallback}
         />
       </DialogContent>
     </Dialog>

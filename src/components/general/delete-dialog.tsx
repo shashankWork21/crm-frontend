@@ -16,6 +16,7 @@ export interface DeleteDialogProps {
   id: string;
   title: string;
   description: string;
+  successCallback?: () => void;
   DeleteForm: React.ComponentType<DeleteFormProps>;
 }
 
@@ -24,6 +25,7 @@ export default function DeleteDialog({
   title,
   description,
   DeleteForm,
+  successCallback,
 }: DeleteDialogProps) {
   const [dialogOpen, setDialogOpen] = useState(false);
 
@@ -45,7 +47,11 @@ export default function DeleteDialog({
           </DialogTitle>
         </DialogHeader>
         <DialogDescription>{description}</DialogDescription>
-        <DeleteForm setOpen={setDialogOpen} id={id} />
+        <DeleteForm
+          setOpen={setDialogOpen}
+          id={id}
+          successCallback={successCallback}
+        />
       </DialogContent>
     </Dialog>
   );

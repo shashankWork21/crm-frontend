@@ -23,6 +23,7 @@ import { getFollowUpActivitiesForActivity } from "@/db/activities.queries";
 interface ActivityCardProps {
   activity: Activity;
   contactId: string;
+  successCallback?: () => void;
 }
 
 const getActivityTypeIcon = (type: ActivityType) => {
@@ -74,6 +75,7 @@ const getActivityTypeColor = (type: ActivityType) => {
 export default function ActivityCard({
   activity,
   contactId,
+  successCallback,
 }: ActivityCardProps) {
   const [viewFollowUp, setViewFollowUp] = useState(false);
   const [followUpActivities, setFollowUpActivities] = useState<Activity[]>([]);
@@ -163,6 +165,7 @@ export default function ActivityCard({
               key={followUp.id}
               activity={followUp}
               contactId={contactId}
+              successCallback={successCallback}
             />
           ))}
         </div>
@@ -174,7 +177,11 @@ export default function ActivityCard({
           {formattedDate.year}
         </div>
         <div>
-          <ActivityActions activity={activity} contactId={contactId} />
+          <ActivityActions
+            activity={activity}
+            contactId={contactId}
+            successCallback={successCallback}
+          />
         </div>
       </div>
     </Card>

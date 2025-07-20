@@ -21,6 +21,7 @@ interface ContactEditDialogProps {
   title: string;
   description: string;
   team?: User[];
+  successCallback?: () => void;
 }
 
 export default function ContactEditDialog({
@@ -31,6 +32,7 @@ export default function ContactEditDialog({
   title,
   description,
   team,
+  successCallback,
 }: ContactEditDialogProps) {
   const [edit, setEdit] = useState(false);
   const Icon = icon;
@@ -47,9 +49,18 @@ export default function ContactEditDialog({
           <DialogDescription>{description}</DialogDescription>
         </DialogHeader>
         {team ? (
-          <EditForm contact={contact} setOpen={setEdit} team={team} />
+          <EditForm
+            contact={contact}
+            setOpen={setEdit}
+            team={team}
+            successCallback={successCallback}
+          />
         ) : (
-          <EditForm contact={contact} setOpen={setEdit} />
+          <EditForm
+            contact={contact}
+            setOpen={setEdit}
+            successCallback={successCallback}
+          />
         )}
       </DialogContent>
     </Dialog>
