@@ -408,6 +408,11 @@ export async function bulkCreateContacts(
         }
       }
 
+      // 4. Delete regions last
+    } catch (cleanupError) {
+      console.error("Error during bulk cleanup:", cleanupError);
+      // Don't throw another error during cleanup
+    }
 
     if (axios.isAxiosError(error) && error.response) {
       const { data } = error.response;
