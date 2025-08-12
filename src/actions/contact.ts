@@ -236,8 +236,8 @@ export async function bulkCreateContacts(
 
     console.log(filteredData.length);
 
-    let start: number = 0,
-      length: number = 100;
+    let start: number = 0;
+    const length: number = 100;
 
     while (start < filteredData.length) {
       const chunk = filteredData.slice(1).slice(start, start + length);
