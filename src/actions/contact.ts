@@ -332,6 +332,8 @@ export async function bulkCreateContacts(
       },
     });
 
+    console.log("Contacts created:", createdResources.contacts.length);
+
     revalidatePath("/dashboard");
     revalidatePath("/dashboard/contacts");
     revalidatePath("/dashboard/contacts/organisation");
