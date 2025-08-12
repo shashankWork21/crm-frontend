@@ -344,7 +344,7 @@ export async function bulkCreateContacts(
       errors: {},
     };
   } catch (error) {
-    console.error("Error in bulk contact creation:", error);
+    console.log("Error in bulk contact creation:", error);
 
     // Cleanup in reverse order to respect foreign key constraints
     try {
