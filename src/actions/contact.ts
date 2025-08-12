@@ -235,109 +235,117 @@ export async function bulkCreateContacts(
     );
 
     console.log(filteredData.length);
-    const regionData = filteredData.slice(1).map((row) => ({
-      name: row[3].trim(),
-      state: row[2].trim(),
-      country: "India",
-    }));
-    const organisationData = filteredData.slice(1).map((row) => ({
-      name: row[0].trim(),
-      contactOrgId: user.organisationId,
-    }));
 
-    const regionsResponse = await axios.post(
-      bulkCreateRegionsPath(),
-      regionData,
-      {
+    let start: number = 0,
+      length: number = 100;
+
+    while (start < filteredData.length) {
+      const chunk = filteredData.slice(1).slice(start, start + length);
+      // Process the chunk (e.g., create regions)
+      const regionData = chunk.map((row) => ({
+        name: row[3].trim(),
+        state: row[2].trim(),
+        country: "India",
+      }));
+      const organisationData = chunk.map((row) => ({
+        name: row[0].trim(),
+        contactOrgId: user.organisationId,
+      }));
+
+      const regionsResponse = await axios.post(
+        bulkCreateRegionsPath(),
+        regionData,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Cookie: `session=${c.get("session")?.value || ""}`,
+          },
+        }
+      );
+      createdResources.regions = regionsResponse.data.regions;
+
+      const organisationsResponse = await axios.post(
+        bulkCreateOrganisationsPath(),
+        organisationData,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Cookie: `session=${c.get("session")?.value || ""}`,
+          },
+        }
+      );
+      createdResources.organisations =
+        organisationsResponse.data as Organisation[];
+
+      const branchData = chunk.map((row, index) => ({
+        address: row[7] || "",
+        city: row[4].trim(),
+        postalCode: `${row[6]}` || "",
+        type: BranchType.HEADQUARTERS,
+        landlineNumber: `${row[9]}` || "",
+        regionId: createdResources.regions[index].id,
+        organisationId: createdResources.organisations[index]?.id || "",
+      }));
+
+      const branchesResponse = await axios.post(
+        bulkCreateBranchesPath(),
+        branchData,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Cookie: `session=${c.get("session")?.value || ""}`,
+          },
+        }
+      );
+      createdResources.branches = branchesResponse.data as Branch[];
+
+      const contactsData = chunk.map((row, index) => ({
+        name: row[1] as string,
+        phoneNumber: `${row[5]}`.trim(),
+        contactType: ContactType.LEAD,
+        email: row[10] || "",
+        alternateNumber: `${row[8]}`.trim() || "",
+        contactOrgId: user.organisationId,
+        branchId: createdResources.branches[index]?.id,
+      }));
+
+      const contactsResponse = await axios.post(
+        bulkCreateContactsPath(),
+        contactsData,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Cookie: `session=${c.get("session")?.value || ""}`,
+          },
+        }
+      );
+      createdResources.contacts = contactsResponse.data as Contact[];
+
+      const notesData = chunk
+        .map((row, index) => ({
+          contactId: createdResources.contacts[index]?.id,
+          title: "From Excel Import",
+          description: row[11] || "",
+          createdById: user.id,
+          category: NoteCategory.MISCELLANEOUS,
+        }))
+        .filter((note) => note.description && note.description.trim() !== "");
+
+      await axios.post(bulkCreateNotesPath(), notesData, {
         headers: {
           "Content-Type": "application/json",
           Cookie: `session=${c.get("session")?.value || ""}`,
         },
-      }
-    );
-    createdResources.regions = regionsResponse.data.regions;
+      });
 
-    const organisationsResponse = await axios.post(
-      bulkCreateOrganisationsPath(),
-      organisationData,
-      {
-        headers: {
-          "Content-Type": "application/json",
-          Cookie: `session=${c.get("session")?.value || ""}`,
-        },
-      }
-    );
-    createdResources.organisations =
-      organisationsResponse.data as Organisation[];
+      revalidatePath("/dashboard");
+      revalidatePath("/dashboard/contacts");
+      revalidatePath("/dashboard/contacts/organisation");
 
-    const branchData = filteredData.slice(1).map((row, index) => ({
-      address: row[7] || "",
-      city: row[4].trim(),
-      postalCode: `${row[6]}` || "",
-      type: BranchType.HEADQUARTERS,
-      landlineNumber: `${row[9]}` || "",
-      regionId: createdResources.regions[index].id,
-      organisationId: createdResources.organisations[index]?.id || "",
-    }));
-
-    const branchesResponse = await axios.post(
-      bulkCreateBranchesPath(),
-      branchData,
-      {
-        headers: {
-          "Content-Type": "application/json",
-          Cookie: `session=${c.get("session")?.value || ""}`,
-        },
-      }
-    );
-    createdResources.branches = branchesResponse.data as Branch[];
-
-    const contactsData = filteredData.slice(1).map((row, index) => ({
-      name: row[1] as string,
-      phoneNumber: `${row[5]}`.trim(),
-      contactType: ContactType.LEAD,
-      email: row[10] || "",
-      alternateNumber: `${row[8]}`.trim() || "",
-      contactOrgId: user.organisationId,
-      branchId: createdResources.branches[index]?.id,
-    }));
-
-    const contactsResponse = await axios.post(
-      bulkCreateContactsPath(),
-      contactsData,
-      {
-        headers: {
-          "Content-Type": "application/json",
-          Cookie: `session=${c.get("session")?.value || ""}`,
-        },
-      }
-    );
-    createdResources.contacts = contactsResponse.data as Contact[];
-
-    const notesData = filteredData
-      .slice(1)
-      .map((row, index) => ({
-        contactId: createdResources.contacts[index]?.id,
-        title: "From Excel Import",
-        description: row[11] || "",
-        createdById: user.id,
-        category: NoteCategory.MISCELLANEOUS,
-      }))
-      .filter((note) => note.description && note.description.trim() !== "");
-
-    await axios.post(bulkCreateNotesPath(), notesData, {
-      headers: {
-        "Content-Type": "application/json",
-        Cookie: `session=${c.get("session")?.value || ""}`,
-      },
-    });
+      start += length;
+    }
 
     console.log("Contacts created:", createdResources.contacts.length);
-
-    revalidatePath("/dashboard");
-    revalidatePath("/dashboard/contacts");
-    revalidatePath("/dashboard/contacts/organisation");
-
     return {
       success: true,
       message: "Bulk contact creation successful",
