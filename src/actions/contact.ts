@@ -228,11 +228,13 @@ export async function bulkCreateContacts(
     const fileBuffer = await (contactsFile as Blob).arrayBuffer();
     const parsedData = xlsx.parse(fileBuffer);
 
-    const data = parsedData.find((sheet) => sheet.name === "Data")?.data || [];
+    const data =
+      parsedData.find((sheet) => sheet.name === "Sheet1")?.data || [];
     const filteredData = data.filter(
       (row) => row[0] && row[1] && row[2] && row[3] && row[4] && row[5]
     );
 
+    console.log(filteredData.length);
     const regionData = filteredData.slice(1).map((row) => ({
       name: row[3].trim(),
       state: row[2].trim(),
