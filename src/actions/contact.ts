@@ -408,27 +408,6 @@ export async function bulkCreateContacts(
         }
       }
 
-      // 4. Delete regions last
-      if (createdResources.regions.length > 0) {
-        for (const region of createdResources.regions) {
-          try {
-            await axios.delete(regionPathById(region.id), {
-              headers: {
-                "Content-Type": "application/json",
-                Cookie: `session=${
-                  (await cookies()).get("session")?.value || ""
-                }`,
-              },
-            });
-          } catch (deleteError) {
-            console.error(`Failed to delete region ${region.id}:`, deleteError);
-          }
-        }
-      }
-    } catch (cleanupError) {
-      console.error("Error during bulk cleanup:", cleanupError);
-      // Don't throw another error during cleanup
-    }
 
     if (axios.isAxiosError(error) && error.response) {
       const { data } = error.response;
