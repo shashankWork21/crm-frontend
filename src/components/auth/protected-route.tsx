@@ -22,19 +22,9 @@ export default function ProtectedRoute({ children }: ProtectedRouteProps) {
   const router = useRouter();
   const pathName = usePathname();
   useEffect(() => {
-    let redirectTimeout: NodeJS.Timeout | null = null;
-
     if (!user && !loading) {
-      redirectTimeout = setTimeout(() => {
-        router.push("/login");
-      }, 1);
+      router.push("/login");
     }
-
-    return () => {
-      if (redirectTimeout) {
-        clearTimeout(redirectTimeout);
-      }
-    };
   }, [user, loading, router, pathName]);
 
   const menuItems: MenuItems[] =
