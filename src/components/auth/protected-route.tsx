@@ -27,7 +27,7 @@ export default function ProtectedRoute({ children }: ProtectedRouteProps) {
     if (!user && !loading) {
       redirectTimeout = setTimeout(() => {
         router.push("/login");
-      }, 1000);
+      }, 1);
     }
 
     return () => {

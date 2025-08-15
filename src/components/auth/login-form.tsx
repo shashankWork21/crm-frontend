@@ -29,9 +29,9 @@ export default function LoginForm() {
   });
 
   useEffect(() => {
-    let timeout: NodeJS.Timeout;
     if (formState.success) {
-      const refreshSession = async (sessionToken: string) => {
+      const refreshSession = async () => {
+        const sessionToken = await getSessionCookie();
         try {
           const { user: result } = await validateSessionToken(sessionToken);
           if (setUser) {
@@ -42,16 +42,8 @@ export default function LoginForm() {
           console.error("Failed to refresh session:", error);
         }
       };
-      const sessionToken = getSessionCookie();
-      timeout = setTimeout(async () => {
-        refreshSession(await sessionToken);
-      }, 200);
+      refreshSession();
     }
-    return () => {
-      if (timeout) {
-        clearTimeout(timeout);
-      }
-    };
   }, [formState.success, router, setUser]);
 
   function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
@@ -59,20 +51,6 @@ export default function LoginForm() {
     const formData = new FormData(event.target as HTMLFormElement);
     startTransition(() => action(formData));
   }
-
-  useEffect(() => {
-    let timeout: NodeJS.Timeout;
-    if (formState.success) {
-      timeout = setTimeout(() => {
-        router.push("/dashboard/contacts");
-      }, 1000);
-    }
-    return () => {
-      if (timeout) {
-        clearTimeout(timeout);
-      }
-    };
-  }, [formState.success, router]);
 
   return (
     <Card className="max-w-md mx-auto px-2 mt-20 py-4 shadow-lg bg-gradient-to-br from-slate-200 to-slate-300 border-none">

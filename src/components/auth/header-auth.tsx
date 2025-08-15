@@ -3,7 +3,8 @@ import { useAuth } from "@/context/auth.context";
 import Link from "next/link";
 import { Button } from "../ui/button";
 import { logoutUser } from "@/actions";
-import { useActionState } from "react";
+import { useActionState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 
 export default function HeaderAuth() {
   const { user } = useAuth();
@@ -13,6 +14,14 @@ export default function HeaderAuth() {
     message: "",
     errors: {},
   });
+
+  const router = useRouter();
+
+  useEffect(() => {
+    if (formState.success) {
+      router.push("/login");
+    }
+  }, [formState.success, router]);
 
   const buttons = !!user ? (
     <>
