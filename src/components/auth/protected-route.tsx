@@ -21,14 +21,19 @@ export default function ProtectedRoute({ children }: ProtectedRouteProps) {
   const { user, loading } = useAuth();
   const router = useRouter();
   const pathName = usePathname();
+
   useEffect(() => {
-    if (!user && !loading) {
-      router.push("/login");
+    if (!loading && !user) {
+      router.replace("/login");
     }
   }, [user, loading, router, pathName]);
 
   const menuItems: MenuItems[] =
     user?.role === Role.ADMIN ? adminMenuItems : employeeMenuItems;
+
+  if (!user) {
+    return null;
+  }
 
   return (
     <SidebarProvider open={sidebarOpen} onOpenChange={setSidebarOpen}>

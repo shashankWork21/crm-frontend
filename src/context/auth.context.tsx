@@ -27,9 +27,12 @@ const AuthContext = createContext(initialContext);
 
 export const UserProvider = ({ children }: { children: React.ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [initialized, setInitialized] = useState(false);
 
   const validateUser = useCallback(async () => {
+    if (initialized) return; // Prevent multiple calls
+
     setLoading(true);
     try {
       const { user } = await validateSession();
@@ -39,8 +42,9 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
       setUser(null);
     } finally {
       setLoading(false);
+      setInitialized(true);
     }
-  }, []);
+  }, [initialized]);
 
   useEffect(() => {
     validateUser();
