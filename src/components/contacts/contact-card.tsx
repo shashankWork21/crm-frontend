@@ -96,10 +96,11 @@ export default function ContactCard({
   };
 
   return (
-    <Card className="p-0 w-full max-w-6xl mx-auto mt-6 shadow-lg bg-white hover:shadow-xl transition-shadow duration-300 border-none">
+    <Card className="p-0 w-full max-w-6xl mx-auto mt-6 shadow-lg bg-blue-100 hover:shadow-xl transition-shadow duration-300 border-none relative rounded-lg">
+      <div className="absolute left-1 rounded-l-lg top-0 h-full w-1 bg-blue-600" />
       <CardContent className="p-0">
         {/* Header Section */}
-        <div className="bg-gradient-to-b from-slate-200 to-slate-100 text-slate-900 p-6 rounded-t-lg">
+        <div className="text-slate-900 p-6">
           <div className="flex justify-between items-start">
             <div className="flex-1">
               <div className="flex items-center gap-3 mb-3">
@@ -159,10 +160,10 @@ export default function ContactCard({
         </div>
 
         {/* Content Section */}
-        <div className="p-6 bg-gradient-to-b from-slate-100 to-slate-200">
+        <div className="p-6">
           {/* Follow-up Information */}
           {contact.followUpFrequency && contact.followUpOn && (
-            <div className="mb-6 p-4 bg-blue-50 border border-blue-200 rounded-lg">
+            <div className="mb-6 p-4 bg-blue-50 border border-blue-200">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-3">
                   <Clock className="h-5 w-5 text-blue-600" />
@@ -194,10 +195,10 @@ export default function ContactCard({
                     <Button
                       type="submit"
                       size="sm"
-                      className="bg-green-600 hover:bg-green-700 text-white"
+                      className="bg-green-600 hover:bg-green-700 text-white cursor-pointer"
                     >
                       <CheckCircle className="h-4 w-4 mr-1" />
-                      Complete
+                      Follow up Complete
                     </Button>
                   </form>
                 </div>
@@ -256,7 +257,7 @@ export default function ContactCard({
             <Button
               variant="outline"
               onClick={() => setViewActivities(!viewActivities)}
-              className="text-slate-600 hover:text-slate-900"
+              className="text-slate-600 hover:text-slate-900 cursor-pointer"
             >
               {viewActivities ? "Hide Activities" : "View Activities"}
             </Button>

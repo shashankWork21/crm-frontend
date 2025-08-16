@@ -124,12 +124,12 @@ export default function ActivityCard({
   }, [followUpActivitiesFetchFunction, viewFollowUp]);
 
   return (
-    <Card className="bg-white mt-4 shadow-md hover:shadow-lg transition-all duration-200 relative rounded-lg p-0 overflow-hidden w-full max-w-6xl mx-auto border border-slate-200">
+    <Card className="bg-yellow-50 mt-4 shadow-md hover:shadow-lg transition-all duration-200 relative rounded-lg p-0 overflow-hidden w-full max-w-6xl mx-auto border border-yellow-200">
       {/* Accent bar */}
-      <div className="absolute left-0 top-0 h-full w-1 bg-blue-500" />
+      <div className="absolute left-0 top-0 h-full w-1 bg-yellow-500" />
 
       {/* Header Section */}
-      <div className="flex justify-between items-center px-6 py-4 bg-slate-50/50">
+      <div className="flex justify-between items-center px-6 py-4">
         <div className="flex items-center gap-4">
           <div
             className={`p-2.5 ${getActivityTypeIconColor(
@@ -185,9 +185,9 @@ export default function ActivityCard({
       </div>
 
       {/* Footer with Actions */}
-      <div className="flex justify-between items-center px-6 py-3 bg-slate-50/30">
+      <div className="flex justify-between items-center px-6 py-3">
         <div className="flex items-center gap-4">
-          <div className="text-sm text-slate-500 bg-slate-100 px-3 py-1.5 rounded-lg font-medium">
+          <div className="text-sm text-yellow-800 bg-yellow-50 px-3 py-1.5 rounded-lg font-medium">
             Created {formattedDate.day}
             <sup className="text-xs">{formattedDate.suffix}</sup>{" "}
             {formattedDate.month}, {formattedDate.year}
@@ -212,7 +212,6 @@ export default function ActivityCard({
 
       {/* Follow-up Activities */}
       {viewFollowUp && followUpActivities.length > 0 && (
-
         <div className="px-6 pb-4 space-y-3 bg-slate-50/20">
           {followUpActivities?.map((followUp) => (
             <div key={followUp.id} className="ml-2 pl-2 py-2">
