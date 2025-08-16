@@ -10,15 +10,8 @@ import { Button } from "../ui/button";
 import { useAuth } from "@/context/auth.context";
 
 export default function LoginForm() {
-  const { user, setUser } = useAuth();
-
+  const { setUser } = useAuth();
   const router = useRouter();
-
-  useEffect(() => {
-    if (user) {
-      router.push("/dashboard");
-    }
-  }, [user, router]);
 
   const [showPassword, setShowPassword] = useState(false);
 

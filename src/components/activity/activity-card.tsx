@@ -29,46 +29,69 @@ interface ActivityCardProps {
 const getActivityTypeIcon = (type: ActivityType) => {
   switch (type) {
     case ActivityType.ENQUIRY:
-      return <HelpCircleIcon className="h-4 w-4" />;
+      return <HelpCircleIcon className="h-5 w-5" />;
     case ActivityType.QUOTATION_REQUEST:
-      return <FileTextIcon className="h-4 w-4" />;
+      return <FileTextIcon className="h-5 w-5" />;
     case ActivityType.PURCHASE_ORDER:
-      return <ShoppingCartIcon className="h-4 w-4" />;
+      return <ShoppingCartIcon className="h-5 w-5" />;
     case ActivityType.INVOICE:
-      return <ReceiptIcon className="h-4 w-4" />;
+      return <ReceiptIcon className="h-5 w-5" />;
     case ActivityType.PAYMENT:
-      return <CreditCardIcon className="h-4 w-4" />;
+      return <CreditCardIcon className="h-5 w-5" />;
     case ActivityType.DELIVERY:
-      return <TruckIcon className="h-4 w-4" />;
+      return <TruckIcon className="h-5 w-5" />;
     case ActivityType.RETURN:
-      return <RotateCcwIcon className="h-4 w-4" />;
+      return <RotateCcwIcon className="h-5 w-5" />;
     case ActivityType.COMPLAINT:
-      return <AlertTriangleIcon className="h-4 w-4" />;
+      return <AlertTriangleIcon className="h-5 w-5" />;
     default:
-      return <ActivityIcon className="h-4 w-4" />;
+      return <ActivityIcon className="h-5 w-5" />;
   }
 };
 
 const getActivityTypeColor = (type: ActivityType) => {
   switch (type) {
     case ActivityType.ENQUIRY:
-      return "bg-blue-100 text-blue-800 border-blue-200";
+      return "bg-blue-50 text-blue-700 border-blue-200";
     case ActivityType.QUOTATION_REQUEST:
-      return "bg-purple-100 text-purple-800 border-purple-200";
+      return "bg-purple-50 text-purple-700 border-purple-200";
     case ActivityType.PURCHASE_ORDER:
-      return "bg-green-100 text-green-800 border-green-200";
+      return "bg-green-50 text-green-700 border-green-200";
     case ActivityType.INVOICE:
-      return "bg-orange-100 text-orange-800 border-orange-200";
+      return "bg-orange-50 text-orange-700 border-orange-200";
     case ActivityType.PAYMENT:
-      return "bg-emerald-100 text-emerald-800 border-emerald-200";
+      return "bg-emerald-50 text-emerald-700 border-emerald-200";
     case ActivityType.DELIVERY:
-      return "bg-cyan-100 text-cyan-800 border-cyan-200";
+      return "bg-cyan-50 text-cyan-700 border-cyan-200";
     case ActivityType.RETURN:
-      return "bg-yellow-100 text-yellow-800 border-yellow-200";
+      return "bg-yellow-50 text-yellow-700 border-yellow-200";
     case ActivityType.COMPLAINT:
-      return "bg-red-100 text-red-800 border-red-200";
+      return "bg-red-50 text-red-700 border-red-200";
     default:
-      return "bg-slate-100 text-slate-800 border-slate-200";
+      return "bg-slate-50 text-slate-700 border-slate-200";
+  }
+};
+
+const getActivityTypeIconColor = (type: ActivityType) => {
+  switch (type) {
+    case ActivityType.ENQUIRY:
+      return "bg-blue-100 text-blue-600";
+    case ActivityType.QUOTATION_REQUEST:
+      return "bg-purple-100 text-purple-600";
+    case ActivityType.PURCHASE_ORDER:
+      return "bg-green-100 text-green-600";
+    case ActivityType.INVOICE:
+      return "bg-orange-100 text-orange-600";
+    case ActivityType.PAYMENT:
+      return "bg-emerald-100 text-emerald-600";
+    case ActivityType.DELIVERY:
+      return "bg-cyan-100 text-cyan-600";
+    case ActivityType.RETURN:
+      return "bg-yellow-100 text-yellow-600";
+    case ActivityType.COMPLAINT:
+      return "bg-red-100 text-red-600";
+    default:
+      return "bg-slate-100 text-slate-600";
   }
 };
 
@@ -97,93 +120,109 @@ export default function ActivityCard({
   }, [activity.id, viewFollowUp]);
 
   return (
-    <Card
-      className="bg-slate-200 mt-3 shadow-lg relative rounded-2xl p-0 overflow-visible w-full border border-slate-300"
-      style={{ boxShadow: "0 4px 24px 0 rgba(0,0,0,0.06)" }}
-    >
-      <div
-        className="absolute left-0 top-0 h-full w-1.5 rounded-l-2xl bg-blue-500"
-        style={{ boxShadow: "0 0 0 2px #e0e7ef" }}
-      />
-      <div className="flex justify-between items-start px-16 py-6 w-full">
-        <div className="flex items-center gap-3">
-          <div className="p-2 bg-blue-100 rounded-xl flex items-center justify-center">
+    <Card className="bg-white mt-4 shadow-md hover:shadow-lg transition-all duration-200 relative rounded-lg p-0 overflow-hidden w-full max-w-6xl mx-auto border border-slate-200">
+      {/* Accent bar */}
+      <div className="absolute left-0 top-0 h-full w-1 bg-blue-500" />
+
+      {/* Header Section */}
+      <div className="flex justify-between items-center px-6 py-4 bg-slate-50/50">
+        <div className="flex items-center gap-4">
+          <div
+            className={`p-2.5 ${getActivityTypeIconColor(
+              activity.type
+            )} rounded-lg flex items-center justify-center shadow-sm`}
+          >
             {getActivityTypeIcon(activity.type)}
           </div>
-          <h3 className="font-bold text-xl text-slate-900 tracking-tight mr-2">
-            {activity.title}
-          </h3>
-          <Badge
-            variant="outline"
-            className={`${getActivityTypeColor(
-              activity.type
-            )} border-slate-200 font-semibold px-3 py-1 rounded-md text-xs tracking-wide shadow-sm`}
-          >
-            {activity.type
-              .split("_")
-              .map(
-                (word) =>
-                  word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
-              )
-              .join(" ")}
-          </Badge>
+          <div className="flex items-center gap-3">
+            <h3 className="font-semibold text-xl text-slate-800">
+              {activity.title}
+            </h3>
+            <Badge
+              variant="outline"
+              className={`${getActivityTypeColor(
+                activity.type
+              )} border text-xs px-3 py-1.5 rounded-lg font-medium`}
+            >
+              {activity.type
+                .split("_")
+                .map(
+                  (word) =>
+                    word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
+                )
+                .join(" ")}
+            </Badge>
+          </div>
         </div>
+
         {activity.needFollowUp && followUpDate && (
-          <div className="flex flex-col items-end gap-1">
-            <span className="text-slate-600 bg-slate-100 px-4 py-1.5 rounded-lg">
-              Follow up on{" "}
-              <span className="font-bold text-slate-900">
-                {followUpDate.day}
-                <sup>{followUpDate.suffix}</sup> {followUpDate.month},{" "}
-                {followUpDate.year}
-              </span>{" "}
-              by{" "}
-              <span className="font-bold text-slate-900">
-                {activity.assignedTo?.firstName} {activity.assignedTo?.lastName}
-              </span>
+          <div className="bg-blue-50 border border-blue-200 text-slate-700 px-4 py-2.5 rounded-lg text-sm font-medium">
+            Follow up on{" "}
+            <span className="font-semibold text-slate-900">
+              {followUpDate.day}
+              <sup className="text-xs">{followUpDate.suffix}</sup>{" "}
+              {followUpDate.month}, {followUpDate.year}
+            </span>{" "}
+            by{" "}
+            <span className="font-semibold text-blue-700">
+              {activity.assignedTo?.firstName} {activity.assignedTo?.lastName}
             </span>
           </div>
         )}
       </div>
-      {/* Description Box */}
-      <div className="flex flex-row justify-start items-center px-16">
-        <div className="w-full bg-white border-2 border-slate-200 rounded-xl px-10 flex items-center justify-center min-h-[80px]">
-          <p className="text-slate-800 text-lg text-center leading-relaxed w-full">
+
+      {/* Description */}
+      <div className="px-6 py-3">
+        <div className="bg-slate-50 border border-slate-200 rounded-lg px-5 py-4">
+          <p className="text-slate-700 text-base leading-relaxed">
             {activity.description}
           </p>
         </div>
       </div>
-      <div className="w-full px-4 flex flex-col items-start">
-        <Button variant="ghost" onClick={() => setViewFollowUp(!viewFollowUp)}>
-          {viewFollowUp ? "Hide Follow Ups" : "View Follow Ups"}
-        </Button>
+
+      {/* Footer with Actions */}
+      <div className="flex justify-between items-center px-6 py-3 border-t border-slate-100 bg-slate-50/30">
+        <div className="flex items-center gap-4">
+          <div className="text-sm text-slate-500 bg-slate-100 px-3 py-1.5 rounded-lg font-medium">
+            Created {formattedDate.day}
+            <sup className="text-xs">{formattedDate.suffix}</sup>{" "}
+            {formattedDate.month}, {formattedDate.year}
+          </div>
+
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={() => setViewFollowUp(!viewFollowUp)}
+            className="text-slate-600 hover:text-slate-800 text-sm px-3 py-2 font-medium"
+          >
+            {viewFollowUp ? "Hide Follow Ups" : "View Follow Ups"}
+          </Button>
+        </div>
+
+        <ActivityActions
+          activity={activity}
+          contactId={contactId}
+          successCallback={successCallback}
+        />
       </div>
+
+      {/* Follow-up Activities */}
       {viewFollowUp && followUpActivities.length > 0 && (
-        <div className="px-4">
+        <div className="px-6 pb-4 space-y-3 border-t border-slate-100 bg-slate-50/20">
           {followUpActivities?.map((followUp) => (
-            <ActivityCard
+            <div
               key={followUp.id}
-              activity={followUp}
-              contactId={contactId}
-              successCallback={successCallback}
-            />
+              className="ml-4 border-l-2 border-slate-200 pl-4 py-2"
+            >
+              <ActivityCard
+                activity={followUp}
+                contactId={contactId}
+                successCallback={successCallback}
+              />
+            </div>
           ))}
         </div>
       )}
-      <div className="flex justify-between items-center px-16 py-4 w-full">
-        <div className="text-sm text-slate-500 font-medium">
-          Created On {formattedDate.day}
-          <sup>{formattedDate.suffix}</sup> {formattedDate.month},{" "}
-          {formattedDate.year}
-        </div>
-        <div>
-          <ActivityActions
-            activity={activity}
-            contactId={contactId}
-            successCallback={successCallback}
-          />
-        </div>
-      </div>
     </Card>
   );
 }

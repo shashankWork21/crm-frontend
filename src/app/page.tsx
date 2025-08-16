@@ -18,16 +18,18 @@ import {
 } from "lucide-react";
 import { validateSession } from "@/actions";
 import { redirect } from "next/navigation";
+import { User } from "@/lib/types";
 
 export default async function Home() {
+  let user: User | null = null;
   try {
-    const { user } = await validateSession();
-
-    if (user) {
-      redirect("/dashboard");
-    }
+    const sessionResponse = await validateSession();
+    user = sessionResponse.user;
   } catch (error) {
     console.log(error);
+  }
+  if (user) {
+    redirect("/dashboard");
   }
 
   return (

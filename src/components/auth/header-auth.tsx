@@ -1,31 +1,16 @@
 "use client";
+
 import { useAuth } from "@/context/auth.context";
 import Link from "next/link";
 import { Button } from "../ui/button";
 import { logoutUser } from "@/actions";
-import { useActionState, useEffect } from "react";
-import { useRouter } from "next/navigation";
 
 export default function HeaderAuth() {
   const { user } = useAuth();
 
-  const [formState, action] = useActionState(logoutUser, {
-    success: false,
-    message: "",
-    errors: {},
-  });
-
-  const router = useRouter();
-
-  useEffect(() => {
-    if (formState.success) {
-      router.push("/login");
-    }
-  }, [formState.success, router]);
-
   const buttons = !!user ? (
     <>
-      <form action={action}>
+      <form action={logoutUser}>
         <Button
           type="submit"
           className="border border-slate-100 text-slate-100 hover:bg-slate-600 cursor-pointer"
@@ -56,9 +41,6 @@ export default function HeaderAuth() {
       <div className="flex flex-row items-center justify-center space-x-3">
         {buttons}
       </div>
-      {!formState.success && !!formState.message && (
-        <p className="text-red-300 text-sm">Logout failed</p>
-      )}
     </div>
   );
 }
