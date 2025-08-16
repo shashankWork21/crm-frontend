@@ -212,6 +212,7 @@ export default function ActivityCard({
 
       {/* Follow-up Activities */}
       {viewFollowUp && followUpActivities.length > 0 && (
+
         <div className="px-6 pb-4 space-y-3 bg-slate-50/20">
           {followUpActivities?.map((followUp) => (
             <div key={followUp.id} className="ml-2 pl-2 py-2">
