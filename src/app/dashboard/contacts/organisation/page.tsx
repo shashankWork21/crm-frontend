@@ -4,13 +4,15 @@ import { getContactOrganisations } from "@/db/organisation.queries";
 import { Organisation } from "@/lib/types";
 import { redirect } from "next/navigation";
 
-export const dynamic = 'force-dynamic';
+export const dynamic = "force-dynamic";
 
 export default async function ContactOrganisationPage() {
   let organisations: Organisation[];
   try {
     const { user } = await validateSession();
-    organisations = await getContactOrganisations(user.organisationId);
+    organisations = await getContactOrganisations(
+      user.organisationId as string
+    );
   } catch (error: unknown) {
     if (error instanceof Error) {
       console.error("Error fetching organisation:", error.message);

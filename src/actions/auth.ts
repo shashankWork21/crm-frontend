@@ -8,7 +8,7 @@ import {
   registerEmployeePath,
   sessionValidatePath,
 } from "@/lib/paths";
-import { FormState, Role } from "@/lib/types";
+import { FormState, Role, Session, User } from "@/lib/types";
 import axios from "axios";
 import { redirect } from "next/navigation";
 
@@ -139,20 +139,20 @@ export async function loginUser(
   }
 }
 
-export async function validateSession() {
+export async function validateSession(): Promise<{
+  user: User;
+  session: Session;
+}> {
   const c = await cookies();
+
   try {
     const sessionResponse = await axios.post(sessionValidatePath(), {
       sessionToken: c.get("session")?.value || "",
     });
     return sessionResponse.data;
   } catch (error) {
-    if (axios.isAxiosError(error) && error.response) {
-      const { data } = error.response;
-      throw new Error(data.message);
-    } else {
-      throw new Error("Session validation failed");
-    }
+    console.error("Session validation error:", error);
+    redirect("/login");
   }
 }
 
@@ -166,29 +166,11 @@ export async function logoutUser() {
         Cookie: `session=${c.get("session")?.value || ""}`,
       },
     });
-    return {
-      success: true,
-      message: "Logout failed",
-      errors: {},
-    };
   } catch (error) {
-    if (axios.isAxiosError(error) && error.response) {
-      const { data } = error.response;
-      return {
-        success: false,
-        message: "Logout failed",
-        errors: data.errors,
-      };
-    } else {
-      return {
-        success: false,
-        message: "An unexpected error occurred",
-        errors: {},
-      };
-    }
-  } finally {
+    console.log("Logout error:", error);
     redirect("/login");
   }
+  redirect("/login");
 }
 
 export async function getSessionCookie() {
@@ -197,17 +179,11 @@ export async function getSessionCookie() {
 }
 
 export async function validateSessionToken(sessionToken: string) {
-  try {
-    const response = await axios.post(sessionValidatePath(), {
-      sessionToken,
-    });
-    return response.data;
-  } catch (error) {
-    if (axios.isAxiosError(error) && error.response) {
-      const { data } = error.response;
-      throw new Error(data.message);
-    } else {
-      throw new Error("Session validation failed");
-    }
+  const response = await axios.post(sessionValidatePath(), {
+    sessionToken,
+  });
+  if (response.status !== 200) {
+    redirect("/login");
   }
+  return response.data;
 }
