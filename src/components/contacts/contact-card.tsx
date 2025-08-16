@@ -99,7 +99,7 @@ export default function ContactCard({
     <Card className="p-0 w-full max-w-6xl mx-auto mt-6 shadow-lg bg-white hover:shadow-xl transition-shadow duration-300 border-none">
       <CardContent className="p-0">
         {/* Header Section */}
-        <div className="bg-gradient-to-b from-slate-200 to-slate-50 text-slate-900 p-6 rounded-t-lg">
+        <div className="bg-gradient-to-b from-slate-200 to-slate-100 text-slate-900 p-6 rounded-t-lg">
           <div className="flex justify-between items-start">
             <div className="flex-1">
               <div className="flex items-center gap-3 mb-3">
@@ -159,7 +159,7 @@ export default function ContactCard({
         </div>
 
         {/* Content Section */}
-        <div className="p-6 bg-gradient-to-b from-slate-50 to-slate-200">
+        <div className="p-6 bg-gradient-to-b from-slate-100 to-slate-200">
           {/* Follow-up Information */}
           {contact.followUpFrequency && contact.followUpOn && (
             <div className="mb-6 p-4 bg-blue-50 border border-blue-200 rounded-lg">
