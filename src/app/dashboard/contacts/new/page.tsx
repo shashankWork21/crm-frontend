@@ -4,14 +4,18 @@ import { getContactOrganisations } from "@/db/organisation.queries";
 import { getRegionsByOrganisationId } from "@/db/region.queries";
 import { redirect } from "next/navigation";
 
-export const dynamic = 'force-dynamic';
+export const dynamic = "force-dynamic";
 
 export default async function CreateContactPage() {
   try {
     const { user } = await validateSession();
 
-    const organisations = await getContactOrganisations(user.organisationId);
-    const regions = await getRegionsByOrganisationId(user.organisationId);
+    const organisations = await getContactOrganisations(
+      user.organisationId as string
+    );
+    const regions = await getRegionsByOrganisationId(
+      user.organisationId as string
+    );
     return (
       <ContactCreateForm organisations={organisations} regions={regions} />
     );

@@ -16,22 +16,8 @@ import {
   BarChart3,
   Zap,
 } from "lucide-react";
-import { validateSession } from "@/actions";
-import { redirect } from "next/navigation";
-import { User } from "@/lib/types";
 
 export default async function Home() {
-  let user: User | null = null;
-  try {
-    const sessionResponse = await validateSession();
-    user = sessionResponse.user;
-  } catch (error) {
-    console.log(error);
-  }
-  if (user) {
-    redirect("/dashboard");
-  }
-
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-slate-50">
       {/* Hero Section */}

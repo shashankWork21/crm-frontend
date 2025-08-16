@@ -90,7 +90,7 @@ export async function createContact(
         createContactOrganisationPath(),
         {
           name: orgName,
-          contactOrgId: user.organisationId,
+          contactOrgId: user.organisationId as string,
         },
         {
           headers: {
@@ -130,7 +130,7 @@ export async function createContact(
         phoneNumber: `${countryCode}${number}`,
         alternateNumber,
         contactType: ContactType.LEAD,
-        contactOrgId: user.organisationId,
+        contactOrgId: user.organisationId as string,
         branchId: createdResources.branchId || branchId,
       },
       {
@@ -249,7 +249,7 @@ export async function bulkCreateContacts(
       }));
       const organisationData = chunk.map((row) => ({
         name: row[0].trim(),
-        contactOrgId: user.organisationId,
+        contactOrgId: user.organisationId as string,
       }));
 
       const regionsResponse = await axios.post(
@@ -305,7 +305,7 @@ export async function bulkCreateContacts(
         contactType: ContactType.LEAD,
         email: row[10] || "",
         alternateNumber: `${row[8]}`.trim() || "",
-        contactOrgId: user.organisationId,
+        contactOrgId: user.organisationId as string,
         branchId: createdResources.branches[index]?.id,
       }));
 

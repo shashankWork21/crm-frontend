@@ -25,7 +25,7 @@ export async function createTag(
         title,
         description,
         tagType,
-        createdOrganisationId: user.organisationId,
+        createdOrganisationId: user.organisationId as string,
       },
       {
         headers: {
@@ -81,7 +81,7 @@ export async function updateTag(
         title,
         description,
         tagType,
-        createdOrganisationId: user.organisationId,
+        createdOrganisationId: user.organisationId as string,
       },
       {
         headers: {

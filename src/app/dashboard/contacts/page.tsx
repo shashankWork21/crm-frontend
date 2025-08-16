@@ -5,15 +5,17 @@ import { getTeamMembers } from "@/db/team.queries";
 import { Contact, User } from "@/lib/types";
 import { redirect } from "next/navigation";
 
-export const dynamic = 'force-dynamic';
+export const dynamic = "force-dynamic";
 
 export default async function ContactsPage() {
   let contacts: Contact[] = [];
   let team: User[] = [];
   try {
     const { user } = await validateSession();
-    contacts = await getContactsByOurOrganisation(user.organisationId);
-    team = await getTeamMembers(user.organisationId);
+    contacts = await getContactsByOurOrganisation(
+      user.organisationId as string
+    );
+    team = await getTeamMembers(user.organisationId as string);
   } catch (error: unknown) {
     if (error instanceof Error) {
       console.log(error.message);

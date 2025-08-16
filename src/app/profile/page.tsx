@@ -3,7 +3,7 @@ import ProfilePageView from "@/components/views/profile-page";
 import { User } from "@/lib/types";
 import { redirect } from "next/navigation";
 
-export const dynamic = 'force-dynamic';
+export const dynamic = "force-dynamic";
 
 export default async function ProfilePage() {
   let user: User;
