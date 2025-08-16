@@ -95,8 +95,6 @@ export default function ContactCard({
     return colors[contact.leadSegment];
   };
 
-  console.log(contact);
-
   return (
     <Card className="p-0 w-full max-w-6xl mx-auto mt-6 shadow-lg bg-white hover:shadow-xl transition-shadow duration-300 border-none">
       <CardContent className="p-0">

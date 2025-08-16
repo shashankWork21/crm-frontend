@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { formatDate } from "@/lib/date";
 import { Activity, ActivityType } from "@/lib/types";
 import { Card } from "@/components/ui/card";
@@ -107,17 +107,21 @@ export default function ActivityCard({
     ? formatDate(activity.followUpDate)
     : null;
 
+  const followUpActivitiesFetchFunction = useCallback(async () => {
+    const followUpActivities = await getFollowUpActivitiesForActivity(
+      activity.id
+    );
+    setFollowUpActivities(followUpActivities);
+  }, [activity.id]);
+
   useEffect(() => {
     const fetchFollowUpActivities = async () => {
       if (viewFollowUp) {
-        const followUpActivities = await getFollowUpActivitiesForActivity(
-          activity.id
-        );
-        setFollowUpActivities(followUpActivities);
+        followUpActivitiesFetchFunction();
       }
     };
     fetchFollowUpActivities();
-  }, [activity.id, viewFollowUp]);
+  }, [followUpActivitiesFetchFunction, viewFollowUp]);
 
   return (
     <Card className="bg-white mt-4 shadow-md hover:shadow-lg transition-all duration-200 relative rounded-lg p-0 overflow-hidden w-full max-w-6xl mx-auto border border-slate-200">
@@ -181,7 +185,7 @@ export default function ActivityCard({
       </div>
 
       {/* Footer with Actions */}
-      <div className="flex justify-between items-center px-6 py-3 border-t border-slate-100 bg-slate-50/30">
+      <div className="flex justify-between items-center px-6 py-3 bg-slate-50/30">
         <div className="flex items-center gap-4">
           <div className="text-sm text-slate-500 bg-slate-100 px-3 py-1.5 rounded-lg font-medium">
             Created {formattedDate.day}
@@ -208,16 +212,14 @@ export default function ActivityCard({
 
       {/* Follow-up Activities */}
       {viewFollowUp && followUpActivities.length > 0 && (
-        <div className="px-6 pb-4 space-y-3 border-t border-slate-100 bg-slate-50/20">
+
+        <div className="px-6 pb-4 space-y-3 bg-slate-50/20">
           {followUpActivities?.map((followUp) => (
-            <div
-              key={followUp.id}
-              className="ml-4 border-l-2 border-slate-200 pl-4 py-2"
-            >
+            <div key={followUp.id} className="ml-2 pl-2 py-2">
               <ActivityCard
                 activity={followUp}
                 contactId={contactId}
-                successCallback={successCallback}
+                successCallback={followUpActivitiesFetchFunction}
               />
             </div>
           ))}

@@ -3,7 +3,12 @@
 import { startTransition, useActionState, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Eye, EyeOff } from "lucide-react";
-import { getSessionCookie, loginUser, validateSessionToken } from "@/actions";
+import {
+  getSessionCookie,
+  loginUser,
+  validateSession,
+  validateSessionToken,
+} from "@/actions";
 import { Card, CardContent, CardHeader } from "../ui/card";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
@@ -11,7 +16,22 @@ import { useAuth } from "@/context/auth.context";
 
 export default function LoginForm() {
   const { setUser } = useAuth();
+
   const router = useRouter();
+
+  useEffect(() => {
+    async function verifyUser() {
+      try {
+        const user = await validateSession();
+        if (user) {
+          router.push("/dashboard");
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    verifyUser();
+  }, [router]);
 
   const [showPassword, setShowPassword] = useState(false);
 

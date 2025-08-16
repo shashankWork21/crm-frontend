@@ -234,8 +234,6 @@ export async function bulkCreateContacts(
       (row) => row[0] && row[1] && row[2] && row[3] && row[4] && row[5]
     );
 
-    console.log(filteredData.length);
-
     let start: number = 0;
     const length: number = 100;
 
@@ -345,7 +343,6 @@ export async function bulkCreateContacts(
       start += length;
     }
 
-    console.log("Contacts created:", createdResources.contacts.length);
     return {
       success: true,
       message: "Bulk contact creation successful",

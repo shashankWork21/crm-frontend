@@ -149,13 +149,6 @@ export async function validateSession(): Promise<{
     const sessionResponse = await axios.post(sessionValidatePath(), {
       sessionToken: c.get("session")?.value || "",
     });
-
-    console.log(sessionResponse);
-
-    if (sessionResponse.status !== 200) {
-      throw new Error("Session validation failed");
-    }
-
     return sessionResponse.data;
   } catch (error) {
     console.error("Session validation error:", error);
@@ -177,7 +170,6 @@ export async function logoutUser() {
     console.log("Logout error:", error);
     redirect("/login");
   }
-
   redirect("/login");
 }
 
