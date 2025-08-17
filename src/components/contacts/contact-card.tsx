@@ -232,7 +232,7 @@ export default function ContactCard({
             </div>
 
             <div className="space-y-3">
-              <div className="flex items-start gap-3">
+              <div className="flex items-start gap-1">
                 <MapPin className="h-5 w-5 text-slate-500 mt-0.5" />
                 <p className="text-sm text-slate-500">Address</p>
               </div>
