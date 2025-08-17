@@ -41,13 +41,11 @@ export default function ContactCard({
   const [activities, setActivities] = useState<Activity[]>([]);
   const [showMessage, setShowMessage] = useState(false);
 
-  useEffect(() => {
-    const fetchActivities = async () => {
-      const activities = await activityFetchFunction();
-      setActivities(activities);
-    };
-    fetchActivities();
-  }, [viewActivities, activityFetchFunction]);
+  const handleViewActivitiesClick = async () => {
+    setViewActivities(!viewActivities);
+    const fetchedActivities = await activityFetchFunction();
+    setActivities(fetchedActivities);
+  };
 
   const [cascadeFollowupFormState, cascadeFollowupAction] = useActionState(
     cascadeFollowup.bind(
@@ -256,7 +254,7 @@ export default function ContactCard({
             <h3 className="text-lg font-semibold text-slate-900">Activities</h3>
             <Button
               variant="outline"
-              onClick={() => setViewActivities(!viewActivities)}
+              onClick={handleViewActivitiesClick}
               className="text-slate-600 hover:text-slate-900 cursor-pointer"
             >
               {viewActivities ? "Hide Activities" : "View Activities"}
