@@ -55,8 +55,8 @@ export default function ContactFollowUpForm({
   const filteredTeamMembers =
     team?.filter(
       (user) =>
-        user.firstName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        user.lastName.toLowerCase().includes(searchTerm.toLowerCase())
+        user?.firstName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        user?.lastName.toLowerCase().includes(searchTerm.toLowerCase())
     ) || [];
 
   function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
@@ -87,8 +87,8 @@ export default function ContactFollowUpForm({
                 className="w-full justify-between cursor-pointer bg-white basis-5/6"
               >
                 {userId
-                  ? `${team?.find((user) => user.id === userId)?.firstName} ${
-                      team?.find((user) => user.id === userId)?.lastName
+                  ? `${team?.find((user) => user?.id === userId)?.firstName} ${
+                      team?.find((user) => user?.id === userId)?.lastName
                     }`
                   : "Select Team Member"}
                 {popoverOpen ? (
@@ -114,15 +114,15 @@ export default function ContactFollowUpForm({
                   <CommandGroup>
                     {filteredTeamMembers.map((user) => (
                       <CommandItem
-                        key={user.id}
-                        value={user.id}
-                        onSelect={() => handleTeamMemberChange(user.id)}
+                        key={user?.id}
+                        value={user?.id}
+                        onSelect={() => handleTeamMemberChange(user?.id)}
                       >
-                        {`${user.firstName} ${user.lastName}`}
+                        {`${user?.firstName} ${user?.lastName}`}
                         <CheckIcon
                           className={cn(
                             "mr-2 h-4 w-4",
-                            userId === user.id ? "opacity-100" : "opacity-0"
+                            userId === user?.id ? "opacity-100" : "opacity-0"
                           )}
                         />
                       </CommandItem>

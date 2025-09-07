@@ -21,7 +21,7 @@ export default async function ContactsByOrganisationPage({
     const { user } = await validateSession();
     const organisation = await getOrganisationById(organisationId);
     const contacts = await getContactByTheirOrganisation(organisationId);
-    const team = await getTeamMembers(user.organisationId as string);
+    const team = await getTeamMembers(user?.organisationId as string);
     return (
       <OrganisationPageView
         organisation={organisation}

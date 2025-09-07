@@ -10,7 +10,7 @@ export default async function TeamPage() {
   let team: User[] = [];
   try {
     const { user } = await validateSession();
-    team = await getTeamMembers(user.organisationId as string);
+    team = await getTeamMembers(user?.organisationId as string);
   } catch (error: unknown) {
     if (error instanceof Error) {
       console.log(error.message);

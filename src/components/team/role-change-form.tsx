@@ -18,10 +18,10 @@ interface RoleChangeFormProps {
 }
 
 export default function RoleChangeForm({ user, setEdit }: RoleChangeFormProps) {
-  const [role, setRole] = useState(`${user.role}`);
+  const [role, setRole] = useState(`${user?.role}`);
 
   const [formState, action] = useActionState(
-    changeUserRole.bind(null, user.id, role),
+    changeUserRole.bind(null, user?.id, role),
     {
       success: false,
       message: "",
@@ -38,7 +38,7 @@ export default function RoleChangeForm({ user, setEdit }: RoleChangeFormProps) {
   return (
     <form action={action} className="flex flex-col space-y-4 py-2">
       <Select
-        defaultValue={user.role}
+        defaultValue={user?.role}
         onValueChange={(role) => setRole(role)}
         value={`${role}`}
       >

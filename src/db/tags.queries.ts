@@ -11,7 +11,7 @@ export async function getOrganisationTags() {
   const { user } = await validateSession();
   try {
     const response = await axios.get(
-      tagPathByOrganisationId(user.organisationId as string),
+      tagPathByOrganisationId(user?.organisationId as string),
       {
         headers: {
           "Content-Type": "application/json",

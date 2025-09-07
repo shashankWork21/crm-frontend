@@ -142,7 +142,7 @@ export async function updateEmployedOrganisation(organisationId: string) {
     const { user } = sessionResponse.data;
 
     await axios.put(connectUserOrganisationPath(), {
-      userId: user.id,
+      userId: user?.id,
       organisationId,
     });
 

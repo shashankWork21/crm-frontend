@@ -36,7 +36,7 @@ export const getTeamMembersBySearchTerm = cache(
 
     try {
       const response = await axios.get(
-        teamSearchPath(user.organisationId as string, searchTerm),
+        teamSearchPath(user?.organisationId as string, searchTerm),
         {
           headers: {
             "Content-Type": "application/json",

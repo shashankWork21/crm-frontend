@@ -9,15 +9,16 @@ export default async function ProfilePage() {
   let user: User;
   try {
     const sessionObject = await validateSession();
-    user = sessionObject.user; // Replace with actual user fetching logic
+    if (!sessionObject?.user) {
+      setTimeout(() => {
+        redirect("/login");
+      }, 2000);
+    }
+    user = sessionObject?.user as User; // Replace with actual user fetching logic
   } catch (error: unknown) {
     if (error instanceof Error) {
       console.error("Error fetching user:", error.message);
     }
-
-    setTimeout(() => {
-      redirect("/login");
-    }, 2000);
 
     return <div>Error loading profile</div>;
   }

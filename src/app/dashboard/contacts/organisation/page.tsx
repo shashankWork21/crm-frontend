@@ -11,7 +11,7 @@ export default async function ContactOrganisationPage() {
   try {
     const { user } = await validateSession();
     organisations = await getContactOrganisations(
-      user.organisationId as string
+      user?.organisationId as string
     );
   } catch (error: unknown) {
     if (error instanceof Error) {

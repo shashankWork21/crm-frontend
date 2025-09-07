@@ -13,9 +13,9 @@ export default async function ContactsPage() {
   try {
     const { user } = await validateSession();
     contacts = await getContactsByOurOrganisation(
-      user.organisationId as string
+      user?.organisationId as string
     );
-    team = await getTeamMembers(user.organisationId as string);
+    team = await getTeamMembers(user?.organisationId as string);
   } catch (error: unknown) {
     if (error instanceof Error) {
       console.log(error.message);

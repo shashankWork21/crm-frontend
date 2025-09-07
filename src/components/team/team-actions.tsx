@@ -15,15 +15,15 @@ export default function TeamActions({ user, admin }: TeamActionsProps) {
     <div className="flex flex-row items-center justify-center space-x-2">
       <RoleChangeDialog user={user} />
       <DeleteDialog
-        id={user.id}
-        title={`Delete user ${user.firstName} ${user.lastName}?`}
-        description='Warning! This action cannot be undone. Click on the button "Delete User only if you are sure you want to delete this user.'
+        id={user?.id}
+        title={`Delete user ${user?.firstName} ${user?.lastName}?`}
+        description='Warning! This action cannot be undone. Click on the button "Delete User only if you are sure you want to delete this user?.'
         DeleteForm={DeleteUserForm}
       />
     </div>
   );
 
-  return user.id !== admin?.id ? (
+  return user?.id !== admin?.id ? (
     userActions
   ) : (
     <p className="text-sm text-slate-400">No Actions</p>

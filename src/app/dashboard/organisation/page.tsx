@@ -10,7 +10,7 @@ export default async function OrganisationPage() {
   let organisation: Organisation;
   try {
     const { user } = await validateSession();
-    organisation = await getOrganisationById(user.organisationId as string);
+    organisation = await getOrganisationById(user?.organisationId as string);
   } catch (error: unknown) {
     if (error instanceof Error) {
       console.error("Error fetching organisation:", error.message);

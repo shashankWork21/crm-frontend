@@ -11,10 +11,10 @@ export default async function CreateContactPage() {
     const { user } = await validateSession();
 
     const organisations = await getContactOrganisations(
-      user.organisationId as string
+      user?.organisationId as string
     );
     const regions = await getRegionsByOrganisationId(
-      user.organisationId as string
+      user?.organisationId as string
     );
     return (
       <ContactCreateForm organisations={organisations} regions={regions} />

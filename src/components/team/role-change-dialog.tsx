@@ -33,7 +33,7 @@ export default function RoleChangeDialog({ user }: RoleChangeDialogProps) {
       <DialogContent className="bg-gradient-to-br from-slate-200 to-slate-300 border-none">
         <DialogHeader>
           <DialogTitle className="text-center text-2xl font-bold">
-            Change Role for {user.firstName} {user.lastName}
+            Change Role for {user?.firstName} {user?.lastName}
           </DialogTitle>
         </DialogHeader>
         <DialogDescription>

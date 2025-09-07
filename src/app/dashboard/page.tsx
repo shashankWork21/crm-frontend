@@ -8,10 +8,10 @@ export const dynamic = "force-dynamic";
 export default async function DashboardPage() {
   try {
     const { user } = await validateSession();
-    const team = await getTeamMembers(user.organisationId as string);
+    const team = await getTeamMembers(user?.organisationId as string);
     return (
       <DashboardPageView
-        organisationId={user.organisationId as string}
+        organisationId={user?.organisationId as string}
         team={team}
       />
     );

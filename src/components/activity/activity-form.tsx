@@ -260,20 +260,22 @@ export default function ActivityForm({
                       <CommandGroup>
                         {teamMembers.map((user) => (
                           <CommandItem
-                            key={user.id}
-                            value={`${user.firstName} ${user.lastName}`.toLowerCase()}
+                            key={user?.id}
+                            value={`${user?.firstName} ${user?.lastName}`.toLowerCase()}
                             onSelect={() =>
                               handleTeamMemberChange(
-                                user.id,
-                                `${user.firstName} ${user.lastName}`
+                                user?.id,
+                                `${user?.firstName} ${user?.lastName}`
                               )
                             }
                           >
-                            {`${user.firstName} ${user.lastName}`}
+                            {`${user?.firstName} ${user?.lastName}`}
                             <CheckIcon
                               className={cn(
                                 "mr-2 h-4 w-4",
-                                userId === user.id ? "opacity-100" : "opacity-0"
+                                userId === user?.id
+                                  ? "opacity-100"
+                                  : "opacity-0"
                               )}
                             />
                           </CommandItem>

@@ -16,7 +16,7 @@ export default function ProfileEditForm({
   setEdit,
 }: ProfileEditFormProps) {
   const [formState, action] = useActionState(
-    modifyProfile.bind(null, user.id),
+    modifyProfile.bind(null, user?.id),
     {
       success: false,
       message: "",
@@ -44,7 +44,7 @@ export default function ProfileEditForm({
             name="firstName"
             type="text"
             placeholder="Tag Title"
-            defaultValue={user.firstName}
+            defaultValue={user?.firstName}
             className="bg-white"
           />
           {!!formState.errors.firstName && (
@@ -64,7 +64,7 @@ export default function ProfileEditForm({
             name="lastName"
             type="text"
             placeholder="Tag Title"
-            defaultValue={user.lastName}
+            defaultValue={user?.lastName}
             className="bg-white"
           />
           {!!formState.errors.lastName && (
@@ -84,14 +84,14 @@ export default function ProfileEditForm({
               type="text"
               placeholder="+XXX"
               className="basis-1/4 bg-white"
-              defaultValue={user.countryCode}
+              defaultValue={user?.countryCode}
             />
             <Input
               name="phoneNumber"
               type="text"
               placeholder="Phone Number"
               className="basis-3/4 bg-white"
-              defaultValue={user.phoneNumber}
+              defaultValue={user?.phoneNumber}
             />
           </div>
           {!!formState.errors.countryCode && (

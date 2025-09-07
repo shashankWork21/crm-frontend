@@ -17,7 +17,7 @@ export default function ProfilePageView({ user }: ProfilePageViewProps) {
     async function getOrganisation() {
       if (user) {
         const organisation = await getOrganisationById(
-          user.organisationId as string as string
+          user?.organisationId as string as string
         );
         setOrganisation(organisation);
       }

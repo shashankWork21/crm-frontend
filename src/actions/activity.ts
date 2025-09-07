@@ -39,7 +39,7 @@ export async function createActivity(
         ...data,
         title,
         description,
-        addedById: user.id,
+        addedById: user?.id,
       },
       {
         headers: {
@@ -92,7 +92,7 @@ export async function updateActivity(
         ...data,
         title,
         description,
-        addedById: user.id,
+        addedById: user?.id,
       },
       {
         headers: {

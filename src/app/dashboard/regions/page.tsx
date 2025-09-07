@@ -10,7 +10,7 @@ export default async function RegionsPage() {
   let regions: Region[] = [];
   try {
     const { user } = await validateSession();
-    regions = await getRegionsByOrganisationId(user.organisationId as string);
+    regions = await getRegionsByOrganisationId(user?.organisationId as string);
   } catch (error: unknown) {
     if (error instanceof Error) {
       console.log(error.message);

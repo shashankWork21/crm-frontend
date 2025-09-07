@@ -33,7 +33,7 @@ export async function getFollowUpActivitesForOrganisation() {
   const c = await cookies();
   const { user } = await validateSession();
   const response = await axios.get(
-    followUpActivitiesPathByOrganisationId(user.organisationId as string),
+    followUpActivitiesPathByOrganisationId(user?.organisationId as string),
     {
       headers: {
         "Content-Type": "application/json",
