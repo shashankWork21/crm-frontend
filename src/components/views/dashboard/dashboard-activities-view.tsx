@@ -55,7 +55,7 @@ export default function DashboardActivitiesView({
           <div className="flex flex-col items-start justify-between gap-6">
             <div className="flex flex-row items-start justify-between gap-2 flex-wrap">
               <h3 className="text-md font-medium text-slate-700">
-                Follow Up Type
+                Activity Type
               </h3>
               <Select
                 value={currentType as string}

@@ -15,6 +15,8 @@ import {
   RotateCcwIcon,
   AlertTriangleIcon,
   HelpCircleIcon,
+  ChevronUp,
+  ChevronDown,
 } from "lucide-react";
 import ActivityActions from "./activity-actions";
 import { Button } from "../ui/button";
@@ -100,6 +102,7 @@ export default function ActivityCard({
   contactId,
   successCallback,
 }: ActivityCardProps) {
+  const [viewDetails, setViewDetails] = useState(false);
   const [viewFollowUp, setViewFollowUp] = useState(false);
   const [followUpActivities, setFollowUpActivities] = useState<Activity[]>([]);
   const formattedDate = formatDate(activity.createdAt);
@@ -130,7 +133,7 @@ export default function ActivityCard({
 
       {/* Header Section */}
       <div className="flex justify-between items-center px-6 py-4">
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-2">
           <div
             className={`p-2.5 ${getActivityTypeIconColor(
               activity.type
@@ -138,7 +141,7 @@ export default function ActivityCard({
           >
             {getActivityTypeIcon(activity.type)}
           </div>
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2">
             <h3 className="font-semibold text-xl text-slate-800">
               {activity.title}
             </h3>
@@ -158,71 +161,86 @@ export default function ActivityCard({
             </Badge>
           </div>
         </div>
-
-        {activity.needFollowUp && followUpDate && (
-          <div className="bg-blue-50 border border-blue-200 text-slate-700 px-4 py-2.5 rounded-lg text-sm font-medium">
-            Follow up on{" "}
-            <span className="font-semibold text-slate-900">
-              {followUpDate.day}
-              <sup className="text-xs">{followUpDate.suffix}</sup>{" "}
-              {followUpDate.month}, {followUpDate.year}
-            </span>{" "}
-            by{" "}
-            <span className="font-semibold text-blue-700">
-              {activity.assignedTo?.firstName} {activity.assignedTo?.lastName}
-            </span>
-          </div>
-        )}
+        <div
+          className="flex flex-row items-center gap-4"
+          onClick={() => {
+            setViewDetails(!viewDetails);
+          }}
+        >
+          {activity.needFollowUp && followUpDate && (
+            <div className="bg-blue-50 border border-blue-200 text-slate-700 px-4 py-2.5 rounded-lg text-sm font-medium">
+              Follow up on{" "}
+              <span className="font-semibold text-slate-900">
+                {followUpDate.day}
+                <sup className="text-xs">{followUpDate.suffix}</sup>{" "}
+                {followUpDate.month}, {followUpDate.year}
+              </span>{" "}
+              by{" "}
+              <span className="font-semibold text-blue-700">
+                {activity.assignedTo?.firstName} {activity.assignedTo?.lastName}
+              </span>
+            </div>
+          )}
+          {viewDetails ? (
+            <ChevronUp className="h-5 w-5 cursor-pointer text-slate-600" />
+          ) : (
+            <ChevronDown className="h-5 w-5 cursor-pointer text-slate-600" />
+          )}
+        </div>
       </div>
 
       {/* Description */}
-      <div className="px-6 py-3">
-        <div className="bg-slate-50 border border-slate-200 rounded-lg px-5 py-4">
-          <p className="text-slate-700 text-base leading-relaxed">
-            {activity.description}
-          </p>
-        </div>
-      </div>
-
-      {/* Footer with Actions */}
-      <div className="flex justify-between items-center px-6 py-3">
-        <div className="flex items-center gap-4">
-          <div className="text-sm text-yellow-800 bg-yellow-50 px-3 py-1.5 rounded-lg font-medium">
-            Created {formattedDate.day}
-            <sup className="text-xs">{formattedDate.suffix}</sup>{" "}
-            {formattedDate.month}, {formattedDate.year}
+      {viewDetails && (
+        <>
+          <div className="px-6">
+            <div className="bg-slate-50 border border-slate-200 rounded-lg px-3 py-2">
+              <p className="text-slate-700 text-base leading-relaxed">
+                {activity.description}
+              </p>
+            </div>
           </div>
 
-          <Button
-            variant="ghost"
-            size="sm"
-            onClick={() => setViewFollowUp(!viewFollowUp)}
-            className="text-slate-600 hover:text-slate-800 text-sm px-3 py-2 font-medium"
-          >
-            {viewFollowUp ? "Hide Follow Ups" : "View Follow Ups"}
-          </Button>
-        </div>
+          {/* Footer with Actions */}
+          <div className="flex justify-between items-center px-6 pb-3">
+            <div className="flex items-center gap-4">
+              <div className="text-sm text-yellow-800 bg-yellow-50 px-3 py-1.5 rounded-lg font-medium">
+                Created {formattedDate.day}
+                <sup className="text-xs">{formattedDate.suffix}</sup>{" "}
+                {formattedDate.month}, {formattedDate.year}
+              </div>
 
-        <ActivityActions
-          activity={activity}
-          contactId={contactId}
-          successCallback={successCallback}
-        />
-      </div>
-
-      {/* Follow-up Activities */}
-      {viewFollowUp && followUpActivities.length > 0 && (
-        <div className="px-6 pb-4 space-y-3 bg-slate-50/20">
-          {followUpActivities?.map((followUp) => (
-            <div key={followUp.id} className="ml-2 pl-2 py-2">
-              <ActivityCard
-                activity={followUp}
-                contactId={contactId}
-                successCallback={followUpActivitiesFetchFunction}
-              />
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => setViewFollowUp(!viewFollowUp)}
+                className="text-slate-600 hover:text-yellow-800 hover:font-bold text-sm px-3 py-2 cursor-pointer font-medium"
+              >
+                {viewFollowUp ? "Hide Follow Ups" : "View Follow Ups"}
+              </Button>
             </div>
-          ))}
-        </div>
+
+            <ActivityActions
+              activity={activity}
+              contactId={contactId}
+              successCallback={successCallback}
+            />
+          </div>
+
+          {/* Follow-up Activities */}
+          {viewFollowUp && followUpActivities.length > 0 && (
+            <div className="px-6 pb-4 space-y-3 bg-slate-50/20">
+              {followUpActivities?.map((followUp) => (
+                <div key={followUp.id} className="ml-2 pl-2 py-2">
+                  <ActivityCard
+                    activity={followUp}
+                    contactId={contactId}
+                    successCallback={followUpActivitiesFetchFunction}
+                  />
+                </div>
+              ))}
+            </div>
+          )}
+        </>
       )}
     </Card>
   );

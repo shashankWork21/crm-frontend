@@ -7,9 +7,15 @@ import { logoutUser } from "@/actions";
 
 export default function HeaderAuth() {
   const { user } = useAuth();
-
+  console.log("Header user:", user);
   const buttons = !!user ? (
     <>
+      <Link
+        href="/dashboard"
+        className="text-sm bg-slate-100 text-black px-4 py-2 rounded hover:bg-slate-300 shadow-md"
+      >
+        Go to Dashboard
+      </Link>
       <form action={logoutUser}>
         <Button
           type="submit"

@@ -16,14 +16,15 @@ import { useAuth } from "@/context/auth.context";
 
 export default function LoginForm() {
   const { setUser } = useAuth();
-
+  const [redirecting, setRedirecting] = useState(false);
   const router = useRouter();
 
   useEffect(() => {
     async function verifyUser() {
       try {
-        const user = await validateSession();
+        const { user } = await validateSession();
         if (user) {
+          setRedirecting(true);
           router.push("/dashboard");
         }
       } catch (error) {
@@ -43,6 +44,7 @@ export default function LoginForm() {
 
   useEffect(() => {
     if (formState.success) {
+      setRedirecting(true);
       const refreshSession = async () => {
         const sessionToken = await getSessionCookie();
         try {
@@ -66,78 +68,87 @@ export default function LoginForm() {
   }
 
   return (
-    <Card className="max-w-md mx-auto px-2 mt-20 py-4 shadow-lg bg-gradient-to-br from-slate-200 to-slate-300 border-none">
-      <CardHeader className="text-center">
-        <h2 className="text-2xl font-bold">Welcome Back!</h2>
-      </CardHeader>
-      <CardContent>
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <div className="flex flex-col space-y-2">
-            <Input
-              name="email"
-              type="email"
-              placeholder="Email"
-              className="bg-white"
-            />
-            {!!formState.errors.email && (
-              <ul>
-                {formState.errors.email?.map((error: string, index: number) => (
-                  <li key={index} className="text-red-500 text-sm">
-                    {error}
-                  </li>
-                ))}
-              </ul>
-            )}
-          </div>
-          <div className="flex flex-col space-y-2">
-            <div className="relative">
+    <>
+      <Card className="max-w-md mx-auto px-2 mt-20 py-4 shadow-lg bg-gradient-to-br from-slate-200 to-slate-300 border-none">
+        <CardHeader className="text-center">
+          <h2 className="text-2xl font-bold">Welcome Back!</h2>
+        </CardHeader>
+        <CardContent>
+          <form onSubmit={handleSubmit} className="space-y-4">
+            <div className="flex flex-col space-y-2">
               <Input
-                name="password"
-                type={showPassword ? "text" : "password"}
-                placeholder="Password"
+                name="email"
+                type="email"
+                placeholder="Email"
                 className="bg-white"
               />
-              <button
-                type="button"
-                onClick={() => setShowPassword(!showPassword)}
-                className="absolute right-3 top-1/2 transform -translate-y-1/2 text-slate-500 hover:text-slate-700 cursor-pointer"
-              >
-                {showPassword ? (
-                  <EyeOff className="h-4 w-4 cursor-pointer" />
-                ) : (
-                  <Eye className="h-4 w-4 cursor-pointer" />
-                )}
-              </button>
+              {!!formState.errors.email && (
+                <ul>
+                  {formState.errors.email?.map(
+                    (error: string, index: number) => (
+                      <li key={index} className="text-red-500 text-sm">
+                        {error}
+                      </li>
+                    )
+                  )}
+                </ul>
+              )}
             </div>
-            {!!formState.errors.password && (
-              <ul>
-                {formState.errors.password.map(
-                  (error: string, index: number) => (
-                    <li key={index} className="text-red-500 text-sm">
-                      {error}
-                    </li>
-                  )
-                )}
-              </ul>
+            <div className="flex flex-col space-y-2">
+              <div className="relative">
+                <Input
+                  name="password"
+                  type={showPassword ? "text" : "password"}
+                  placeholder="Password"
+                  className="bg-white"
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute right-3 top-1/2 transform -translate-y-1/2 text-slate-500 hover:text-slate-700 cursor-pointer"
+                >
+                  {showPassword ? (
+                    <EyeOff className="h-4 w-4 cursor-pointer" />
+                  ) : (
+                    <Eye className="h-4 w-4 cursor-pointer" />
+                  )}
+                </button>
+              </div>
+              {!!formState.errors.password && (
+                <ul>
+                  {formState.errors.password.map(
+                    (error: string, index: number) => (
+                      <li key={index} className="text-red-500 text-sm">
+                        {error}
+                      </li>
+                    )
+                  )}
+                </ul>
+              )}
+            </div>
+            {formState.message && (
+              <p
+                className={`w-full text-center text-sm ${
+                  formState.success ? "text-green-600" : "text-red-600"
+                }`}
+              >
+                {formState.message}
+              </p>
             )}
-          </div>
-          {formState.message && (
-            <p
-              className={`w-full text-center text-sm ${
-                formState.success ? "text-green-600" : "text-red-600"
-              }`}
+            <Button
+              type="submit"
+              className="w-full bg-blue-600 text-white hover:bg-blue-700 cursor-pointer"
             >
-              {formState.message}
-            </p>
-          )}
-          <Button
-            type="submit"
-            className="w-full bg-blue-600 text-white hover:bg-blue-700 cursor-pointer"
-          >
-            Login
-          </Button>
-        </form>
-      </CardContent>
-    </Card>
+              Login
+            </Button>
+          </form>
+        </CardContent>
+      </Card>
+      {redirecting && (
+        <div className="text-center mt-4 text-slate-600">
+          Redirecting to Dashboard
+        </div>
+      )}
+    </>
   );
 }

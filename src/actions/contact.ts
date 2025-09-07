@@ -90,7 +90,7 @@ export async function createContact(
         createContactOrganisationPath(),
         {
           name: orgName,
-          contactOrgId: user.organisationId as string,
+          contactOrgId: user?.organisationId as string,
         },
         {
           headers: {
@@ -130,7 +130,7 @@ export async function createContact(
         phoneNumber: `${countryCode}${number}`,
         alternateNumber,
         contactType: ContactType.LEAD,
-        contactOrgId: user.organisationId as string,
+        contactOrgId: user?.organisationId as string,
         branchId: createdResources.branchId || branchId,
       },
       {
@@ -247,7 +247,7 @@ export async function bulkCreateContacts(
       }));
       const organisationData = chunk.map((row) => ({
         name: row[0].trim(),
-        contactOrgId: user.organisationId as string,
+        contactOrgId: user?.organisationId as string,
       }));
 
       const regionsResponse = await axios.post(
@@ -303,7 +303,7 @@ export async function bulkCreateContacts(
         contactType: ContactType.LEAD,
         email: row[10] || "",
         alternateNumber: `${row[8]}`.trim() || "",
-        contactOrgId: user.organisationId as string,
+        contactOrgId: user?.organisationId as string,
         branchId: createdResources.branches[index]?.id,
       }));
 
@@ -324,7 +324,7 @@ export async function bulkCreateContacts(
           contactId: createdResources.contacts[index]?.id,
           title: "From Excel Import",
           description: row[11] || "",
-          createdById: user.id,
+          createdById: user?.id,
           category: NoteCategory.MISCELLANEOUS,
         }))
         .filter((note) => note.description && note.description.trim() !== "");

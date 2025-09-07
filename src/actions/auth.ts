@@ -140,7 +140,7 @@ export async function loginUser(
 }
 
 export async function validateSession(): Promise<{
-  user: User;
+  user: User | null;
   session: Session;
 }> {
   const c = await cookies();
@@ -152,7 +152,10 @@ export async function validateSession(): Promise<{
     return sessionResponse.data;
   } catch (error) {
     console.error("Session validation error:", error);
-    redirect("/login");
+    return {
+      user: null,
+      session: {} as Session,
+    };
   }
 }
 

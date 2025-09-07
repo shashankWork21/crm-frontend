@@ -30,14 +30,14 @@ export default async function Home() {
               Smart CRM for Modern Teams
             </div>
 
-            <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold text-gray-900 mb-6">
+            <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold text-slate-900 mb-6">
               Transform Your
               <span className="text-slate-600 block">
                 Customer Relationships
               </span>
             </h1>
 
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto mb-10 leading-relaxed">
+            <p className="text-xl text-slate-600 max-w-3xl mx-auto mb-10 leading-relaxed">
               Streamline your business operations with our intelligent CRM
               platform. Manage contacts, organizations, and activities with
               unprecedented ease and efficiency.
@@ -71,10 +71,10 @@ export default async function Home() {
       <section className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-gray-900 mb-4">
+            <h2 className="text-4xl font-bold text-slate-900 mb-4">
               Everything You Need to Succeed
             </h2>
-            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+            <p className="text-xl text-slate-600 max-w-2xl mx-auto">
               Powerful features designed to help you build stronger
               relationships and grow your business
             </p>
@@ -86,10 +86,10 @@ export default async function Home() {
                 <div className="w-12 h-12 bg-slate-100 rounded-lg flex items-center justify-center mb-4">
                   <Users className="w-6 h-6 text-slate-600" />
                 </div>
-                <CardTitle className="text-xl text-gray-900">
+                <CardTitle className="text-xl text-slate-900">
                   Smart Contact Management
                 </CardTitle>
-                <CardDescription className="text-gray-600">
+                <CardDescription className="text-slate-600">
                   Organize and track all your contacts with intelligent
                   categorization and powerful search capabilities.
                 </CardDescription>
@@ -101,10 +101,10 @@ export default async function Home() {
                 <div className="w-12 h-12 bg-slate-100 rounded-lg flex items-center justify-center mb-4">
                   <Building2 className="w-6 h-6 text-slate-600" />
                 </div>
-                <CardTitle className="text-xl text-gray-900">
+                <CardTitle className="text-xl text-slate-900">
                   Organization Insights
                 </CardTitle>
-                <CardDescription className="text-gray-600">
+                <CardDescription className="text-slate-600">
                   Get deep insights into your client organizations with
                   comprehensive analytics and relationship mapping.
                 </CardDescription>
@@ -116,10 +116,10 @@ export default async function Home() {
                 <div className="w-12 h-12 bg-slate-100 rounded-lg flex items-center justify-center mb-4">
                   <Calendar className="w-6 h-6 text-slate-600" />
                 </div>
-                <CardTitle className="text-xl text-gray-900">
+                <CardTitle className="text-xl text-slate-900">
                   Activity Tracking
                 </CardTitle>
-                <CardDescription className="text-gray-600">
+                <CardDescription className="text-slate-600">
                   Never miss a follow-up with automated activity tracking and
                   intelligent scheduling reminders.
                 </CardDescription>
@@ -131,10 +131,10 @@ export default async function Home() {
                 <div className="w-12 h-12 bg-slate-100 rounded-lg flex items-center justify-center mb-4">
                   <MapPin className="w-6 h-6 text-slate-600" />
                 </div>
-                <CardTitle className="text-xl text-gray-900">
+                <CardTitle className="text-xl text-slate-900">
                   Regional Management
                 </CardTitle>
-                <CardDescription className="text-gray-600">
+                <CardDescription className="text-slate-600">
                   Manage your business across multiple regions with localized
                   data and regional insights.
                 </CardDescription>
@@ -146,10 +146,10 @@ export default async function Home() {
                 <div className="w-12 h-12 bg-slate-100 rounded-lg flex items-center justify-center mb-4">
                   <Tag className="w-6 h-6 text-slate-600" />
                 </div>
-                <CardTitle className="text-xl text-gray-900">
+                <CardTitle className="text-xl text-slate-900">
                   Smart Tagging
                 </CardTitle>
-                <CardDescription className="text-gray-600">
+                <CardDescription className="text-slate-600">
                   Categorize and segment your contacts with intelligent tagging
                   for better organization and targeting.
                 </CardDescription>
@@ -161,10 +161,10 @@ export default async function Home() {
                 <div className="w-12 h-12 bg-slate-100 rounded-lg flex items-center justify-center mb-4">
                   <BarChart3 className="w-6 h-6 text-slate-600" />
                 </div>
-                <CardTitle className="text-xl text-gray-900">
+                <CardTitle className="text-xl text-slate-900">
                   Advanced Analytics
                 </CardTitle>
-                <CardDescription className="text-gray-600">
+                <CardDescription className="text-slate-600">
                   Make data-driven decisions with comprehensive analytics and
                   performance insights.
                 </CardDescription>
@@ -188,7 +188,7 @@ export default async function Home() {
             <Link href="/register">
               <Button
                 size="lg"
-                className="bg-white text-slate-600 hover:bg-gray-100 px-8 py-3 text-lg font-semibold"
+                className="bg-white text-slate-600 hover:bg-slate-100 px-8 py-3 text-lg font-semibold"
               >
                 Start Exploring
                 <ArrowRight className="w-5 h-5 ml-2" />
@@ -206,17 +206,6 @@ export default async function Home() {
           </div>
         </div>
       </section>
-
-      {/* Footer */}
-      <footer className="bg-gray-50 py-12">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center">
-            <p className="text-gray-600">
-              © 2025 SmartAlgorhythm CRM. All rights reserved.
-            </p>
-          </div>
-        </div>
-      </footer>
     </div>
   );
 }

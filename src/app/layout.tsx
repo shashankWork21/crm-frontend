@@ -3,6 +3,7 @@ import { IBM_Plex_Sans } from "next/font/google";
 import "./globals.css";
 import Providers from "./providers";
 import Header from "@/components/general/header";
+import Footer from "@/components/general/footer";
 import { Analytics } from "@vercel/analytics/next";
 
 const ibmPlexSans = IBM_Plex_Sans({
@@ -28,6 +29,7 @@ export default function RootLayout({
         <Providers>
           <Header />
           {children}
+          <Footer />
           <Analytics />
         </Providers>
       </body>
