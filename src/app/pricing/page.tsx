@@ -584,7 +584,7 @@ export default function PricingPage() {
                 Is there a free trial available?
               </h3>
               <p className="text-slate-600">
-                Yes, we offer a 14-day free trial for both Standard and Advanced
+                Yes, we offer a 7-day free trial for both Standard and Advanced
                 plans. No credit card required to start your trial.
               </p>
             </div>
