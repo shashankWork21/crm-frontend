@@ -234,6 +234,8 @@ export async function bulkCreateContacts(
       (row) => row[0] && row[1] && row[2] && row[3] && row[4] && row[5]
     );
 
+    console.log(data);
+
     let start: number = 0;
     const length: number = 100;
 

@@ -31,8 +31,8 @@ export default function ContactsByOrganisationTable({
 
   return (
     <div className="w-4/5 mx-auto overflow-auto">
-      <div className="flex flex-row items-center justify-between my-10">
-        <h1 className="text-3xl font-bold text-center my-10">Organisations</h1>
+      <div className="flex flex-row items-center justify-between mb-6">
+        <div></div> {/* Spacer */}
         <div className="flex flex-row items-center gap-4">
           <Link
             href="/dashboard/contacts/new"
