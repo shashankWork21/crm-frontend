@@ -1,30 +1,39 @@
 "use client";
 
-import { getAllRegions } from "@/db/region.queries";
-import { FormState, Region } from "@/lib/types";
-import { useActionState, useState, useEffect, startTransition } from "react";
-import { Card, CardContent, CardHeader } from "../ui/card";
+import { BusinessModel, FormState } from "@/lib/types";
+import { useActionState, startTransition, useState } from "react";
+import { Building2, Loader2 } from "lucide-react";
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+} from "../ui/card";
 import { Input } from "../ui/input";
+import { Button } from "../ui/button";
+import { Label } from "../ui/label";
+import useCountry from "@/hooks/use-country";
+import useGeoState from "@/hooks/use-geo-state";
+import useCity from "@/hooks/use-city";
+import SelectCountry from "../country/select-country";
+import SelectState from "../state/select-state";
+import SelectCity from "../city/select-city";
+import { Checkbox } from "../ui/checkbox";
+import { Textarea } from "../ui/textarea";
+import { useBusinessModel } from "@/hooks/use-business-model";
 import {
   Select,
   SelectContent,
-  SelectGroup,
   SelectItem,
   SelectTrigger,
+  SelectValue,
 } from "../ui/select";
-import { SelectLabel, SelectValue } from "@radix-ui/react-select";
-import { Button } from "../ui/button";
-import { Plus } from "lucide-react";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "../ui/tooltip";
 
 interface OrganisationCreateFormProps {
   createOrganisationAction: (
-    regionId: string,
+    cityId: string,
+    businessModel: BusinessModel,
     formState: FormState,
     formData: FormData
   ) => Promise<FormState>;
@@ -33,33 +42,55 @@ interface OrganisationCreateFormProps {
 export default function OrganisationCreateForm({
   createOrganisationAction,
 }: OrganisationCreateFormProps) {
-  const [regions, setRegions] = useState<Region[]>([]);
-  const [selectedRegion, setSelectedRegion] = useState<Partial<Region>>({
-    id: "",
-    name: "",
-    state: "",
-    country: "",
-  });
+  const [hasLegalEntity, setHasLegalEntity] = useState(false);
+  const {
+    selectedCountry,
+    setSelectedCountry,
+    countryOptions,
+    countrySearchTerm,
+    setCountrySearchTerm,
+    handleCreateCountry,
+    openCountry,
+    setOpenCountry,
+    isCreatingCountry,
+  } = useCountry();
 
-  const [addRegion, setAddRegion] = useState(false);
+  const {
+    selectedState,
+    setSelectedState,
+    stateOptions,
+    stateSearchTerm,
+    setStateSearchTerm,
+    handleCreateState,
+    openState,
+    setOpenState,
+    isCreatingState,
+  } = useGeoState(selectedCountry?.id || "");
 
-  useEffect(() => {
-    async function fetchRegions() {
-      const regions = await getAllRegions();
-      setRegions(
-        regions.map((region: Region) => ({
-          id: region.id,
-          name: region.name,
-          state: region.state,
-          country: region.country,
-        }))
-      );
-    }
-    fetchRegions();
-  }, []);
+  const {
+    citySearchTerm,
+    setCitySearchTerm,
+    cityOptions,
+    selectedCity,
+    setSelectedCity,
+    handleCreateCity,
+    openCity,
+    setOpenCity,
+    isCreatingCity,
+  } = useCity(selectedState?.id || "");
+
+  const {
+    selectedBusinessModel,
+    handleBusinessModelChange,
+    businessModelOptions,
+  } = useBusinessModel();
 
   const [formState, action] = useActionState(
-    createOrganisationAction.bind(null, selectedRegion.id as string),
+    createOrganisationAction.bind(
+      null,
+      selectedCity?.id || "",
+      selectedBusinessModel?.value || BusinessModel.B2C
+    ),
     {
       success: false,
       message: "",
@@ -67,278 +98,238 @@ export default function OrganisationCreateForm({
     }
   );
 
-  const states = regions
-    .map((region: Region) => region.state)
-    .reduce<string[]>((acc, curr: string) => {
-      if (!acc.includes(curr)) {
-        acc.push(curr);
-      }
-      return acc;
-    }, []);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
+    setIsSubmitting(true);
     const formData = new FormData(event.target as HTMLFormElement);
-    startTransition(() => action(formData));
+    startTransition(() => {
+      action(formData);
+      setIsSubmitting(false);
+    });
   }
 
-  const handleRegionValueChange = (value: string) => {
-    const region = regions.find((region: Region) => region.id === value);
-
-    if (region) {
-      setSelectedRegion({
-        id: region.id,
-        name: region.name,
-        state: region.state,
-        country: region.country,
-      });
-    }
-  };
-
-  const handleAddRegionClick = () => {
-    setSelectedRegion({
-      id: "",
-      name: "",
-      state: "",
-      country: "",
-    });
-    setAddRegion(true);
-  };
-
   return (
-    <Card className="max-w-md mx-auto mt-20 px-2 py-4 shadow-lg bg-gradient-to-br from-slate-200 to-slate-300">
-      <CardHeader className="text-center">
-        <h2 className="text-2xl font-bold">Enter Organisation Details</h2>
-      </CardHeader>
-      <CardContent>
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <div className="flex flex-col space-y-2">
-            <Input
-              name="name"
-              type="text"
-              placeholder="Organisation Name"
-              className="bg-white"
-            />
-            {!!formState.errors.orgName && (
-              <ul>
-                {formState.errors.orgName.map(
-                  (error: string, index: number) => (
-                    <li key={index} className="text-red-600">
-                      {error}
-                    </li>
-                  )
-                )}
-              </ul>
-            )}
+    <section className="flex min-h-screen w-full flex-col items-center justify-center px-4 py-24">
+      <Card className="w-full max-w-2xl shadow-2xl bg-white backdrop-blur-sm border-0 px-4 py-8">
+        <CardHeader className="text-center space-y-4">
+          <div className="mx-auto w-16 h-16 bg-gradient-to-br from-oxford-blue-500 to-powder-blue-400 rounded-full flex items-center justify-center shadow-lg">
+            <Building2 className="w-8 h-8 text-white" />
           </div>
-          {regions.length > 0 && (
-            <div className="flex flex-row space-x-2">
-              <Select
-                value={selectedRegion.id}
-                onValueChange={handleRegionValueChange}
-                disabled={addRegion}
+          <CardTitle className="text-3xl font-bold bg-gradient-to-r from-powder-blue-200 to-sunglow-200 bg-clip-text text-transparent">
+            About your Work
+          </CardTitle>
+          <CardDescription className="text-black-700 text-lg">
+            Tell us a bit about your work to begin your journey
+          </CardDescription>
+        </CardHeader>
+        <CardContent className="space-y-6">
+          <form onSubmit={handleSubmit} className="space-y-6">
+            <div className="space-y-2">
+              <div className="flex items-start gap-3 rounded-lg border border-powder-blue-700/40 bg-powder-blue-900/30 px-4 py-3">
+                <Checkbox
+                  className="mt-1 border border-powder-blue-600 data-[state=checked]:bg-sunglow data-[state=checked]:text-rich-black"
+                  checked={hasLegalEntity}
+                  onCheckedChange={() => setHasLegalEntity(!hasLegalEntity)}
+                />
+                <p className="text-sm text-rich-black-500">
+                  I&apos;ve registered a legal entity for my business
+                </p>
+              </div>
+            </div>
+
+            <div className="space-y-2">
+              <Label
+                htmlFor="name"
+                className="text-sm font-medium text-rich-black flex items-center gap-2"
               >
-                <SelectTrigger className="basis-5/6 bg-white cursor-pointer">
-                  <SelectValue placeholder="Select Region" />
+                Name
+              </Label>
+              <Input
+                id="name"
+                name="name"
+                type="text"
+                placeholder="Enter organisation / brand name"
+                className="h-11 bg-white border-gray-200 focus:border-powder-blue-500 focus:ring-powder-blue-500"
+              />
+              {!!formState.errors.orgName && (
+                <ul>
+                  {formState.errors.orgName.map(
+                    (error: string, index: number) => (
+                      <li key={index} className="text-red-600">
+                        {error}
+                      </li>
+                    )
+                  )}
+                </ul>
+              )}
+            </div>
+            {hasLegalEntity && (
+              <>
+                <div className="space-y-2">
+                  <Label
+                    htmlFor="legal-name"
+                    className="text-sm font-medium text-rich-black flex items-center gap-2"
+                  >
+                    Legal Entity Name
+                  </Label>
+                  <Input
+                    id="legal-name"
+                    name="legalName"
+                    type="text"
+                    placeholder="Enter legal entity name"
+                    className="h-11 bg-white border-gray-200 focus:border-powder-blue-500 focus:ring-powder-blue-500"
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label
+                    htmlFor="gst-number"
+                    className="text-sm font-medium text-rich-black flex items-center gap-2"
+                  >
+                    GST Number
+                  </Label>
+                  <Input
+                    id="gst-number"
+                    name="gstNumber"
+                    type="text"
+                    placeholder="Enter GST number"
+                    className="h-11 bg-white border-gray-200 focus:border-powder-blue-500 focus:ring-powder-blue-500"
+                  />
+                </div>
+              </>
+            )}
+            <div className="space-y-2">
+              <Label
+                htmlFor="business-description"
+                className="text-sm font-medium text-rich-black flex items-center gap-2"
+              >
+                Business Description
+              </Label>
+              <Textarea
+                id="business-description"
+                name="businessDescription"
+                placeholder="Enter a brief description of your business"
+                className="bg-white border-gray-200 focus:border-powder-blue-500 focus:ring-powder-blue-500"
+              />
+            </div>
+            <div className="space-y-2">
+              <Label
+                htmlFor="business-model"
+                className="text-sm font-medium text-rich-black flex items-center gap-2"
+              >
+                Who is your business aiming to serve?
+              </Label>
+              <Select
+                value={selectedBusinessModel?.value || ""}
+                onValueChange={handleBusinessModelChange}
+              >
+                <SelectTrigger className="w-full !h-11 bg-white border-gray-200 focus:border-powder-blue-500 focus:ring-powder-blue-500">
+                  <SelectValue placeholder="Select one" />
                 </SelectTrigger>
-                <SelectContent className="basis-5/6 bg-white cursor-pointer">
-                  {states.map((state, index) => {
-                    return (
-                      <SelectGroup key={index}>
-                        <SelectLabel className="p-3 font-bold text-slate-500">
-                          {state}
-                        </SelectLabel>
-                        {regions
-                          .filter((region: Region) => region.state === state)
-                          .map((region: Region) => {
-                            return (
-                              <SelectItem
-                                className="cursor-pointer"
-                                key={region.id}
-                                value={region.id}
-                              >
-                                {region.name} ({region.state}, {region.country})
-                              </SelectItem>
-                            );
-                          })}
-                      </SelectGroup>
-                    );
-                  })}
+                <SelectContent className="bg-white border-gray-200 focus:border-powder-blue-500 focus:ring-powder-blue-500 w-full">
+                  {businessModelOptions.map((option, index) => (
+                    <SelectItem
+                      key={index}
+                      value={option.value}
+                      className={`cursor-pointer ${
+                        option.value === selectedBusinessModel?.value
+                          ? "font-semibold"
+                          : ""
+                      }`}
+                    >
+                      {option.label}
+                    </SelectItem>
+                  ))}
                 </SelectContent>
               </Select>
-              <TooltipProvider>
-                <Tooltip>
-                  <TooltipTrigger asChild>
-                    <Button
-                      type="button"
-                      className="basis-1/6 cursor-pointer bg-white"
-                      onClick={handleAddRegionClick}
-                    >
-                      <Plus size={16} />
-                    </Button>
-                  </TooltipTrigger>
-                  <TooltipContent className="bg-black text-white">
-                    Add a new Region
-                  </TooltipContent>
-                </Tooltip>
-              </TooltipProvider>
+            </div>
+            <div className="space-y-2">
+              <Label
+                htmlFor="country"
+                className="text-sm font-medium text-rich-black flex items-center gap-2"
+              >
+                Country
+              </Label>
+              <SelectCountry
+                openCountry={openCountry}
+                setOpenCountry={setOpenCountry}
+                selectedCountry={selectedCountry}
+                setSelectedCountry={setSelectedCountry}
+                countrySearchTerm={countrySearchTerm}
+                setCountrySearchTerm={setCountrySearchTerm}
+                countryOptions={countryOptions}
+                isCreatingCountry={isCreatingCountry}
+                handleCreateCountry={handleCreateCountry}
+              />
+            </div>
+            <div className="space-y-2">
+              <Label
+                htmlFor="state"
+                className="text-sm font-medium text-rich-black flex items-center gap-2"
+              >
+                State
+              </Label>
+              <SelectState
+                selectedCountry={selectedCountry}
+                selectedState={selectedState}
+                setSelectedState={setSelectedState}
+                stateOptions={stateOptions}
+                stateSearchTerm={stateSearchTerm}
+                setStateSearchTerm={setStateSearchTerm}
+                handleCreateState={handleCreateState}
+                openState={openState}
+                setOpenState={setOpenState}
+                isCreatingState={isCreatingState}
+              />
+            </div>
+            <div className="space-y-2">
+              <Label
+                htmlFor="city"
+                className="text-sm font-medium text-rich-black flex items-center gap-2"
+              >
+                City
+              </Label>
+              <SelectCity
+                selectedState={selectedState}
+                selectedCity={selectedCity}
+                setSelectedCity={setSelectedCity}
+                cityOptions={cityOptions}
+                citySearchTerm={citySearchTerm}
+                setCitySearchTerm={setCitySearchTerm}
+                handleCreateCity={handleCreateCity}
+                openCity={openCity}
+                setOpenCity={setOpenCity}
+                isCreatingCity={isCreatingCity}
+              />
+            </div>
+            <Button
+              type="submit"
+              disabled={isSubmitting}
+              className="w-full h-12 bg-sunglow hover:bg-sunglow-600 text-rich-black font-semibold text-lg transition-all duration-200 transform hover:scale-[1.02] disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none shadow-lg cursor-pointer"
+              variant="default"
+            >
+              {isSubmitting ? (
+                <div className="flex items-center gap-2">
+                  <Loader2 className="w-5 h-5 animate-spin" />
+                  Creating Organisation...
+                </div>
+              ) : (
+                "Create Organisation"
+              )}
+            </Button>
+          </form>
+          {formState.message && (
+            <div
+              className={`mt-4 w-full text-center ${
+                formState.success ? "text-green-600" : "text-red-600"
+              }`}
+            >
+              {formState.message}
             </div>
           )}
-          {(regions.length === 0 || addRegion) && (
-            <>
-              <div className="flex flex-col space-y-2">
-                <Input
-                  name="regionName"
-                  type="text"
-                  placeholder="Region Name"
-                  className="bg-white"
-                />
-                {!!formState.errors.regionName && (
-                  <ul>
-                    {formState.errors.regionName.map(
-                      (error: string, index: number) => (
-                        <li key={index} className="text-red-600">
-                          {error}
-                        </li>
-                      )
-                    )}
-                  </ul>
-                )}
-              </div>
-              <div className="flex flex-col space-y-2">
-                <Input
-                  name="state"
-                  type="text"
-                  placeholder="State"
-                  className="bg-white"
-                />
-                {!!formState.errors.state && (
-                  <ul>
-                    {formState.errors.state.map(
-                      (error: string, index: number) => (
-                        <li key={index} className="text-red-600">
-                          {error}
-                        </li>
-                      )
-                    )}
-                  </ul>
-                )}
-              </div>
-              <div className="flex flex-col space-y-2">
-                <Input
-                  name="country"
-                  type="text"
-                  placeholder="Country"
-                  className="bg-white"
-                />
-                {!!formState.errors.country && (
-                  <ul>
-                    {formState.errors.country.map(
-                      (error: string, index: number) => (
-                        <li key={index} className="text-red-600">
-                          {error}
-                        </li>
-                      )
-                    )}
-                  </ul>
-                )}
-              </div>
-            </>
-          )}
-          <div className="flex flex-col space-y-2">
-            <Input
-              name="city"
-              type="text"
-              placeholder="City"
-              className="bg-white"
-            />
-            {!!formState.errors.city && (
-              <ul>
-                {formState.errors.city.map((error: string, index: number) => (
-                  <li key={index} className="text-red-600">
-                    {error}
-                  </li>
-                ))}
-              </ul>
-            )}
-          </div>
-
-          <div className="flex flex-col space-y-2">
-            <Input
-              name="address"
-              type="text"
-              placeholder="Address"
-              className="bg-white"
-            />
-            {!!formState.errors.address && (
-              <ul>
-                {formState.errors.address.map(
-                  (error: string, index: number) => (
-                    <li key={index} className="text-red-600">
-                      {error}
-                    </li>
-                  )
-                )}
-              </ul>
-            )}
-          </div>
-          <div className="flex flex-col space-y-2">
-            <Input
-              name="landlineNumber"
-              type="text"
-              placeholder="Landline Number"
-              className="bg-white"
-            />
-            {!!formState.errors.landlineNumber && (
-              <ul>
-                {formState.errors.landlineNumber.map(
-                  (error: string, index: number) => (
-                    <li key={index} className="text-red-600">
-                      {error}
-                    </li>
-                  )
-                )}
-              </ul>
-            )}
-          </div>
-          <div className="flex flex-col space-y-2">
-            <Input
-              name="postalCode"
-              type="text"
-              placeholder="Postal Code"
-              className="bg-white"
-            />
-            {!!formState.errors.postalCode && (
-              <ul>
-                {formState.errors.postalCode.map(
-                  (error: string, index: number) => (
-                    <li key={index} className="text-red-600">
-                      {error}
-                    </li>
-                  )
-                )}
-              </ul>
-            )}
-          </div>
-
-          <Button
-            type="submit"
-            className="w-full bg-blue-600 text-white hover:bg-blue-700 transition-colors duration-200 cursor-pointer"
-          >
-            Create Organisation
-          </Button>
-        </form>
-        {formState.success && (
-          <div className="mt-4 text-green-600">
-            {formState.message || "Organisation created successfully!"}
-          </div>
-        )}
-        {formState.message && !formState.success && (
-          <div className="mt-4 text-red-600">
-            {formState.message || "Failed to create organisation."}
-          </div>
-        )}
-      </CardContent>
-    </Card>
+        </CardContent>
+      </Card>
+    </section>
   );
 }

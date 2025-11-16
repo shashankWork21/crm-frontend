@@ -29,7 +29,7 @@ export default function ProtectedRoute({ children }: ProtectedRouteProps) {
   }, [user, loading, router, pathName]);
 
   const menuItems: MenuItems[] =
-    user?.role === Role.ADMIN ? adminMenuItems : employeeMenuItems;
+    user?.role === Role.EMPLOYEE ? employeeMenuItems : adminMenuItems;
 
   if (!user) {
     return null;
@@ -37,7 +37,7 @@ export default function ProtectedRoute({ children }: ProtectedRouteProps) {
 
   return (
     <SidebarProvider open={sidebarOpen} onOpenChange={setSidebarOpen}>
-      <DashboardSidebar menuItems={menuItems} />
+      <DashboardSidebar menuItems={menuItems} user={user} />
       <main className="w-full min-h-screen ">
         <SidebarTrigger className="cursor-pointer" />
         {children}

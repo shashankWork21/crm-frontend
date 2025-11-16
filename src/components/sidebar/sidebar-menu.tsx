@@ -1,12 +1,12 @@
 import {
   Users,
   Building2,
-  Map,
   BookUser,
   UserCircle,
   Tag,
   Building,
   LayoutDashboard,
+  Magnet,
 } from "lucide-react";
 
 const adminItemsOnly = [
@@ -19,7 +19,6 @@ const adminItemsOnly = [
 
   { group: "Admin", title: "Manage Tags", url: "/dashboard/tags", icon: Tag },
   { group: "Admin", title: "Team", url: "/dashboard/team", icon: Users },
-  { group: "Admin", title: "Regions", url: "/dashboard/regions", icon: Map },
 ];
 
 export const employeeMenuItems = [
@@ -32,7 +31,7 @@ export const employeeMenuItems = [
   {
     group: "Contacts",
     title: "Contacts",
-    url: "/dashboard/contacts",
+    url: "/contacts",
     icon: BookUser,
   },
   {
@@ -40,6 +39,12 @@ export const employeeMenuItems = [
     title: "Organisations",
     url: "/dashboard/contacts/organisation",
     icon: Building2,
+  },
+  {
+    group: "Lead Generation",
+    title: "Lead Magnets",
+    url: "/lead-magnets",
+    icon: Magnet,
   },
 
   { group: "Self", title: "Profile", url: "/profile", icon: UserCircle },

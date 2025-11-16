@@ -2,7 +2,7 @@
 
 import {
   organisationForTeam,
-  orgaisationPathById,
+  organisationPathById,
   contactOrgaisationPathById,
 } from "@/lib/paths";
 import axios from "axios";
@@ -26,7 +26,7 @@ export const getTeamOranisations = cache(async () => {
 
 export const getOrganisationById = cache(async (organisationId: string) => {
   const c = await cookies();
-  const response = await axios.get(orgaisationPathById(organisationId), {
+  const response = await axios.get(organisationPathById(organisationId), {
     headers: {
       "Content-Type": "application/json",
       Cookie: `session=${c.get("session")?.value || ""}`,
