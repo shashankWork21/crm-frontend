@@ -1,7 +1,7 @@
 "use server";
 
 import { validateSession } from "@/actions";
-import { teamPath, teamSearchPath } from "@/lib/paths";
+import { teamPath, teamSearchPath, verifyKeyPath } from "@/lib/paths";
 import axios from "axios";
 import { cookies } from "next/headers";
 import { cache } from "react";
@@ -59,3 +59,9 @@ export const getTeamMembersBySearchTerm = cache(
     }
   }
 );
+
+export const getUserIdFromKey = async (key: string): Promise<string> => {
+  // Implement your logic to extract email from the key
+  const response = await axios.get(verifyKeyPath(key));
+  return response.data.userId;
+};

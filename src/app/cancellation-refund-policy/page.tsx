@@ -17,7 +17,7 @@ export default function CancellationRefundPolicy() {
           <div className="px-8 py-8">
             <div className="prose max-w-none">
               <p className="text-lg text-slate-700 mb-8 leading-relaxed">
-                At SmartAlgorhythm Pvt. Ltd., we are committed to providing
+                At Icosihenagon Technologies LLP, we are committed to providing
                 exceptional CRM solutions and ensuring complete customer
                 satisfaction. This comprehensive Cancellation and Refund Policy
                 outlines our terms, procedures, and commitments regarding

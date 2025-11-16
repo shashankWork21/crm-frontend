@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { IBM_Plex_Sans } from "next/font/google";
 import "./globals.css";
 import Providers from "./providers";
-import Header from "@/components/general/header";
 import Footer from "@/components/general/footer";
 import { Analytics } from "@vercel/analytics/next";
 
@@ -25,10 +24,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${ibmPlexSans.variable} antialiased bg-slate-100`}>
+      <body
+        className={`${ibmPlexSans.variable} antialiased overscroll-none bg-black-900`}
+      >
         <Providers>
-          <Header />
-          {children}
+          <div className="min-h-screen">{children}</div>
           <Footer />
           <Analytics />
         </Providers>

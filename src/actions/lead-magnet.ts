@@ -1,0 +1,125 @@
+"use server";
+
+import axios from "axios";
+import { cookies } from "next/headers";
+import {
+  S3Client,
+  PutObjectCommand,
+  GetObjectCommand,
+} from "@aws-sdk/client-s3";
+import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
+import { leadMagnetPath } from "@/lib/paths/lead-magnet";
+import { FormState } from "@/lib/types";
+
+interface LeadMagnetData {
+  createdById: string;
+  organisationId: string;
+  files?: File[];
+}
+
+const s3 = new S3Client({
+  region: process.env.R2_REGION || "auto",
+  endpoint: process.env.R2_ENDPOINT,
+  credentials: {
+    accessKeyId: process.env.R2_ACCESS_KEY_ID || "",
+    secretAccessKey: process.env.R2_SECRET_ACCESS_KEY || "",
+  },
+});
+
+async function uploadFileToS3(
+  file: File,
+  organisationId: string
+): Promise<string> {
+  const buffer = await file.arrayBuffer();
+  const fileName = file.name;
+  const timestamp = Date.now();
+  const fileId = `lead-magnet-${organisationId}-${timestamp}`;
+  const objectKey = `${fileId}/${fileName}`;
+
+  // Upload file to S3
+  const uploadCommand = new PutObjectCommand({
+    Bucket: process.env.R2_BUCKET_NAME || "",
+    Key: objectKey,
+    Body: Buffer.from(buffer),
+    ContentType: file.type,
+  });
+
+  await s3.send(uploadCommand);
+
+  // Generate presigned URL (valid for 7 days)
+  const getCommand = new GetObjectCommand({
+    Bucket: process.env.R2_BUCKET_NAME || "",
+    Key: objectKey,
+  });
+
+  const presignedUrl = await getSignedUrl(s3, getCommand, {
+    expiresIn: 7 * 24 * 60 * 60, // 7 days
+  });
+
+  return presignedUrl;
+}
+
+export async function createLeadMagnet(
+  data: LeadMagnetData,
+  formState: FormState,
+  formData: FormData
+) {
+  const c = await cookies();
+  const title = formData.get("title") as string;
+  const description = formData.get("description") as string;
+  let fileUrl = formData.get("fileUrl") as string;
+
+  // If file is uploaded, upload to S3 and get presigned URL
+  if (data?.files && data.files.length > 0) {
+    try {
+      fileUrl = await uploadFileToS3(data.files[0], data.organisationId);
+    } catch (error) {
+      console.error("File upload error:", error);
+      return {
+        success: false,
+        message: "File upload failed",
+        errors: { file: "Failed to upload file to storage" },
+      };
+    }
+  }
+
+  try {
+    await axios.post(
+      leadMagnetPath(),
+      {
+        title,
+        description,
+        fileUrl,
+        createdById: data.createdById,
+        organisationId: data.organisationId,
+      },
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Cookie: `session=${c.get("session")?.value || ""}`,
+        },
+      }
+    );
+    return {
+      success: true,
+      message: "Lead Magnet created successfully",
+      errors: {},
+    };
+  } catch (error: unknown) {
+    if (axios.isAxiosError(error) && error.response) {
+      console.log(error.response);
+      const { data } = error.response;
+      return {
+        success: false,
+        message: "Lead Magnet creation failed",
+        errors: JSON.parse(data.errors),
+      };
+    } else {
+      return {
+        success: false,
+        message: "An unexpected error occurred",
+        errors: {},
+      };
+    }
+  }
+}

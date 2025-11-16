@@ -1,28 +1,136 @@
+/**
+ * Frontend TypeScript Types
+ * Generated from Prisma Schema
+ * Last Updated: October 16, 2025
+ */
+
+// ============================================================================
+// ENUMS
+// ============================================================================
+
 export enum Role {
   EMPLOYEE = "EMPLOYEE",
-  ADMIN = "ADMIN",
+  ORGANISATION_ADMIN = "ORGANISATION_ADMIN",
+  PLATFORM_ADMIN = "PLATFORM_ADMIN",
+  SUPER_ADMIN = "SUPER_ADMIN",
 }
 
 export enum Scope {
-  CALENDAR = "CALENDAR",
-  YOUTUBE = "YOUTUBE",
-  EMAIL = "EMAIL",
-  PROFILE = "PROFILE",
-  OPENID = "OPENID",
-  SHEETS = "SHEETS",
-  DOCS = "DOCS",
+  GOOGLE_CALENDAR = "GOOGLE_CALENDAR",
+  GOOGLE_YOUTUBE = "GOOGLE_YOUTUBE",
+  GOOGLE_EMAIL = "GOOGLE_EMAIL",
+  GOOGLE_PROFILE = "GOOGLE_PROFILE",
+  GOOGLE_OPENID = "GOOGLE_OPENID",
+  GOOGLE_SHEETS = "GOOGLE_SHEETS",
+  GOOGLE_DOCS = "GOOGLE_DOCS",
+  GOOGLE_DRIVE = "GOOGLE_DRIVE",
+  GOOGLE_FORMS = "GOOGLE_FORMS",
+  META_INSTAGRAM_DM = "META_INSTAGRAM_DM",
+  META_INSTAGRAM_PROFILE = "META_INSTAGRAM_PROFILE",
+  META_INSTAGRAM_COMMENT = "META_INSTAGRAM_COMMENT",
 }
 
-export enum ContactType {
-  LEAD = "LEAD",
-  PROSPECT = "PROSPECT",
-  CUSTOMER = "CUSTOMER",
+export enum Gender {
+  MALE = "MALE",
+  FEMALE = "FEMALE",
+  OTHER = "OTHER",
 }
 
 export enum LeadSegment {
   HOT = "HOT",
   WARM = "WARM",
   COLD = "COLD",
+}
+
+export enum ContactStage {
+  LEAD = "LEAD",
+  PROSPECT = "PROSPECT",
+  CONTACTED = "CONTACTED",
+  ENGAGED = "ENGAGED",
+  NURTURING = "NURTURING",
+  QUALIFYING = "QUALIFYING",
+  QUALIFIED = "QUALIFIED",
+  UNQUALIFIED = "UNQUALIFIED",
+  DISCOVERY = "DISCOVERY",
+  DEMO_SCHEDULED = "DEMO_SCHEDULED",
+  DEMO_COMPLETED = "DEMO_COMPLETED",
+  PROPOSAL_SENT = "PROPOSAL_SENT",
+  PROPOSAL_REVIEWED = "PROPOSAL_REVIEWED",
+  NEGOTIATION = "NEGOTIATION",
+  DECISION_PENDING = "DECISION_PENDING",
+  APPROVAL_NEEDED = "APPROVAL_NEEDED",
+  WON = "WON",
+  LOST = "LOST",
+  CUSTOMER = "CUSTOMER",
+  UPSELL = "UPSELL",
+  RENEWAL = "RENEWAL",
+  ON_HOLD = "ON_HOLD",
+  UNRESPONSIVE = "UNRESPONSIVE",
+  DORMANT = "DORMANT",
+  CHURNED = "CHURNED",
+  REFERRAL_SOURCE = "REFERRAL_SOURCE",
+  PARTNER = "PARTNER",
+  DISQUALIFIED = "DISQUALIFIED",
+}
+
+export enum ContactPhase {
+  INITIAL_AWARENESS = "INITIAL_AWARENESS",
+  ENGAGEMENT = "ENGAGEMENT",
+  QUALIFICATION = "QUALIFICATION",
+  SALES_PROCESS = "SALES_PROCESS",
+  DECISION = "DECISION",
+  CLOSURE = "CLOSURE",
+  ONGOING_RELATIONSHIP = "ONGOING_RELATIONSHIP",
+  INACTIVE = "INACTIVE",
+  SPECIAL = "SPECIAL",
+}
+
+export enum ContactChannel {
+  EMAIL = "EMAIL",
+  PHONE = "PHONE",
+  WHATSAPP = "WHATSAPP",
+  INSTAGRAM = "INSTAGRAM",
+}
+
+export enum DealStage {
+  DISCOVERY = "DISCOVERY",
+  QUALIFICATION = "QUALIFICATION",
+  PROPOSAL = "PROPOSAL",
+  NEGOTIATION = "NEGOTIATION",
+  CLOSING = "CLOSING",
+  WON = "WON",
+  LOST = "LOST",
+  ON_HOLD = "ON_HOLD",
+  WORK_IN_PROGRESS = "WORK_IN_PROGRESS",
+  DORMANT = "DORMANT",
+  IN_REVIEW = "IN_REVIEW",
+  IN_EXTERNAL_REVIEW = "IN_EXTERNAL_REVIEW",
+  IMPLEMENTING_FEEDBACK = "IMPLEMENTING_FEEDBACK",
+  DELIVERED = "DELIVERED",
+  VOIDED = "VOIDED",
+}
+
+export enum DealPhase {
+  QUALIFICATION = "QUALIFICATION",
+  DEVELOPMENT = "DEVELOPMENT",
+  CLOSURE = "CLOSURE",
+  DELIVERY = "DELIVERY",
+}
+
+export enum TagType {
+  ORGANISATION = "ORGANISATION",
+  CONTACT = "CONTACT",
+  ACTIVITY = "ACTIVITY",
+  DEAL = "DEAL",
+  AUTOMATION = "AUTOMATION",
+  CHAT = "CHAT",
+  MESSAGE = "MESSAGE",
+}
+
+export enum ActivityEnactor {
+  USER = "USER",
+  CONTACT = "CONTACT",
+  SYSTEM = "SYSTEM",
 }
 
 export enum NoteCategory {
@@ -34,204 +142,787 @@ export enum NoteCategory {
   MISCELLANEOUS = "MISCELLANEOUS",
 }
 
-export enum BranchType {
-  HEADQUARTERS = "HEADQUARTERS",
-  BRANCH = "BRANCH",
+export enum ScheduleType {
+  ONCE = "ONCE",
+  DAILY = "DAILY",
+  WEEKLY = "WEEKLY",
+  MONTHLY = "MONTHLY",
+  YEARLY = "YEARLY",
+  CUSTOM_INTERVAL = "CUSTOM_INTERVAL",
+  CUSTOM_DATES = "CUSTOM_DATES",
+  CRON = "CRON",
 }
 
-export enum TagType {
-  ORGANISATION = "ORGANISATION",
-  CONTACT = "CONTACT",
-  ACTIVITY = "ACTIVITY",
+export enum ReminderType {
+  ONE_TIME = "ONE_TIME",
+  RECURRING = "RECURRING",
+  FOLLOW_UP = "FOLLOW_UP",
+  DEADLINE = "DEADLINE",
 }
 
-export enum ActivityType {
-  ENQUIRY = "ENQUIRY",
-  QUOTATION_REQUEST = "QUOTATION_REQUEST",
-  PURCHASE_ORDER = "PURCHASE_ORDER",
-  INVOICE = "INVOICE",
-  PAYMENT = "PAYMENT",
-  DELIVERY = "DELIVERY",
-  RETURN = "RETURN",
-  COMPLAINT = "COMPLAINT",
-  MISCELLANEOUS = "MISCELLANEOUS",
+export enum ReminderStatus {
+  PENDING = "PENDING",
+  DUE = "DUE",
+  OVERDUE = "OVERDUE",
+  COMPLETED = "COMPLETED",
+  SNOOZED = "SNOOZED",
+  CANCELLED = "CANCELLED",
 }
 
-export interface User {
+export enum ReminderPriority {
+  LOW = "LOW",
+  MEDIUM = "MEDIUM",
+  HIGH = "HIGH",
+  URGENT = "URGENT",
+}
+
+export enum TaskStatus {
+  NOT_STARTED = "NOT_STARTED",
+  IN_PROGRESS = "IN_PROGRESS",
+  IN_REVIEW = "IN_REVIEW",
+  COMPLETED = "COMPLETED",
+  ON_HOLD = "ON_HOLD",
+  CANCELLED = "CANCELLED",
+}
+
+export enum GroupType {
+  GEOGRAPHIC = "GEOGRAPHIC",
+  ORGANISATIONAL = "ORGANISATIONAL",
+  CONTACT_SEGMENT = "CONTACT_SEGMENT",
+}
+
+export enum BusinessModel {
+  B2B = "B2B",
+  B2C = "B2C",
+  B2G = "B2G",
+  D2C = "D2C",
+}
+
+export enum SubscriptionStatus {
+  TRIAL = "TRIAL",
+  ACTIVE = "ACTIVE",
+  INACTIVE = "INACTIVE",
+  CANCELLED = "CANCELLED",
+  EXPIRED = "EXPIRED",
+}
+
+export enum SubscriptionFrequency {
+  MONTHLY = "MONTHLY",
+  YEARLY = "YEARLY",
+}
+
+export enum OrderStatus {
+  CREATED = "CREATED",
+  CANCELLED = "CANCELLED",
+  PAID = "PAID",
+  REFUNDED = "REFUNDED",
+}
+
+export enum PaymentStatus {
+  PENDING = "PENDING",
+  SUCCESS = "SUCCESS",
+  FAILED = "FAILED",
+}
+
+export enum PaymentAction {
+  CREDIT = "CREDIT",
+  DEBIT = "DEBIT",
+}
+
+export enum MessageStatus {
+  SENT = "SENT",
+  DELIVERED = "DELIVERED",
+  READ = "READ",
+  FAILED = "FAILED",
+}
+
+export enum ChatSource {
+  INSTAGRAM = "INSTAGRAM",
+  WHATSAPP = "WHATSAPP",
+  EMAIL = "EMAIL",
+  SMS = "SMS",
+  OTHER = "OTHER",
+}
+
+export enum TriggerSource {
+  COMMENT = "COMMENT",
+  STORY = "STORY",
+  MESSAGE = "MESSAGE",
+  REPLY = "REPLY",
+  LEAD_NURTURE = "LEAD_NURTURE",
+}
+
+export enum ReminderChannel {
+  DASHBOARD = "DASHBOARD",
+  EMAIL = "EMAIL",
+}
+
+export enum TriggerType {
+  COMMENT_KEYWORD = "COMMENT_KEYWORD",
+  COMMENT_ANY = "COMMENT_ANY",
+  MESSAGE_KEYWORD = "MESSAGE_KEYWORD",
+  MESSAGE_ANY = "MESSAGE_ANY",
+  TIME_DELAY = "TIME_DELAY",
+}
+
+export enum ResponseType {
+  TEXT = "TEXT",
+  IMAGE = "IMAGE",
+  VIDEO = "VIDEO",
+  AUDIO = "AUDIO",
+  FILE = "FILE",
+}
+
+// ============================================================================
+// BASE TYPES
+// ============================================================================
+
+export interface BaseEntity {
   id: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+// ============================================================================
+// USER & AUTHENTICATION
+// ============================================================================
+
+export interface User extends BaseEntity {
   firstName: string;
   lastName: string;
   email: string;
-  password: string;
   countryCode: string;
   phoneNumber: string;
   role: Role;
-  createdAt: string;
-  updatedAt: string;
-  organisationId?: string | null;
-  organisation?: Organisation | null;
-  addedActivities?: Activity[];
-  sessions?: Session[];
-  tokens?: Token[];
-  contactFollowUps?: Contact[];
-  createdNotes?: Note[];
-  activityFollowUps?: Activity[];
+  organisationId?: string;
+  organisation?: Organisation;
+  employeeAccess?: EmployeeAccess[];
+  filterViews?: FilterView[];
 }
 
-export interface Session {
-  id: string;
+export interface Session extends BaseEntity {
   userId: string;
-  expiresAt: string;
-  createdAt: string;
-  updatedAt: string;
   user?: User;
-  tokens?: Token[];
+  expiresAt: string;
 }
 
-export interface Token {
-  id: string;
+export interface Token extends BaseEntity {
   userId: string;
   sessionId: string;
   scopes: Scope[];
   accessToken: string;
-  refreshToken?: string | null;
-  createdAt: string;
-  updatedAt: string;
-  session?: Session;
+  refreshToken?: string;
   user?: User;
+  session?: Session;
 }
 
-export interface Region {
-  id: string;
+// ============================================================================
+// GEOGRAPHY
+// ============================================================================
+
+export interface Country extends BaseEntity {
   name: string;
-  state: string;
-  country: string;
-  createdAt: string;
-  updatedAt: string;
-  branches?: Branch[];
-  schedules?: Schedule[];
+  code?: string;
+  states?: State[];
+  groupId?: string;
 }
 
-export interface Schedule {
-  id: string;
-  regionId: string;
-  dayOfMonth: number;
-  createdOrgId: string;
-  createdAt: string;
-  updatedAt: string;
-  region?: Region;
-  createdOrg?: Organisation;
-}
-
-export interface Branch {
-  id: string;
-  address?: string | null;
-  city: string;
-  postalCode?: string | null;
-  landlineNumber?: string | null;
-  regionId: string;
-  createdAt: string;
-  updatedAt: string;
-  organisationId: string;
-  type: BranchType;
-  region?: Region;
-  organisation?: Organisation;
-  contacts?: Contact[];
-  pointOfContactId?: string | null;
-  pointOfContact?: Contact | null;
-}
-
-export interface Organisation {
-  id: string;
+export interface State extends BaseEntity {
   name: string;
-  createdAt: string;
-  updatedAt: string;
+  countryId: string;
+  country?: Country;
+  cities?: City[];
+  groupId?: string;
+}
+
+export interface City extends BaseEntity {
+  name: string;
+  isProminent: boolean;
+  stateId: string;
+  state?: State;
+  groupId?: string;
+}
+
+// ============================================================================
+// ORGANISATION
+// ============================================================================
+
+export interface Organisation extends BaseEntity {
+  name: string;
+  legalName?: string;
+  website?: string;
+  address?: string;
+  cityId: string;
+  city?: City;
+  postalCode?: string;
+  landlineNumber?: string;
+  GSTNumber?: string;
+  businessDescription?: string;
+  businessModel?: BusinessModel;
+  contactOrgId?: string;
+  contactOrganisation?: Organisation;
+  aiTokensTotal: number;
+  aiTokensUsed: number;
   team?: User[];
-  branches?: Branch[];
   tags?: Tag[];
-  contactOrganisations?: Organisation[];
-  contactOrgId?: string | null;
-  contactOrganisation?: Organisation | null;
-  createdTags?: Tag[];
   contacts?: Contact[];
-  createdSchedule?: Schedule[];
+  deals?: Deal[];
+  groups?: Group[];
+  subscriptions?: Subscription[];
+  orders?: Order[];
+  filterViews?: FilterView[];
 }
 
-export interface Tag {
-  id: string;
+// ============================================================================
+// TAGS
+// ============================================================================
+
+export interface Tag extends BaseEntity {
   title: string;
-  description?: string | null;
+  description?: string;
   tagType: TagType;
   createdOrganisationId: string;
-  createdAt: string;
-  updatedAt: string;
   createdOrganisation?: Organisation;
   organisations?: Organisation[];
   activities?: Activity[];
   contacts?: Contact[];
+  deals?: Deal[];
 }
 
-export interface Activity {
-  id: string;
-  title: string;
-  description: string;
-  addedById: string;
-  needFollowUp: boolean;
-  createdAt: string;
-  updatedAt: string;
-  type: ActivityType;
-  contactId: string;
-  followUpDate?: string | null;
-  assignedToId?: string | null;
-  followUpActivityId?: string | null;
-  addedBy?: User;
-  tags?: Tag[];
-  contact?: Contact;
-  assignedTo?: User | null;
-  followUpActivity?: Activity | null;
-  followUpActivities?: Activity[];
-}
+// ============================================================================
+// CONTACTS
+// ============================================================================
 
-export interface Note {
-  id: string;
-  title: string;
-  description: string;
-  category: NoteCategory;
-  createdAt: string;
-  updatedAt: string;
-  contactId: string;
-  createdById: string;
-  contact?: Contact;
-  createdBy?: User;
-}
-
-export interface Contact {
-  id: string;
+export interface Contact extends BaseEntity {
   name: string;
-  email?: string | null;
-  phoneNumber: string;
-  alternateNumber?: string | null;
-  branchId?: string | null;
-  contactType: ContactType;
-  leadSegment?: LeadSegment | null;
-  leadScore?: number | null;
-  followUpFrequency?: number | null;
-  followUpOn?: string | null;
-  assignedToId?: string | null;
-  createdAt: string;
-  updatedAt: string;
-  branch?: Branch | null;
-  assignedTo?: User | null;
-  pocBranch?: Branch | null;
+  email?: string;
+  phoneNumber?: string;
+  dateOfBirth?: string;
+  cityId?: string;
+  city?: City;
+  isPoc: boolean;
+  gender?: Gender;
+  isDeleted: boolean;
+  isInbound: boolean;
+  instagramHandle?: string;
+  linkedInHandle?: string;
+  twitterHandle?: string;
+  alternateNumber?: string;
+  organisationId?: string;
+  organisation?: Organisation;
+  contactPhase: ContactPhase;
+  contactStage: ContactStage;
+  assignedToId?: string;
+  assignedTo?: User;
+  contactOrgId?: string;
+  contactOrg?: Organisation;
+  score?: number;
+  leadSegment?: LeadSegment;
+  leadSource?: string;
+  leadSourceDetail?: string;
+  lastContactedAt?: string;
+  probability?: number;
+  estimatedValue?: string;
+  timezone?: string;
+  preferredContactMethods?: ContactChannel[];
+  leadMagnetId?: string;
+  leadMagnet?: LeadMagnet;
+  convertedAt?: string;
+  lostAt?: string;
+  lostReason?: string;
   activities?: Activity[];
   notes?: Note[];
   tags?: Tag[];
-  contactOrgId: string;
-  contactOrg?: Organisation;
+  stageHistory?: ContactStageChange[];
+  reminders?: Reminder[];
+  deals?: Deal[];
+  tasks?: Task[];
+  chats?: Chat[];
 }
 
+export interface ContactStageChange extends BaseEntity {
+  contactId: string;
+  contact?: Contact;
+  fromStage?: ContactStage;
+  toStage: ContactStage;
+  fromPhase?: ContactPhase;
+  toPhase: ContactPhase;
+  reason?: string;
+  changedById: string;
+  changedBy?: User;
+}
+
+// ============================================================================
+// ACTIVITIES & NOTES
+// ============================================================================
+
+export interface Activity extends BaseEntity {
+  title: string;
+  description: string;
+  enactor: ActivityEnactor;
+  enactorId: string;
+  ownerId: string;
+  owner?: User;
+  dealId?: string;
+  deal?: Deal;
+  taskId?: string;
+  task?: Task;
+  tags?: Tag[];
+  contacts?: Contact[];
+}
+
+export interface Note extends BaseEntity {
+  title: string;
+  description: string;
+  category: NoteCategory;
+  contactId: string;
+  contact?: Contact;
+  createdById: string;
+  createdBy?: User;
+}
+
+// ============================================================================
+// DEALS
+// ============================================================================
+
+export interface Deal extends BaseEntity {
+  title: string;
+  description?: string;
+  value?: string;
+  currency: string;
+  probability?: number;
+  stage: DealStage;
+  phase: DealPhase;
+  expectedCloseDate?: string;
+  actualCloseDate?: string;
+  primaryContactId: string;
+  primaryContact?: Contact;
+  contacts?: Contact[];
+  organisationId?: string;
+  organisation?: Organisation;
+  ownerId: string;
+  owner?: User;
+  teamMembers?: User[];
+  source?: string;
+  lostReason?: string;
+  tags?: Tag[];
+  activities?: Activity[];
+  reminders?: Reminder[];
+  stageHistory?: DealStageHistory[];
+  tasks?: Task[];
+  chats?: Chat[];
+}
+
+export interface DealStageHistory {
+  id: string;
+  dealId: string;
+  deal?: Deal;
+  fromStage?: DealStage;
+  toStage: DealStage;
+  fromPhase?: DealPhase;
+  toPhase: DealPhase;
+  reason?: string;
+  changedById: string;
+  changedBy?: User;
+  createdAt: string;
+}
+
+// ============================================================================
+// TASKS
+// ============================================================================
+
+export interface Task extends BaseEntity {
+  title: string;
+  description: string;
+  status: TaskStatus;
+  dueDate?: string;
+  organisationId: string;
+  organisation?: Organisation;
+  assignedToId?: string;
+  assignedTo?: User;
+  contactId?: string;
+  contact?: Contact;
+  dealId?: string;
+  deal?: Deal;
+  activities?: Activity[];
+}
+
+// ============================================================================
+// REMINDERS & SCHEDULES
+// ============================================================================
+
+export interface Schedule extends BaseEntity {
+  type: ScheduleType;
+  cronExpression: string;
+  customDates?: string[];
+  startDate?: string;
+  endDate?: string;
+  occurrences?: number;
+  timezone: string;
+  isActive: boolean;
+  description?: string;
+  lastRun?: string;
+  nextRun?: string;
+  runCount: number;
+  organisationId: string;
+  organisation?: Organisation;
+  reminders?: Reminder[];
+}
+
+export interface Reminder extends BaseEntity {
+  title: string;
+  description?: string;
+  priority: ReminderPriority;
+  reminderType: ReminderType;
+  dueAt: string;
+  scheduleId?: string;
+  schedule?: Schedule;
+  channel: string; // ReminderChannel - default DASHBOARD
+  contactId?: string;
+  contact?: Contact;
+  dealId?: string;
+  deal?: Deal;
+  createdById: string;
+  createdBy?: User;
+  assignedToId?: string;
+  assignedTo?: User;
+  status: ReminderStatus;
+  completedAt?: string;
+  snoozedUntil?: string;
+  lastTriggeredAt?: string;
+  triggerCount: number;
+}
+
+// ============================================================================
+// GROUPS
+// ============================================================================
+
+export interface Group extends BaseEntity {
+  name: string;
+  type: GroupType;
+  createdById: string;
+  createdBy?: User;
+  createdOrgId: string;
+  createdOrg?: Organisation;
+  groupEntities?: GroupEntity[];
+}
+
+export interface GroupEntity extends BaseEntity {
+  groupId: string;
+  group?: Group;
+  type: GroupType;
+  organisationId?: string;
+  organisation?: Organisation;
+  contactId?: string;
+  contact?: Contact;
+  cityId?: string;
+  city?: City;
+  stateId?: string;
+  state?: State;
+  countryId?: string;
+  country?: Country;
+  dealId?: string;
+  deal?: Deal;
+}
+
+// ============================================================================
+// LEAD MAGNETS
+// ============================================================================
+
+export interface LeadMagnet extends BaseEntity {
+  title: string;
+  description?: string;
+  fileUrl: string;
+  isHosted: boolean;
+  organisationId: string;
+  organisation?: Organisation;
+  createdById: string;
+  createdBy?: User;
+  contacts?: Contact[];
+  messageAutomations?: MessageAutomation[];
+}
+
+// ============================================================================
+// SUBSCRIPTIONS & PAYMENTS
+// ============================================================================
+
+export interface SubscriptionPlan extends BaseEntity {
+  name: string;
+  frequency: SubscriptionFrequency;
+  description?: string;
+  currency: string;
+  razorpayPlanId?: string;
+  baseAmount: string;
+  baseSeatCount: number;
+  additionalSeatPrice: string;
+  freeAiTokenCount: number;
+  relatedPlanId?: string;
+  relatedPlan?: SubscriptionPlan;
+  subscriptions?: Subscription[];
+}
+
+export interface Subscription extends BaseEntity {
+  organisationId: string;
+  organisation?: Organisation;
+  planId: string;
+  plan?: SubscriptionPlan;
+  startDate: string;
+  endDate: string;
+  status: SubscriptionStatus;
+  razorpaySubscriptionId?: string;
+  seatsPurchased: number;
+  payments?: Payment[];
+}
+
+export interface Order extends BaseEntity {
+  amount: string;
+  amountDue?: string;
+  amountPaid?: string;
+  currency: string;
+  razorpayOrderId?: string;
+  razorpayOrderStatus?: string;
+  status: OrderStatus;
+  organisationId: string;
+  organisation?: Organisation;
+  userId: string;
+  user?: User;
+  aiTokensPurchased?: number;
+  payments?: Payment[];
+}
+
+export interface Payment extends BaseEntity {
+  razorpayPaymentId?: string;
+  razorpayOrderId?: string;
+  amount: string;
+  action: PaymentAction;
+  currency: string;
+  status: string;
+  orderId: string;
+  order?: Order;
+  subscriptionId?: string;
+  subscription?: Subscription;
+}
+
+// ============================================================================
+// MESSAGING & AUTOMATION
+// ============================================================================
+
+export interface Chat extends BaseEntity {
+  source: ChatSource;
+  sourceChatId: string;
+  sourceUserId: string;
+  sourceUserName?: string;
+  dealId?: string;
+  deal?: Deal;
+  contactId?: string;
+  contact?: Contact;
+  organisationId?: string;
+  organisation?: Organisation;
+  messageCount: number;
+  lastMessageAt?: string;
+  automationId?: string;
+  automation?: MessageAutomation;
+  executions?: Execution[];
+  tags: Tag[];
+}
+
+export interface MessageAutomation extends BaseEntity {
+  name: string;
+  isActive: boolean;
+  organisationId: string;
+  organisation?: Organisation;
+  createdById: string;
+  createdBy?: User;
+  leadMagnetId?: string;
+  leadMagnet?: LeadMagnet;
+  reelId?: string;
+  reelUrl?: string;
+  triggerSource: TriggerSource;
+  triggerType: string;
+  triggerValue: string;
+  responseType: ResponseType;
+  responseContent: string;
+  maxExecutions: number;
+  timeDelay?: number;
+  chats?: Chat[];
+  executions?: Execution[];
+  tags: Tag[];
+}
+
+export interface Execution {
+  id: string;
+  messageAutomationId: string;
+  messageAutomation?: MessageAutomation;
+  incomingText?: string;
+  responseText?: string;
+  chatId: string;
+  chat?: Chat;
+  executedAt: string;
+  status: string;
+  errorMessage?: string;
+}
+
+// ============================================================================
+// API RESPONSE TYPES
+// ============================================================================
+
 export interface ApiResponse<T> {
-  data: T;
+  data?: T;
+  error?: string;
+  message?: string;
+  statusCode: number;
+}
+
+export interface PaginatedResponse<T> {
+  data: T[];
+  total: number;
+  page: number;
+  pageSize: number;
+  totalPages: number;
+}
+
+export interface ApiError {
+  errors: string | string[];
+  statusCode: number;
+  message?: string;
+}
+
+// ============================================================================
+// FILTER & QUERY TYPES
+// ============================================================================
+
+export interface DateRange {
+  startDate: string;
+  endDate: string;
+}
+
+export interface PaginationParams {
+  page?: number;
+  pageSize?: number;
+  sortBy?: string;
+  sortOrder?: "asc" | "desc";
+}
+
+export interface ContactFilters extends PaginationParams {
+  stage?: ContactStage;
+  phase?: ContactPhase;
+  segment?: LeadSegment;
+  assignedToId?: string;
+  organisationId?: string;
+  cityId?: string;
+  leadSource?: string;
+  tags?: string[];
+  search?: string;
+  dateRange?: DateRange;
+}
+
+export interface DealFilters extends PaginationParams {
+  stage?: DealStage;
+  phase?: DealPhase;
+  ownerId?: string;
+  organisationId?: string;
+  minValue?: number;
+  maxValue?: number;
+  tags?: string[];
+  search?: string;
+  dateRange?: DateRange;
+}
+
+export interface TaskFilters extends PaginationParams {
+  status?: TaskStatus;
+  assignedToId?: string;
+  organisationId?: string;
+  contactId?: string;
+  dealId?: string;
+  overdue?: boolean;
+  dateRange?: DateRange;
+}
+
+export interface ReminderFilters extends PaginationParams {
+  status?: ReminderStatus;
+  priority?: ReminderPriority;
+  reminderType?: ReminderType;
+  assignedToId?: string;
+  contactId?: string;
+  dealId?: string;
+  dateRange?: DateRange;
+}
+
+export interface ActivityFilters extends PaginationParams {
+  enactor?: ActivityEnactor;
+  ownerId?: string;
+  contactIds?: string[];
+  dealId?: string;
+  taskId?: string;
+  tags?: string[];
+  dateRange?: DateRange;
+}
+
+export interface ChatFilters extends PaginationParams {
+  source?: ChatSource;
+  contactId?: string;
+  dealId?: string;
+  organisationId?: string;
+  automationId?: string;
+  dateRange?: DateRange;
+}
+
+export interface ExecutionFilters extends PaginationParams {
+  status?: string;
+  chatId?: string;
+  automationId?: string;
+  dateRange?: DateRange;
+}
+
+// ============================================================================
+// STATISTICS & ANALYTICS TYPES
+// ============================================================================
+
+export interface ContactStatistics {
+  total: number;
+  byStage: Record<ContactStage, number>;
+  byPhase: Record<ContactPhase, number>;
+  bySegment: Record<LeadSegment, number>;
+  newThisMonth: number;
+  convertedThisMonth: number;
+  conversionRate: number;
+}
+
+export interface DealStatistics {
+  total: number;
+  totalValue: string;
+  byStage: Record<DealStage, number>;
+  byPhase: Record<DealPhase, number>;
+  averageValue: string;
+  averageProbability: number;
+  wonThisMonth: number;
+  lostThisMonth: number;
+  winRate: number;
+}
+
+export interface OrganisationStatistics {
+  totalContacts: number;
+  totalDeals: number;
+  totalRevenue: string;
+  activeUsers: number;
+  aiTokensRemaining: number;
+  aiTokensUsagePercentage: number;
+}
+
+export interface AutomationStatistics {
+  totalAutomations: number;
+  activeAutomations: number;
+  totalExecutions: number;
+  successfulExecutions: number;
+  failedExecutions: number;
+  successRate: number;
+  executionsBySource: Record<TriggerSource, number>;
+  executionsByType: Record<ResponseType, number>;
+}
+
+// Utility types
+export interface ApiResponse<T> {
+  data?: T;
   error?: string;
   message?: string;
   statusCode: number;
@@ -261,4 +952,55 @@ export enum DateOptions {
   TODAY = "TODAY",
   TOMORROW = "TOMORROW",
   CUSTOM = "CUSTOM",
+}
+
+export enum EmployeeAccess {
+  CONTACTS_READ = "CONTACTS_READ",
+  CONTACTS_WRITE = "CONTACTS_WRITE",
+  DEALS_READ = "DEALS_READ",
+  DEALS_WRITE = "DEALS_WRITE",
+  ACTIVITIES_READ = "ACTIVITIES_READ",
+  ACTIVITIES_WRITE = "ACTIVITIES_WRITE",
+  NOTES_READ = "NOTES_READ",
+  NOTES_WRITE = "NOTES_WRITE",
+  REMINDERS_READ = "REMINDERS_READ",
+  REMINDERS_WRITE = "REMINDERS_WRITE",
+  TASKS_READ = "TASKS_READ",
+  TASKS_WRITE = "TASKS_WRITE",
+  SCHEDULES_READ = "SCHEDULES_READ",
+  SCHEDULES_WRITE = "SCHEDULES_WRITE",
+  AUTOMATIONS_READ = "AUTOMATIONS_READ",
+  AUTOMATIONS_WRITE = "AUTOMATIONS_WRITE",
+  MESSAGES_READ = "MESSAGES_READ",
+  MESSAGES_WRITE = "MESSAGES_WRITE",
+  LEADMAGNETS_READ = "LEADMAGNETS_READ",
+  LEADMAGNETS_WRITE = "LEADMAGNETS_WRITE",
+}
+
+export enum Model {
+  DEAL = "DEAL",
+  CONTACT = "CONTACT",
+  ORGANISATION = "ORGANISATION",
+  ACTIVITY = "ACTIVITY",
+  REMINDER = "REMINDER",
+  MESSAGE_AUTOMATION = "MESSAGE_AUTOMATION",
+  LEAD_MAGNET = "LEAD_MAGNET",
+  TASK = "TASK",
+  NOTE = "NOTE",
+}
+
+export interface FilterView {
+  id: string;
+  name: string;
+  model: Model;
+  displayFields: string[];
+  filterCriteria: Record<string, unknown>; // JSON object for filter conditions
+  sortCriteria?: Array<{
+    field: string;
+    order: "asc" | "desc";
+  }> | null; // JSON array for sort order
+  organisationId: string;
+  createdById: string;
+  createdAt: string; // ISO date string
+  updatedAt: string; // ISO date string
 }

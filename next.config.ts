@@ -1,4 +1,5 @@
 import type { NextConfig } from "next";
+import path from "path";
 
 const securityHeaders = [
   {
@@ -32,6 +33,24 @@ const nextConfig: NextConfig = {
         destination: "http://localhost:8000/api/:path*",
       },
     ];
+  },
+  experimental: {
+    turbo: {
+      resolveAlias: {
+        "proxy-from-env": "./src/lib/proxy-from-env.ts",
+      },
+    },
+  },
+  webpack(config) {
+    config.resolve = config.resolve ?? {};
+    config.resolve.alias = {
+      ...(config.resolve.alias ?? {}),
+      "proxy-from-env": path.resolve(
+        process.cwd(),
+        "src/lib/proxy-from-env.ts"
+      ),
+    };
+    return config;
   },
   /* config options here */
 };
