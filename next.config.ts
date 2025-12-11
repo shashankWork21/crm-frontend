@@ -46,6 +46,11 @@ const nextConfig: NextConfig = {
     };
     return config;
   },
+  turbopack: {
+    resolveAlias: {
+      "proxy-from-env": "./src/lib/proxy-from-env.ts",
+    },
+  },
   /* config options here */
 };
 

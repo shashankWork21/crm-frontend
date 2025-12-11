@@ -1,5 +1,5 @@
 import { validateSession } from "@/actions";
-import TeamPageView from "@/components/views/team-page";
+import TeamPageView from "@/components/views/team/team-page-view";
 import { getTeamMembers } from "@/db/team.queries";
 import { User } from "@/lib/types";
 import { redirect } from "next/navigation";
