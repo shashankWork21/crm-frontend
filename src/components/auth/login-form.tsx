@@ -88,8 +88,8 @@ export default function LoginForm() {
         href="/"
         className="relative z-10 flex items-center gap-2 mb-8 text-white group focus:outline-none focus-visible:ring-2 focus-visible:ring-sunglow-500 rounded-lg px-2 py-1"
       >
-        <Sparkles className="w-8 h-8 text-sunglow-500 group-hover:scale-110 transition-transform" />
-        <span className="text-2xl font-bold tracking-tight">SmartAlgorhythm</span>
+        <img src="/initial_logo.svg" alt="Smart CRM Logo" className="w-10 h-10 group-hover:scale-110 transition-transform" />
+        <span className="text-2xl font-bold tracking-tight">Smart CRM</span>
       </Link>
 
       {/* Card */}

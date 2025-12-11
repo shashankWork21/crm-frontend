@@ -51,8 +51,8 @@ export default function ContactUs() {
             href="/"
             className="text-2xl font-bold text-white tracking-tight flex items-center gap-2 focus:outline-none focus-visible:ring-2 focus-visible:ring-sunglow-500 rounded-lg"
           >
-            <Sparkles className="w-7 h-7 text-sunglow-500" />
-            <span>SmartAlgorhythm</span>
+            <img src="/initial_logo.svg" alt="Smart CRM Logo" className="w-10 h-10" />
+            <span>Smart CRM</span>
           </Link>
           <Link href="/login">
             <Button
@@ -77,7 +77,7 @@ export default function ContactUs() {
             <span className="text-sunglow-500"> Conversation</span>
           </h1>
           <p className="text-xl text-white/60 max-w-2xl mx-auto">
-            Have questions about SmartAlgorhythm? We&apos;re here to help you
+            Have questions about Smart CRM? We&apos;re here to help you
             succeed. Reach out and let&apos;s discuss how we can transform your
             business.
           </p>
@@ -368,7 +368,7 @@ export default function ContactUs() {
               Ready to Transform Your Business?
             </h2>
             <p className="text-white/60 mb-8 max-w-xl mx-auto">
-              Start your free trial today and see how SmartAlgorhythm can help
+              Start your free trial today and see how Smart CRM can help
               you close more clients with less effort.
             </p>
             <Link href="/register">

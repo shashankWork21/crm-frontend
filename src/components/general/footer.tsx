@@ -17,8 +17,8 @@ export default function Footer() {
               href="/"
               className="inline-flex items-center gap-2 text-white font-bold text-xl mb-4 hover:opacity-90 transition-opacity"
             >
-              <Sparkles className="w-6 h-6 text-amber-400" />
-              <span>SmartAlgorhythm</span>
+              <img src="/initial_logo.svg" alt="Smart CRM Logo" className="w-8 h-8" />
+              <span>Smart CRM by SmartAlgorhythm</span>
             </Link>
             <p className="text-slate-400 text-sm leading-relaxed mb-6 max-w-sm">
               Intelligent CRM solutions that help coaches and creators build

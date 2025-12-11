@@ -31,7 +31,7 @@ export default function AboutPage() {
           <div className="text-center">
             <h1 className="text-5xl md:text-6xl font-bold text-slate-900 mb-6">
               About
-              <span className="text-slate-600 block">SmartAlgorhythm CRM</span>
+              <span className="text-slate-600 block">Smart CRM</span>
             </h1>
 
             <p className="text-xl text-slate-600 max-w-3xl mx-auto mb-10 leading-relaxed">
@@ -53,7 +53,7 @@ export default function AboutPage() {
               </h2>
               <div className="space-y-6 text-lg text-slate-600 leading-relaxed">
                 <p>
-                  Founded in 2025, SmartAlgorhythm CRM was born from a simple
+                  Founded in 2025, Smart CRM was born from a simple
                   observation: traditional CRM systems were too complex, too
                   rigid, and didn&apos;t adapt to the way modern businesses
                   actually work.
