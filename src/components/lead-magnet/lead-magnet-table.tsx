@@ -24,9 +24,12 @@ export default function LeadMagnetTable({ leadMagnets }: LeadMagnetTableProps) {
         <div className="w-20 h-20 rounded-2xl bg-slate-100 flex items-center justify-center mb-6">
           <FileText className="w-10 h-10 text-slate-400" />
         </div>
-        <h3 className="text-xl font-semibold text-slate-900 mb-2">No Lead Magnets Yet</h3>
+        <h3 className="text-xl font-semibold text-slate-900 mb-2">
+          No Lead Magnets Yet
+        </h3>
         <p className="text-slate-500 text-center max-w-md mb-8">
-          You haven&apos;t created any lead magnets yet. Get started by creating your first lead magnet to capture and nurture leads.
+          You haven&apos;t created any lead magnets yet. Get started by creating
+          your first lead magnet to capture and nurture leads.
         </p>
         <Link href="/lead-magnets/new">
           <Button className="bg-oxford-blue hover:bg-oxford-blue-600 text-white font-semibold px-6 py-5 rounded-xl shadow-md hover:shadow-lg transition-all">
@@ -67,7 +70,7 @@ export default function LeadMagnetTable({ leadMagnets }: LeadMagnetTableProps) {
               >
                 <TableCell className="py-4 px-6">
                   <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-xl bg-amber-500/10 flex items-center justify-center flex-shrink-0">
+                    <div className="w-10 h-10 rounded-xl bg-amber-500/10 flex items-center justify-center shrink-0">
                       <File className="w-5 h-5 text-amber-500" />
                     </div>
                     <div>
@@ -80,7 +83,9 @@ export default function LeadMagnetTable({ leadMagnets }: LeadMagnetTableProps) {
                 <TableCell className="py-4 px-6">
                   <p className="text-slate-600 line-clamp-2">
                     {leadMagnet.description || (
-                      <span className="text-slate-300 italic">No description</span>
+                      <span className="text-slate-300 italic">
+                        No description
+                      </span>
                     )}
                   </p>
                 </TableCell>
@@ -121,12 +126,9 @@ export default function LeadMagnetTable({ leadMagnets }: LeadMagnetTableProps) {
       {/* Mobile Cards */}
       <div className="md:hidden divide-y divide-slate-100">
         {leadMagnets.map((leadMagnet) => (
-          <div
-            key={leadMagnet.id}
-            className="p-5"
-          >
+          <div key={leadMagnet.id} className="p-5">
             <div className="flex items-start gap-4 mb-4">
-              <div className="w-12 h-12 rounded-xl bg-amber-500/10 flex items-center justify-center flex-shrink-0">
+              <div className="w-12 h-12 rounded-xl bg-amber-500/10 flex items-center justify-center shrink-0">
                 <File className="w-6 h-6 text-amber-500" />
               </div>
               <div className="flex-1 min-w-0">

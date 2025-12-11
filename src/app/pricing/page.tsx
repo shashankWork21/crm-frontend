@@ -64,7 +64,7 @@ export default function PricingPage() {
               <CardContent className="pt-0">
                 <ul className="space-y-4 mb-8">
                   <li className="flex items-start gap-3">
-                    <Check className="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" />
+                    <Check className="w-5 h-5 text-green-500 mt-0.5 shrink-0" />
                     <div>
                       <span className="font-medium">Contact Management</span>
                       <p className="text-sm text-slate-600">
@@ -74,7 +74,7 @@ export default function PricingPage() {
                     </div>
                   </li>
                   <li className="flex items-start gap-3">
-                    <Check className="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" />
+                    <Check className="w-5 h-5 text-green-500 mt-0.5 shrink-0" />
                     <div>
                       <span className="font-medium">Activity Tracking</span>
                       <p className="text-sm text-slate-600">
@@ -83,7 +83,7 @@ export default function PricingPage() {
                     </div>
                   </li>
                   <li className="flex items-start gap-3">
-                    <Check className="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" />
+                    <Check className="w-5 h-5 text-green-500 mt-0.5 shrink-0" />
                     <div>
                       <span className="font-medium">
                         Organization Management
@@ -94,7 +94,7 @@ export default function PricingPage() {
                     </div>
                   </li>
                   <li className="flex items-start gap-3">
-                    <Check className="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" />
+                    <Check className="w-5 h-5 text-green-500 mt-0.5 shrink-0" />
                     <div>
                       <span className="font-medium">Team Collaboration</span>
                       <p className="text-sm text-slate-600">
@@ -103,7 +103,7 @@ export default function PricingPage() {
                     </div>
                   </li>
                   <li className="flex items-start gap-3">
-                    <Check className="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" />
+                    <Check className="w-5 h-5 text-green-500 mt-0.5 shrink-0" />
                     <div>
                       <span className="font-medium">Smart Tagging</span>
                       <p className="text-sm text-slate-600">
@@ -112,7 +112,7 @@ export default function PricingPage() {
                     </div>
                   </li>
                   <li className="flex items-start gap-3">
-                    <Check className="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" />
+                    <Check className="w-5 h-5 text-green-500 mt-0.5 shrink-0" />
                     <div>
                       <span className="font-medium">Basic Analytics</span>
                       <p className="text-sm text-slate-600">
@@ -174,7 +174,7 @@ export default function PricingPage() {
 
                 <ul className="space-y-4 mb-8">
                   <li className="flex items-start gap-3">
-                    <Check className="w-5 h-5 text-blue-500 mt-0.5 flex-shrink-0" />
+                    <Check className="w-5 h-5 text-blue-500 mt-0.5 shrink-0" />
                     <div>
                       <span className="font-medium">
                         Organizational Clustering
@@ -186,7 +186,7 @@ export default function PricingPage() {
                     </div>
                   </li>
                   <li className="flex items-start gap-3">
-                    <Check className="w-5 h-5 text-blue-500 mt-0.5 flex-shrink-0" />
+                    <Check className="w-5 h-5 text-blue-500 mt-0.5 shrink-0" />
                     <div>
                       <span className="font-medium">
                         Advanced Team Management
@@ -197,7 +197,7 @@ export default function PricingPage() {
                     </div>
                   </li>
                   <li className="flex items-start gap-3">
-                    <Check className="w-5 h-5 text-blue-500 mt-0.5 flex-shrink-0" />
+                    <Check className="w-5 h-5 text-blue-500 mt-0.5 shrink-0" />
                     <div>
                       <span className="font-medium">Follow-up Tracking</span>
                       <p className="text-sm text-slate-600">
@@ -206,7 +206,7 @@ export default function PricingPage() {
                     </div>
                   </li>
                   <li className="flex items-start gap-3">
-                    <Check className="w-5 h-5 text-blue-500 mt-0.5 flex-shrink-0" />
+                    <Check className="w-5 h-5 text-blue-500 mt-0.5 shrink-0" />
                     <div>
                       <span className="font-medium">AI Lead Scoring</span>
                       <p className="text-sm text-slate-600">
@@ -215,7 +215,7 @@ export default function PricingPage() {
                     </div>
                   </li>
                   <li className="flex items-start gap-3">
-                    <Check className="w-5 h-5 text-blue-500 mt-0.5 flex-shrink-0" />
+                    <Check className="w-5 h-5 text-blue-500 mt-0.5 shrink-0" />
                     <div>
                       <span className="font-medium">AI Pitch Generation</span>
                       <p className="text-sm text-slate-600">
@@ -224,7 +224,7 @@ export default function PricingPage() {
                     </div>
                   </li>
                   <li className="flex items-start gap-3">
-                    <Check className="w-5 h-5 text-blue-500 mt-0.5 flex-shrink-0" />
+                    <Check className="w-5 h-5 text-blue-500 mt-0.5 shrink-0" />
                     <div>
                       <span className="font-medium">AI Follow-up Emails</span>
                       <p className="text-sm text-slate-600">
@@ -233,7 +233,7 @@ export default function PricingPage() {
                     </div>
                   </li>
                   <li className="flex items-start gap-3">
-                    <Check className="w-5 h-5 text-blue-500 mt-0.5 flex-shrink-0" />
+                    <Check className="w-5 h-5 text-blue-500 mt-0.5 shrink-0" />
                     <div>
                       <span className="font-medium">Calendar Integration</span>
                       <p className="text-sm text-slate-600">
@@ -242,7 +242,7 @@ export default function PricingPage() {
                     </div>
                   </li>
                   <li className="flex items-start gap-3">
-                    <Check className="w-5 h-5 text-blue-500 mt-0.5 flex-shrink-0" />
+                    <Check className="w-5 h-5 text-blue-500 mt-0.5 shrink-0" />
                     <div>
                       <span className="font-medium">Advanced Analytics</span>
                       <p className="text-sm text-slate-600">
@@ -251,7 +251,7 @@ export default function PricingPage() {
                     </div>
                   </li>
                   <li className="flex items-start gap-3">
-                    <Check className="w-5 h-5 text-blue-500 mt-0.5 flex-shrink-0" />
+                    <Check className="w-5 h-5 text-blue-500 mt-0.5 shrink-0" />
                     <div>
                       <span className="font-medium">Priority Support</span>
                       <p className="text-sm text-slate-600">
@@ -296,7 +296,7 @@ export default function PricingPage() {
 
                 <ul className="space-y-4 mb-8">
                   <li className="flex items-start gap-3">
-                    <Brain className="w-5 h-5 text-slate-500 mt-0.5 flex-shrink-0" />
+                    <Brain className="w-5 h-5 text-slate-500 mt-0.5 shrink-0" />
                     <div>
                       <span className="font-medium">Lead Scoring</span>
                       <p className="text-sm text-slate-600">
@@ -305,7 +305,7 @@ export default function PricingPage() {
                     </div>
                   </li>
                   <li className="flex items-start gap-3">
-                    <Brain className="w-5 h-5 text-slate-500 mt-0.5 flex-shrink-0" />
+                    <Brain className="w-5 h-5 text-slate-500 mt-0.5 shrink-0" />
                     <div>
                       <span className="font-medium">Pitch Generation</span>
                       <p className="text-sm text-slate-600">
@@ -314,7 +314,7 @@ export default function PricingPage() {
                     </div>
                   </li>
                   <li className="flex items-start gap-3">
-                    <Brain className="w-5 h-5 text-slate-500 mt-0.5 flex-shrink-0" />
+                    <Brain className="w-5 h-5 text-slate-500 mt-0.5 shrink-0" />
                     <div>
                       <span className="font-medium">Email Generation</span>
                       <p className="text-sm text-slate-600">
@@ -323,7 +323,7 @@ export default function PricingPage() {
                     </div>
                   </li>
                   <li className="flex items-start gap-3">
-                    <Brain className="w-5 h-5 text-slate-500 mt-0.5 flex-shrink-0" />
+                    <Brain className="w-5 h-5 text-slate-500 mt-0.5 shrink-0" />
                     <div>
                       <span className="font-medium">Smart Insights</span>
                       <p className="text-sm text-slate-600">

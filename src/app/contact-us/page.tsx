@@ -20,7 +20,9 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 
 export default function ContactUs() {
-  const [formStatus, setFormStatus] = useState<"idle" | "submitting" | "success" | "error">("idle");
+  const [formStatus, setFormStatus] = useState<
+    "idle" | "submitting" | "success" | "error"
+  >("idle");
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -75,8 +77,9 @@ export default function ContactUs() {
             <span className="text-sunglow-500"> Conversation</span>
           </h1>
           <p className="text-xl text-white/60 max-w-2xl mx-auto">
-            Have questions about SmartAlgorhythm? We&apos;re here to help you succeed.
-            Reach out and let&apos;s discuss how we can transform your business.
+            Have questions about SmartAlgorhythm? We&apos;re here to help you
+            succeed. Reach out and let&apos;s discuss how we can transform your
+            business.
           </p>
         </div>
       </section>
@@ -88,15 +91,21 @@ export default function ContactUs() {
             {/* Contact Form */}
             <div className="lg:col-span-3">
               <div className="p-8 rounded-3xl bg-white/[0.03] border border-white/10 backdrop-blur-sm">
-                <h2 className="text-2xl font-bold text-white mb-6">Send us a Message</h2>
+                <h2 className="text-2xl font-bold text-white mb-6">
+                  Send us a Message
+                </h2>
 
                 {formStatus === "success" ? (
                   <div className="flex flex-col items-center justify-center py-12 text-center">
                     <div className="w-16 h-16 rounded-full bg-green-500/20 flex items-center justify-center mb-4">
                       <CheckCircle2 className="w-8 h-8 text-green-500" />
                     </div>
-                    <h3 className="text-xl font-semibold text-white mb-2">Message Sent!</h3>
-                    <p className="text-white/60">We&apos;ll get back to you within 24 hours.</p>
+                    <h3 className="text-xl font-semibold text-white mb-2">
+                      Message Sent!
+                    </h3>
+                    <p className="text-white/60">
+                      We&apos;ll get back to you within 24 hours.
+                    </p>
                   </div>
                 ) : (
                   <form onSubmit={handleSubmit} className="space-y-6">
@@ -193,14 +202,18 @@ export default function ContactUs() {
             {/* Contact Info */}
             <div className="lg:col-span-2 space-y-6">
               {/* Quick Contact Cards */}
-              <div className="p-6 rounded-2xl bg-gradient-to-br from-sunglow-500/10 to-transparent border border-sunglow-500/20">
+              <div className="p-6 rounded-2xl bg-linear-to-br from-sunglow-500/10 to-transparent border border-sunglow-500/20">
                 <div className="flex items-start gap-4">
-                  <div className="w-12 h-12 rounded-xl bg-sunglow-500/20 flex items-center justify-center flex-shrink-0">
+                  <div className="w-12 h-12 rounded-xl bg-sunglow-500/20 flex items-center justify-center shrink-0">
                     <Mail className="w-6 h-6 text-sunglow-500" />
                   </div>
                   <div>
-                    <h3 className="text-lg font-semibold text-white mb-1">Email Us</h3>
-                    <p className="text-white/50 text-sm mb-2">For general inquiries</p>
+                    <h3 className="text-lg font-semibold text-white mb-1">
+                      Email Us
+                    </h3>
+                    <p className="text-white/50 text-sm mb-2">
+                      For general inquiries
+                    </p>
                     <a
                       href="mailto:support@smartalgorhythm.com"
                       className="text-sunglow-500 hover:text-sunglow-400 font-medium transition-colors"
@@ -213,12 +226,16 @@ export default function ContactUs() {
 
               <div className="p-6 rounded-2xl bg-white/[0.03] border border-white/10">
                 <div className="flex items-start gap-4">
-                  <div className="w-12 h-12 rounded-xl bg-white/10 flex items-center justify-center flex-shrink-0">
+                  <div className="w-12 h-12 rounded-xl bg-white/10 flex items-center justify-center shrink-0">
                     <Phone className="w-6 h-6 text-white" />
                   </div>
                   <div>
-                    <h3 className="text-lg font-semibold text-white mb-1">Call Us</h3>
-                    <p className="text-white/50 text-sm mb-2">Mon-Fri, 9AM-6PM IST</p>
+                    <h3 className="text-lg font-semibold text-white mb-1">
+                      Call Us
+                    </h3>
+                    <p className="text-white/50 text-sm mb-2">
+                      Mon-Fri, 9AM-6PM IST
+                    </p>
                     <a
                       href="tel:+917349172510"
                       className="text-white hover:text-sunglow-500 font-medium transition-colors"
@@ -231,16 +248,23 @@ export default function ContactUs() {
 
               <div className="p-6 rounded-2xl bg-white/[0.03] border border-white/10">
                 <div className="flex items-start gap-4">
-                  <div className="w-12 h-12 rounded-xl bg-white/10 flex items-center justify-center flex-shrink-0">
+                  <div className="w-12 h-12 rounded-xl bg-white/10 flex items-center justify-center shrink-0">
                     <MapPin className="w-6 h-6 text-white" />
                   </div>
                   <div>
-                    <h3 className="text-lg font-semibold text-white mb-1">Visit Us</h3>
-                    <p className="text-white/50 text-sm mb-2">By appointment only</p>
+                    <h3 className="text-lg font-semibold text-white mb-1">
+                      Visit Us
+                    </h3>
+                    <p className="text-white/50 text-sm mb-2">
+                      By appointment only
+                    </p>
                     <address className="text-white/70 not-italic text-sm leading-relaxed">
-                      Icosihenagon Technologies LLP<br />
-                      943, 16th cross, 1st stage<br />
-                      Kumaraswamy Layout, Bengaluru<br />
+                      Icosihenagon Technologies LLP
+                      <br />
+                      943, 16th cross, 1st stage
+                      <br />
+                      Kumaraswamy Layout, Bengaluru
+                      <br />
                       Karnataka 560078
                     </address>
                   </div>
@@ -249,19 +273,25 @@ export default function ContactUs() {
 
               <div className="p-6 rounded-2xl bg-white/[0.03] border border-white/10">
                 <div className="flex items-start gap-4">
-                  <div className="w-12 h-12 rounded-xl bg-white/10 flex items-center justify-center flex-shrink-0">
+                  <div className="w-12 h-12 rounded-xl bg-white/10 flex items-center justify-center shrink-0">
                     <Clock className="w-6 h-6 text-white" />
                   </div>
                   <div>
-                    <h3 className="text-lg font-semibold text-white mb-3">Business Hours</h3>
+                    <h3 className="text-lg font-semibold text-white mb-3">
+                      Business Hours
+                    </h3>
                     <div className="space-y-2 text-sm">
                       <div className="flex justify-between">
                         <span className="text-white/50">Monday - Friday</span>
-                        <span className="text-white font-medium">9:00 AM - 6:00 PM</span>
+                        <span className="text-white font-medium">
+                          9:00 AM - 6:00 PM
+                        </span>
                       </div>
                       <div className="flex justify-between">
                         <span className="text-white/50">Saturday</span>
-                        <span className="text-white font-medium">10:00 AM - 2:00 PM</span>
+                        <span className="text-white font-medium">
+                          10:00 AM - 2:00 PM
+                        </span>
                       </div>
                       <div className="flex justify-between">
                         <span className="text-white/50">Sunday</span>
@@ -288,10 +318,13 @@ export default function ContactUs() {
                 <div className="w-10 h-10 rounded-lg bg-sunglow-500/20 flex items-center justify-center">
                   <Building2 className="w-5 h-5 text-sunglow-500" />
                 </div>
-                <h3 className="text-lg font-semibold text-white">Sales & Partnerships</h3>
+                <h3 className="text-lg font-semibold text-white">
+                  Sales & Partnerships
+                </h3>
               </div>
               <p className="text-white/50 text-sm mb-4">
-                Product demos, pricing, enterprise solutions, and partnership opportunities
+                Product demos, pricing, enterprise solutions, and partnership
+                opportunities
               </p>
               <a
                 href="mailto:sales@smartalgorhythm.com"
@@ -307,10 +340,13 @@ export default function ContactUs() {
                 <div className="w-10 h-10 rounded-lg bg-powder-blue-500/20 flex items-center justify-center">
                   <MessageSquare className="w-5 h-5 text-powder-blue-500" />
                 </div>
-                <h3 className="text-lg font-semibold text-white">Technical Support</h3>
+                <h3 className="text-lg font-semibold text-white">
+                  Technical Support
+                </h3>
               </div>
               <p className="text-white/50 text-sm mb-4">
-                Platform issues, integrations, training, and account setup assistance
+                Platform issues, integrations, training, and account setup
+                assistance
               </p>
               <a
                 href="mailto:support@smartalgorhythm.com"
@@ -327,13 +363,13 @@ export default function ContactUs() {
       {/* CTA Section */}
       <section className="relative z-10 px-6 pb-24">
         <div className="max-w-4xl mx-auto">
-          <div className="p-10 rounded-3xl bg-gradient-to-br from-sunglow-500/20 via-sunglow-500/10 to-transparent border border-sunglow-500/30 text-center">
+          <div className="p-10 rounded-3xl bg-linear-to-br from-sunglow-500/20 via-sunglow-500/10 to-transparent border border-sunglow-500/30 text-center">
             <h2 className="text-3xl font-bold text-white mb-4">
               Ready to Transform Your Business?
             </h2>
             <p className="text-white/60 mb-8 max-w-xl mx-auto">
-              Start your free trial today and see how SmartAlgorhythm can help you
-              close more clients with less effort.
+              Start your free trial today and see how SmartAlgorhythm can help
+              you close more clients with less effort.
             </p>
             <Link href="/register">
               <Button className="bg-sunglow-500 hover:bg-sunglow-400 text-rich-black font-bold px-8 py-6 text-lg rounded-xl shadow-lg shadow-sunglow-500/25 hover:shadow-sunglow-500/40 transition-all duration-300 group">

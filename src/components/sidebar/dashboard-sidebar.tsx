@@ -26,11 +26,7 @@ import {
 import { ChevronUp, LogOut, User2, CreditCard, Sparkles } from "lucide-react";
 import { User } from "@/lib/types";
 import { logoutUser } from "@/actions";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from "../ui/tooltip";
+import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
 
 interface DashboardSidebarProps {
   user: User;
@@ -67,9 +63,11 @@ export default function DashboardSidebar({
           href="/dashboard"
           className="flex items-center gap-2 text-white hover:opacity-90 transition-opacity"
         >
-          <Sparkles className="w-6 h-6 text-sunglow-500 flex-shrink-0" />
+          <Sparkles className="w-6 h-6 text-sunglow-500 shrink-0" />
           {!isCollapsed && (
-            <span className="text-lg font-bold whitespace-nowrap">Smart CRM</span>
+            <span className="text-lg font-bold whitespace-nowrap">
+              Smart CRM
+            </span>
           )}
         </Link>
       </SidebarHeader>
@@ -95,19 +93,22 @@ export default function DashboardSidebar({
                         isActive={isActive}
                         className={`
                           relative rounded-xl transition-all duration-200 h-10
-                          ${isActive
-                            ? "bg-sunglow-500/10 text-sunglow-500 hover:bg-sunglow-500/15"
-                            : "text-white/70 hover:bg-white/5 hover:text-white"
+                          ${
+                            isActive
+                              ? "bg-sunglow-500/10 text-sunglow-500 hover:bg-sunglow-500/15"
+                              : "text-white/70 hover:bg-white/5 hover:text-white"
                           }
                           ${isCollapsed ? "justify-center px-0" : "px-3"}
                         `}
                       >
                         <Link
                           href={item.url}
-                          className={`flex items-center gap-3 w-full ${isCollapsed ? "justify-center" : ""}`}
+                          className={`flex items-center gap-3 w-full ${
+                            isCollapsed ? "justify-center" : ""
+                          }`}
                         >
                           <item.icon
-                            className={`w-5 h-5 flex-shrink-0 ${
+                            className={`w-5 h-5 shrink-0 ${
                               isActive ? "text-sunglow-500" : "text-white/50"
                             }`}
                           />
@@ -133,7 +134,10 @@ export default function DashboardSidebar({
                             <TooltipTrigger asChild>
                               {menuButton}
                             </TooltipTrigger>
-                            <TooltipContent side="right" className="bg-oxford-blue border-white/10 text-white">
+                            <TooltipContent
+                              side="right"
+                              className="bg-oxford-blue border-white/10 text-white"
+                            >
                               {item.title}
                             </TooltipContent>
                           </Tooltip>
@@ -161,9 +165,13 @@ export default function DashboardSidebar({
                     ${isCollapsed ? "justify-center px-0" : "px-2"}
                   `}
                 >
-                  <div className={`flex items-center gap-3 ${isCollapsed ? "justify-center" : ""}`}>
+                  <div
+                    className={`flex items-center gap-3 ${
+                      isCollapsed ? "justify-center" : ""
+                    }`}
+                  >
                     {/* Avatar */}
-                    <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-sunglow-400 to-sunglow-600 flex items-center justify-center text-rich-black font-bold text-sm flex-shrink-0">
+                    <div className="w-8 h-8 rounded-lg bg-linear-to-br from-sunglow-400 to-sunglow-600 flex items-center justify-center text-rich-black font-bold text-sm shrink-0">
                       {user.firstName?.[0]}
                       {user.lastName?.[0]}
                     </div>
@@ -177,7 +185,7 @@ export default function DashboardSidebar({
                             {user.email}
                           </p>
                         </div>
-                        <ChevronUp className="w-4 h-4 text-white/40 flex-shrink-0" />
+                        <ChevronUp className="w-4 h-4 text-white/40 shrink-0" />
                       </>
                     )}
                   </div>

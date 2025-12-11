@@ -60,7 +60,9 @@ export default function ContactTable({ contacts }: ContactTableProps) {
                   {contact?.email || <span className="text-slate-300">—</span>}
                 </TableCell>
                 <TableCell className="py-4 px-6 text-slate-600">
-                  {contact?.phoneNumber || <span className="text-slate-300">—</span>}
+                  {contact?.phoneNumber || (
+                    <span className="text-slate-300">—</span>
+                  )}
                 </TableCell>
                 <TableCell className="py-4 px-6">
                   {contact?.gender ? (
@@ -82,7 +84,7 @@ export default function ContactTable({ contacts }: ContactTableProps) {
         {contacts.map((contact) => (
           <div key={contact.id} className="p-4">
             <div className="flex items-start gap-3">
-              <div className="w-12 h-12 rounded-full bg-oxford-blue/10 flex items-center justify-center text-oxford-blue font-semibold flex-shrink-0">
+              <div className="w-12 h-12 rounded-full bg-oxford-blue/10 flex items-center justify-center text-oxford-blue font-semibold shrink-0">
                 {contact?.name?.charAt(0)?.toUpperCase() || "?"}
               </div>
               <div className="flex-1 min-w-0">

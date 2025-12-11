@@ -179,21 +179,21 @@ export default function PrivacyPolicy() {
                       </h3>
                       <ul className="space-y-2 text-rich-black">
                         <li className="flex items-start">
-                          <span className="w-2 h-2 bg-powder-blue-400 rounded-full mt-2 mr-3 flex-shrink-0"></span>
+                          <span className="w-2 h-2 bg-powder-blue-400 rounded-full mt-2 mr-3 shrink-0"></span>
                           <span>
                             End-to-end encryption for data transmission
                           </span>
                         </li>
                         <li className="flex items-start">
-                          <span className="w-2 h-2 bg-powder-blue-400 rounded-full mt-2 mr-3 flex-shrink-0"></span>
+                          <span className="w-2 h-2 bg-powder-blue-400 rounded-full mt-2 mr-3 shrink-0"></span>
                           <span>AES-256 encryption for data at rest</span>
                         </li>
                         <li className="flex items-start">
-                          <span className="w-2 h-2 bg-powder-blue-400 rounded-full mt-2 mr-3 flex-shrink-0"></span>
+                          <span className="w-2 h-2 bg-powder-blue-400 rounded-full mt-2 mr-3 shrink-0"></span>
                           <span>Multi-factor authentication</span>
                         </li>
                         <li className="flex items-start">
-                          <span className="w-2 h-2 bg-powder-blue-400 rounded-full mt-2 mr-3 flex-shrink-0"></span>
+                          <span className="w-2 h-2 bg-powder-blue-400 rounded-full mt-2 mr-3 shrink-0"></span>
                           <span>
                             Regular security audits and penetration testing
                           </span>
@@ -206,21 +206,21 @@ export default function PrivacyPolicy() {
                       </h3>
                       <ul className="space-y-2 text-rich-black">
                         <li className="flex items-start">
-                          <span className="w-2 h-2 bg-powder-blue-400 rounded-full mt-2 mr-3 flex-shrink-0"></span>
+                          <span className="w-2 h-2 bg-powder-blue-400 rounded-full mt-2 mr-3 shrink-0"></span>
                           <span>
                             Access controls and role-based permissions
                           </span>
                         </li>
                         <li className="flex items-start">
-                          <span className="w-2 h-2 bg-powder-blue-400 rounded-full mt-2 mr-3 flex-shrink-0"></span>
+                          <span className="w-2 h-2 bg-powder-blue-400 rounded-full mt-2 mr-3 shrink-0"></span>
                           <span>Employee training on data protection</span>
                         </li>
                         <li className="flex items-start">
-                          <span className="w-2 h-2 bg-powder-blue-400 rounded-full mt-2 mr-3 flex-shrink-0"></span>
+                          <span className="w-2 h-2 bg-powder-blue-400 rounded-full mt-2 mr-3 shrink-0"></span>
                           <span>Incident response procedures</span>
                         </li>
                         <li className="flex items-start">
-                          <span className="w-2 h-2 bg-powder-blue-400 rounded-full mt-2 mr-3 flex-shrink-0"></span>
+                          <span className="w-2 h-2 bg-powder-blue-400 rounded-full mt-2 mr-3 shrink-0"></span>
                           <span>Regular backup and disaster recovery</span>
                         </li>
                       </ul>

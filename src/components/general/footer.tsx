@@ -5,10 +5,7 @@ export default function Footer() {
   return (
     <footer className="relative bg-slate-900 border-t border-slate-800">
       {/* Subtle Gradient */}
-      <div
-        className="absolute inset-0 pointer-events-none"
-        aria-hidden="true"
-      >
+      <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
         <div className="absolute bottom-0 left-1/4 w-[400px] h-[200px] bg-oxford-blue/10 rounded-full blur-[100px]" />
       </div>
 
@@ -38,7 +35,7 @@ export default function Footer() {
                 support@smartalgorhythm.com
               </a>
               <div className="flex items-start gap-2 text-slate-400 text-sm">
-                <MapPin className="w-4 h-4 mt-0.5 flex-shrink-0" />
+                <MapPin className="w-4 h-4 mt-0.5 shrink-0" />
                 <span>Bengaluru, Karnataka, India</span>
               </div>
             </div>
@@ -140,7 +137,8 @@ export default function Footer() {
         <div className="mt-12 pt-8 border-t border-slate-800">
           <div className="flex flex-col md:flex-row justify-between items-center gap-4">
             <p className="text-slate-500 text-sm">
-              © {new Date().getFullYear()} Icosihenagon Technologies LLP. All rights reserved.
+              © {new Date().getFullYear()} Icosihenagon Technologies LLP. All
+              rights reserved.
             </p>
             <div className="flex items-center gap-6">
               <Link
