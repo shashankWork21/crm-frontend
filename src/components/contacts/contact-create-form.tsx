@@ -1,7 +1,7 @@
 "use client";
 
 import { startTransition, useActionState, useState } from "react";
-import { Loader2, User, Mail, Phone } from "lucide-react";
+import { Loader2, User, Mail, Phone, ArrowLeft } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
@@ -15,8 +15,7 @@ import {
 } from "../ui/select";
 import { Gender } from "@/lib/types";
 import { createContact } from "@/actions/contact";
-
-// Placeholder action - replace with your actual action
+import Link from "next/link";
 
 interface ContactCreateFormProps {
   organisationId: string;
@@ -26,7 +25,6 @@ export default function ContactCreateForm({
   organisationId,
 }: ContactCreateFormProps) {
   const [isSubmitting, setIsSubmitting] = useState(false);
-  console.log("Organisation ID:", organisationId);
 
   const [formState, action] = useActionState(
     createContact.bind(null, organisationId),
@@ -48,38 +46,42 @@ export default function ContactCreateForm({
   }
 
   return (
-    <Card className="mx-auto mt-10 w-full md:w-3/5 xl:w-2/5 border-powder-blue-700/40 bg-white shadow-lg">
-      <CardHeader className="space-y-3">
-        <div className="flex items-center gap-3">
-          <div className="flex h-12 w-12 items-center justify-center rounded-full bg-oxford-blue-500 shadow-md">
-            <User className="h-6 w-6 text-white" />
+    <Card className="bg-white rounded-2xl shadow-sm border border-slate-200">
+      <CardHeader className="pb-6">
+        <div className="flex items-center gap-4">
+          <div className="w-12 h-12 rounded-xl bg-oxford-blue flex items-center justify-center">
+            <User className="w-6 h-6 text-white" />
           </div>
-          <CardTitle className="text-2xl font-semibold text-rich-black">
-            Create New Contact
-          </CardTitle>
+          <div>
+            <CardTitle className="text-2xl font-bold text-slate-900">
+              Create New Contact
+            </CardTitle>
+            <p className="text-slate-500 text-sm mt-1">
+              Add a new contact to your organization
+            </p>
+          </div>
         </div>
       </CardHeader>
       <CardContent>
         <form onSubmit={handleSubmit} className="space-y-6">
-          {/* Name - Required */}
+          {/* Name */}
           <div className="space-y-2">
-            <Label
-              htmlFor="name"
-              className="flex items-center gap-2 text-sm font-medium text-rich-black-500"
-            >
-              <User className="h-4 w-4 text-oxford-blue-500" />
+            <Label htmlFor="name" className="text-slate-700 font-medium">
               Name <span className="text-red-500">*</span>
             </Label>
-            <Input
-              id="name"
-              name="name"
-              type="text"
-              placeholder="Enter contact name"
-              required
-              className="h-11 border border-powder-blue-700/40 bg-white focus:border-oxford-blue-400 focus:ring-oxford-blue-400"
-            />
+            <div className="relative">
+              <User className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
+              <Input
+                id="name"
+                name="name"
+                type="text"
+                placeholder="Enter contact name"
+                required
+                className="h-12 pl-11 bg-white border-slate-200 rounded-xl focus:border-oxford-blue focus:ring-oxford-blue/20"
+              />
+            </div>
             {!!formState.errors.name && (
-              <ul className="space-y-1 text-sm text-red-500">
+              <ul className="text-sm text-red-500">
                 {formState.errors.name.map((error: string, index: number) => (
                   <li key={index}>{error}</li>
                 ))}
@@ -87,52 +89,48 @@ export default function ContactCreateForm({
             )}
           </div>
 
-          {/* Phone Number - Required */}
+          {/* Phone */}
           <div className="space-y-2">
-            <Label
-              htmlFor="phoneNumber"
-              className="flex items-center gap-2 text-sm font-medium text-rich-black-500"
-            >
-              <Phone className="h-4 w-4 text-oxford-blue-500" />
+            <Label htmlFor="phoneNumber" className="text-slate-700 font-medium">
               Phone Number <span className="text-red-500">*</span>
             </Label>
-            <Input
-              id="phoneNumber"
-              name="phoneNumber"
-              type="tel"
-              placeholder="Enter phone number"
-              required
-              className="h-11 border border-powder-blue-700/40 bg-white focus:border-oxford-blue-400 focus:ring-oxford-blue-400"
-            />
+            <div className="relative">
+              <Phone className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
+              <Input
+                id="phoneNumber"
+                name="phoneNumber"
+                type="tel"
+                placeholder="Enter phone number"
+                required
+                className="h-12 pl-11 bg-white border-slate-200 rounded-xl focus:border-oxford-blue focus:ring-oxford-blue/20"
+              />
+            </div>
             {!!formState.errors.phoneNumber && (
-              <ul className="space-y-1 text-sm text-red-500">
-                {formState.errors.phoneNumber.map(
-                  (error: string, index: number) => (
-                    <li key={index}>{error}</li>
-                  )
-                )}
+              <ul className="text-sm text-red-500">
+                {formState.errors.phoneNumber.map((error: string, index: number) => (
+                  <li key={index}>{error}</li>
+                ))}
               </ul>
             )}
           </div>
 
-          {/* Email - Optional */}
+          {/* Email */}
           <div className="space-y-2">
-            <Label
-              htmlFor="email"
-              className="flex items-center gap-2 text-sm font-medium text-rich-black-500"
-            >
-              <Mail className="h-4 w-4 text-oxford-blue-500" />
+            <Label htmlFor="email" className="text-slate-700 font-medium">
               Email
             </Label>
-            <Input
-              id="email"
-              name="email"
-              type="email"
-              placeholder="Enter email address"
-              className="h-11 border border-powder-blue-700/40 bg-white focus:border-oxford-blue-400 focus:ring-oxford-blue-400"
-            />
+            <div className="relative">
+              <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
+              <Input
+                id="email"
+                name="email"
+                type="email"
+                placeholder="Enter email address"
+                className="h-12 pl-11 bg-white border-slate-200 rounded-xl focus:border-oxford-blue focus:ring-oxford-blue/20"
+              />
+            </div>
             {!!formState.errors.email && (
-              <ul className="space-y-1 text-sm text-red-500">
+              <ul className="text-sm text-red-500">
                 {formState.errors.email.map((error: string, index: number) => (
                   <li key={index}>{error}</li>
                 ))}
@@ -140,42 +138,58 @@ export default function ContactCreateForm({
             )}
           </div>
 
-          {/* Gender - Optional */}
+          {/* Gender */}
           <div className="space-y-2">
-            <Label
-              htmlFor="gender"
-              className="flex items-center gap-2 text-sm font-medium text-rich-black-500"
-            >
+            <Label htmlFor="gender" className="text-slate-700 font-medium">
               Gender
             </Label>
             <Select name="gender">
-              <SelectTrigger className="w-full !h-11 bg-white border-gray-200 focus:border-powder-blue-500 focus:ring-powder-blue-500">
+              <SelectTrigger className="h-12 bg-white border-slate-200 rounded-xl focus:border-oxford-blue focus:ring-oxford-blue/20">
                 <SelectValue placeholder="Select gender" />
               </SelectTrigger>
-              <SelectContent className="bg-white">
+              <SelectContent className="bg-white border-slate-200 rounded-xl">
                 <SelectItem value={Gender.MALE}>Male</SelectItem>
                 <SelectItem value={Gender.FEMALE}>Female</SelectItem>
                 <SelectItem value={Gender.OTHER}>Other</SelectItem>
               </SelectContent>
             </Select>
             {!!formState.errors?.gender && (
-              <ul className="space-y-1 text-sm text-red-500">
-                {formState.errors?.gender.map(
-                  (error: string, index: number) => (
-                    <li key={index}>{error}</li>
-                  )
-                )}
+              <ul className="text-sm text-red-500">
+                {formState.errors?.gender.map((error: string, index: number) => (
+                  <li key={index}>{error}</li>
+                ))}
               </ul>
             )}
           </div>
-          {/* Contact Stage - Required with default */}
 
-          {/* Action Buttons */}
+          {/* Success/Error Message */}
+          {formState.message && (
+            <div
+              className={`p-4 rounded-xl text-sm font-medium ${
+                formState.success
+                  ? "bg-green-50 text-green-700 border border-green-200"
+                  : "bg-red-50 text-red-700 border border-red-200"
+              }`}
+            >
+              {formState.message}
+            </div>
+          )}
+
+          {/* Submit Button */}
           <div className="flex gap-4 pt-4">
+            <Link href="/contacts" className="flex-1">
+              <Button
+                type="button"
+                variant="outline"
+                className="w-full h-12 border-slate-200 text-slate-700 hover:bg-slate-50 rounded-xl font-semibold"
+              >
+                Cancel
+              </Button>
+            </Link>
             <Button
               type="submit"
               disabled={isSubmitting}
-              className="flex-1 h-12 bg-sunglow hover:bg-sunglow-600 text-rich-black font-semibold text-lg transition-all duration-200 transform hover:scale-[1.02] disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none shadow-lg cursor-pointer"
+              className="flex-1 h-12 bg-oxford-blue hover:bg-oxford-blue-600 text-white font-semibold rounded-xl shadow-md hover:shadow-lg transition-all disabled:opacity-50"
             >
               {isSubmitting ? (
                 <div className="flex items-center gap-2">

@@ -9,7 +9,7 @@ import {
   DialogDescription,
   DialogHeader,
 } from "../ui/dialog";
-import { Trash2 } from "lucide-react";
+import { Trash2, AlertTriangle } from "lucide-react";
 import { DeleteFormProps } from "@/lib/types";
 
 export interface DeleteDialogProps {
@@ -33,25 +33,34 @@ export default function DeleteDialog({
     <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
       <DialogTrigger asChild>
         <button
-          type="submit"
-          className="w-6 h-6 p-0 cursor-pointer"
+          type="button"
+          className="w-8 h-8 rounded-lg bg-red-50 hover:bg-red-100 flex items-center justify-center transition-all duration-200 group focus:outline-none focus-visible:ring-2 focus-visible:ring-red-500 focus-visible:ring-offset-2 focus-visible:ring-offset-white"
           onClick={() => setDialogOpen(true)}
+          aria-label="Delete"
         >
-          <Trash2 className="text-red-700 hover:text-red-800" />
+          <Trash2 className="w-4 h-4 text-red-500 group-hover:text-red-600 transition-colors" />
         </button>
       </DialogTrigger>
-      <DialogContent className="bg-gradient-to-br from-slate-200 to-slate-300 border-none">
-        <DialogHeader>
-          <DialogTitle className="text-center text-2xl font-bold">
+      <DialogContent className="bg-white border border-slate-200 rounded-2xl shadow-xl max-w-md">
+        <DialogHeader className="text-center pb-2">
+          {/* Warning Icon */}
+          <div className="w-14 h-14 rounded-full bg-red-50 border border-red-100 flex items-center justify-center mx-auto mb-4">
+            <AlertTriangle className="w-7 h-7 text-red-500" />
+          </div>
+          <DialogTitle className="text-xl font-bold text-slate-900">
             {title}
           </DialogTitle>
         </DialogHeader>
-        <DialogDescription>{description}</DialogDescription>
-        <DeleteForm
-          setOpen={setDialogOpen}
-          id={id}
-          successCallback={successCallback}
-        />
+        <DialogDescription className="text-center text-slate-500 pb-4">
+          {description}
+        </DialogDescription>
+        <div className="border-t border-slate-100 pt-4">
+          <DeleteForm
+            setOpen={setDialogOpen}
+            id={id}
+            successCallback={successCallback}
+          />
+        </div>
       </DialogContent>
     </Dialog>
   );

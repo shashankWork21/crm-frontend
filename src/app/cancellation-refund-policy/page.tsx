@@ -4,7 +4,7 @@ export default function CancellationRefundPolicy() {
       <div className="max-w-4xl mx-auto px-6">
         <div className="bg-white rounded-lg shadow-lg overflow-hidden">
           {/* Header */}
-          <div className="bg-gradient-to-r from-blue-600 to-blue-700 px-8 py-12">
+          <div className="bg-linear-to-r from-blue-600 to-blue-700 px-8 py-12">
             <h1 className="text-4xl font-bold text-white mb-4">
               Cancellation and Refund Policy
             </h1>

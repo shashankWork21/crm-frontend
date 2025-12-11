@@ -23,10 +23,10 @@ import {
 
 export default function AboutPage() {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-slate-50">
+    <div className="min-h-screen bg-linear-to-br from-slate-50 via-white to-slate-50">
       {/* Hero Section */}
       <section className="relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-r from-slate-600/10 to-slate-800/10"></div>
+        <div className="absolute inset-0 bg-linear-to-r from-slate-600/10 to-slate-800/10"></div>
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-16">
           <div className="text-center">
             <h1 className="text-5xl md:text-6xl font-bold text-slate-900 mb-6">
@@ -363,7 +363,7 @@ export default function AboutPage() {
       </section>
 
       {/* CTA Section */}
-      <section className="py-20 bg-gradient-to-r from-slate-600 to-slate-700">
+      <section className="py-20 bg-linear-to-r from-slate-600 to-slate-700">
         <div className="max-w-4xl mx-auto text-center px-4 sm:px-6 lg:px-8">
           <h2 className="text-4xl font-bold text-white mb-6">
             Ready to Join Our Journey?

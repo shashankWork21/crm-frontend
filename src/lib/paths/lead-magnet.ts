@@ -5,3 +5,7 @@ export function leadMagnetPath() {
 export function leadMagnetsByOrganisationPath(organisationId: string) {
   return `${leadMagnetPath()}/organisation/${organisationId}`;
 }
+
+export function leadMagnetByIdPath(leadMagnetId: string) {
+  return `${leadMagnetPath()}/${leadMagnetId}`;
+}

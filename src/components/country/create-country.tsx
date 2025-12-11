@@ -22,8 +22,8 @@ export default function CreateCountry({
     <div className="flex flex-col items-center gap-3 py-6">
       <p className="text-sm text-gray-600">
         {optionsExist
-          ? `These are the countries that have the term &quot;${countrySearchTerm}&quot; in them. In case you want to add a new country, click the button below.`
-          : `No country found with name &quot;${countrySearchTerm}&quot;. Want to add this country to our list?`}
+          ? `These are the countries that have the term "${countrySearchTerm}" in them. In case you want to add a new country, click the button below.`
+          : `No country found with name "${countrySearchTerm}". Want to add this country to our list?`}
       </p>
       <Button
         size="sm"

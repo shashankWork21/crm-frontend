@@ -26,7 +26,7 @@ export enum Scope {
   GOOGLE_DRIVE = "GOOGLE_DRIVE",
   GOOGLE_FORMS = "GOOGLE_FORMS",
   META_INSTAGRAM_DM = "META_INSTAGRAM_DM",
-  META_INSTAGRAM_PROFILE = "META_INSTAGRAM_PROFILE",
+  META_INSTAGRAM_BASIC = "META_INSTAGRAM_BASIC",
   META_INSTAGRAM_COMMENT = "META_INSTAGRAM_COMMENT",
 }
 
@@ -298,6 +298,7 @@ export interface User extends BaseEntity {
   organisation?: Organisation;
   employeeAccess?: EmployeeAccess[];
   filterViews?: FilterView[];
+  instagramAccount?: InstagramAccount;
 }
 
 export interface Session extends BaseEntity {
@@ -308,12 +309,26 @@ export interface Session extends BaseEntity {
 
 export interface Token extends BaseEntity {
   userId: string;
-  sessionId: string;
   scopes: Scope[];
   accessToken: string;
   refreshToken?: string;
   user?: User;
-  session?: Session;
+  instagramAccount?: InstagramAccount;
+}
+
+// ============================================================================
+// INSTAGRAM ACCOUNT
+// ============================================================================
+
+export interface InstagramAccount {
+  id: number;
+  userId: string;
+  user?: User;
+  tokenId: string;
+  instagramId: string;
+  token?: Token;
+  createdAt: string;
+  updatedAt: string;
 }
 
 // ============================================================================
@@ -757,6 +772,7 @@ export interface Execution {
   responseText?: string;
   chatId: string;
   chat?: Chat;
+  scheduledAt?: string;
   executedAt: string;
   status: string;
   errorMessage?: string;
@@ -934,6 +950,7 @@ export interface FormState {
   errors: {
     [key: string]: string[];
   };
+  itemId?: string;
 }
 
 export interface DeleteFormProps {

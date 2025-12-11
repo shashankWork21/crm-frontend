@@ -27,16 +27,16 @@ export default function ProfileEditDialog({
     <Dialog open={edit} onOpenChange={setEdit}>
       <DialogTrigger asChild>
         <button type="button" className="w-6 h-6 p-0 cursor-pointer">
-          <SquarePen className="text-blue-700 hover:text-blue-500" />
+          <SquarePen className="text-oxford-blue hover:text-oxford-blue-600" />
         </button>
       </DialogTrigger>
-      <DialogContent className="bg-gradient-to-br from-slate-200 to-slate-300 border-none">
+      <DialogContent className="bg-white border border-slate-200 rounded-2xl shadow-xl">
         <DialogHeader>
-          <DialogTitle className="text-center text-2xl font-bold">
+          <DialogTitle className="text-center text-2xl font-bold text-slate-900">
             Edit Profile
           </DialogTitle>
-          <DialogDescription>
-            Update your name and Phone number.
+          <DialogDescription className="text-center text-slate-500">
+            Update your name and phone number.
           </DialogDescription>
         </DialogHeader>
         <ProfileEditForm user={user} setEdit={setEdit} />
