@@ -2,11 +2,12 @@
 
 import { cookies } from "next/headers";
 import {
+  forgotPasswordPath,
   loginPath,
   logoutPath,
-  registerAdminPath,
-  registerEmployeePath,
+  registerPath,
   sessionValidatePath,
+  resetPasswordPath,
 } from "@/lib/paths";
 import { FormState, Role, Session, User } from "@/lib/types";
 import axios from "axios";
@@ -27,12 +28,18 @@ export async function registerUser(
   const chosenPassword = formData.get("chosenPassword") as string;
   const confirmPassword = formData.get("confirmPassword") as string;
 
-  const registerPath =
-    role === Role.ADMIN ? registerAdminPath() : registerEmployeePath();
+  const roles = {
+    [Role.SUPER_ADMIN]: "super_admin",
+    [Role.PLATFORM_ADMIN]: "platform_admin",
+    [Role.ORGANISATION_ADMIN]: "organisation_admin",
+    [Role.EMPLOYEE]: "employee",
+  };
+
+  const registerUrl = registerPath(roles[role]);
 
   try {
     const response = await axios.post(
-      registerPath,
+      registerUrl,
       {
         firstName,
         lastName,
@@ -123,11 +130,12 @@ export async function loginUser(
     };
   } catch (error) {
     if (axios.isAxiosError(error) && error.response) {
+      console.log("Axios error response:", error.response);
       const { data } = error.response;
       return {
         success: false,
         message: "Login failed",
-        errors: JSON.parse(data.errors),
+        errors: JSON.parse(data).errors,
       };
     } else {
       return {
@@ -189,4 +197,71 @@ export async function validateSessionToken(sessionToken: string) {
     redirect("/login");
   }
   return response.data;
+}
+
+export async function forgotPassword(formState: FormState, formData: FormData) {
+  const email = formData.get("email") as string;
+
+  try {
+    await axios.post(forgotPasswordPath(), {
+      email,
+    });
+    return {
+      success: true,
+      message: "Password reset link sent to your email",
+      errors: {},
+    };
+  } catch (error) {
+    if (axios.isAxiosError(error) && error.response) {
+      const { data } = error.response;
+      return {
+        success: false,
+        message: "Login failed",
+        errors: JSON.parse(data.errors),
+      };
+    } else {
+      return {
+        success: false,
+        message: "An unexpected error occurred",
+        errors: {},
+      };
+    }
+  }
+}
+
+export async function resetPassword(
+  userId: string,
+  formState: FormState,
+  formData: FormData
+) {
+  const password = formData.get("password") as string;
+  const confirmPassword = formData.get("confirmPassword") as string;
+
+  try {
+    await axios.post(resetPasswordPath(), {
+      userId,
+      password,
+      confirmPassword,
+    });
+    return {
+      success: true,
+      message: "Password reset successful",
+      errors: {},
+    };
+  } catch (error) {
+    if (axios.isAxiosError(error) && error.response) {
+      const { data } = error.response;
+      return {
+        success: false,
+        message: "Password reset failed",
+        errors: JSON.parse(data.errors),
+      };
+    } else {
+      return {
+        success: false,
+        message: "An unexpected error occurred",
+        errors: {},
+      };
+    }
+  }
 }

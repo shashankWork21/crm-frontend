@@ -17,17 +17,17 @@ const activityIcon = <Activity className="h-6 w-6 text-yellow-800" />;
 
 export const tagBGs: TagBg = {
   [TagType.CONTACT]: {
-    bg: "bg-gradient-to-br from-blue-200 to-blue-300",
+    bg: "bg-linear-to-br from-blue-200 to-blue-300",
     header: "text-blue-800",
     icon: contactIcon,
   },
   [TagType.ORGANISATION]: {
-    bg: "bg-gradient-to-br from-green-200 to-green-300",
+    bg: "bg-linear-to-br from-green-200 to-green-300",
     header: "text-green-800",
     icon: buildingIcon,
   },
   [TagType.ACTIVITY]: {
-    bg: "bg-gradient-to-br from-yellow-200 to-yellow-300",
+    bg: "bg-linear-to-br from-yellow-200 to-yellow-300",
     header: "text-yellow-800",
     icon: activityIcon,
   },

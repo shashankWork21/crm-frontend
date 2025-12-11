@@ -1,5 +1,5 @@
 import { validateSession } from "@/actions";
-import ProfilePageView from "@/components/views/profile-page";
+
 import { User } from "@/lib/types";
 import { redirect } from "next/navigation";
 
@@ -22,5 +22,5 @@ export default async function ProfilePage() {
 
     return <div>Error loading profile</div>;
   }
-  return <ProfilePageView user={user} />;
+  return <div>{user.firstName}</div>;
 }

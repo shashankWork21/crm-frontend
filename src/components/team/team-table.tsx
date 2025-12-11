@@ -1,4 +1,5 @@
 "use client";
+
 import { User } from "@/lib/types";
 import {
   Table,
@@ -10,44 +11,183 @@ import {
 } from "../ui/table";
 import { useAuth } from "@/context/auth.context";
 import TeamActions from "./team-actions";
+import { Mail, Phone, Shield, Crown, UserIcon } from "lucide-react";
 
 interface TeamTableProps {
   team: User[];
 }
 
+const roleConfig = {
+  ADMIN: {
+    icon: Crown,
+    label: "Admin",
+    className: "bg-amber-100 text-amber-700 border-amber-200",
+  },
+  MEMBER: {
+    icon: UserIcon,
+    label: "Member",
+    className: "bg-slate-100 text-slate-700 border-slate-200",
+  },
+  OWNER: {
+    icon: Shield,
+    label: "Owner",
+    className: "bg-green-100 text-green-700 border-green-200",
+  },
+} as const;
+
 export default function TeamTable({ team }: TeamTableProps) {
   const { user } = useAuth();
   const admin = user as User;
+
   return (
-    <Table className="w-4/5 mx-auto bg-slate-200 shadow-md text-lg">
-      <TableHeader className="bg-slate-300">
-        <TableRow className="border-none">
-          <TableHead className="font-bold text-center">Name</TableHead>
-          <TableHead className="font-bold text-center">Email</TableHead>
-          <TableHead className="font-bold text-center">Phone</TableHead>
-          <TableHead className="font-bold text-center">Role</TableHead>
-          <TableHead className="font-bold text-center">Actions</TableHead>
-        </TableRow>
-      </TableHeader>
-      <TableBody>
-        {team.map((member: User) => (
-          <TableRow key={member.id} className="border-none">
-            <TableCell className="text-center">
-              {member.firstName} {member.lastName}
-            </TableCell>
-            <TableCell className="text-center">{member.email}</TableCell>
-            <TableCell className="text-center">
-              {member.countryCode}-{member.phoneNumber}
-            </TableCell>
-            <TableCell className="text-center">
-              {member.role.charAt(0) + member.role.slice(1).toLowerCase()}
-            </TableCell>
-            <TableCell className="text-center">
-              <TeamActions user={member} admin={admin} />
-            </TableCell>
-          </TableRow>
-        ))}
-      </TableBody>
-    </Table>
+    <div className="w-full max-w-6xl mx-auto">
+      {/* Desktop Table */}
+      <div className="hidden md:block bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+        <Table>
+          <TableHeader>
+            <TableRow className="border-b border-slate-100 hover:bg-transparent">
+              <TableHead className="text-slate-500 font-semibold py-4 px-6">
+                Team Member
+              </TableHead>
+              <TableHead className="text-slate-500 font-semibold py-4 px-6">
+                Contact
+              </TableHead>
+              <TableHead className="text-slate-500 font-semibold py-4 px-6">
+                Role
+              </TableHead>
+              <TableHead className="text-slate-500 font-semibold py-4 px-6 text-right">
+                Actions
+              </TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {team.map((member: User, index: number) => {
+              const role = member.role.toUpperCase() as keyof typeof roleConfig;
+              const config = roleConfig[role] || roleConfig.MEMBER;
+              const RoleIcon = config.icon;
+
+              return (
+                <TableRow
+                  key={member.id}
+                  className={`
+                    border-b border-slate-50 transition-colors hover:bg-slate-50
+                    ${index === team.length - 1 ? "border-b-0" : ""}
+                  `}
+                >
+                  <TableCell className="py-4 px-6">
+                    <div className="flex items-center gap-4">
+                      <div className="w-10 h-10 rounded-full bg-oxford-blue flex items-center justify-center text-white font-bold text-sm">
+                        {member.firstName?.[0]}
+                        {member.lastName?.[0]}
+                      </div>
+                      <div>
+                        <p className="font-semibold text-slate-900">
+                          {member.firstName} {member.lastName}
+                        </p>
+                        {member.id === admin?.id && (
+                          <span className="text-xs text-oxford-blue">(You)</span>
+                        )}
+                      </div>
+                    </div>
+                  </TableCell>
+                  <TableCell className="py-4 px-6">
+                    <div className="space-y-1">
+                      <div className="flex items-center gap-2 text-slate-600">
+                        <Mail className="w-4 h-4 text-slate-400" />
+                        <span className="text-sm">{member.email}</span>
+                      </div>
+                      <div className="flex items-center gap-2 text-slate-600">
+                        <Phone className="w-4 h-4 text-slate-400" />
+                        <span className="text-sm">
+                          {member.countryCode}-{member.phoneNumber}
+                        </span>
+                      </div>
+                    </div>
+                  </TableCell>
+                  <TableCell className="py-4 px-6">
+                    <span
+                      className={`
+                        inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold border
+                        ${config.className}
+                      `}
+                    >
+                      <RoleIcon className="w-3.5 h-3.5" />
+                      {config.label}
+                    </span>
+                  </TableCell>
+                  <TableCell className="py-4 px-6 text-right">
+                    <TeamActions user={member} admin={admin} />
+                  </TableCell>
+                </TableRow>
+              );
+            })}
+          </TableBody>
+        </Table>
+      </div>
+
+      {/* Mobile Cards */}
+      <div className="md:hidden space-y-4">
+        {team.map((member: User) => {
+          const role = member.role.toUpperCase() as keyof typeof roleConfig;
+          const config = roleConfig[role] || roleConfig.MEMBER;
+          const RoleIcon = config.icon;
+
+          return (
+            <div
+              key={member.id}
+              className="p-5 rounded-2xl bg-white shadow-sm border border-slate-200"
+            >
+              <div className="flex items-start justify-between mb-4">
+                <div className="flex items-center gap-3">
+                  <div className="w-12 h-12 rounded-full bg-oxford-blue flex items-center justify-center text-white font-bold">
+                    {member.firstName?.[0]}
+                    {member.lastName?.[0]}
+                  </div>
+                  <div>
+                    <p className="font-semibold text-slate-900">
+                      {member.firstName} {member.lastName}
+                    </p>
+                    <span
+                      className={`
+                        inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-semibold border mt-1
+                        ${config.className}
+                      `}
+                    >
+                      <RoleIcon className="w-3 h-3" />
+                      {config.label}
+                    </span>
+                  </div>
+                </div>
+                <TeamActions user={member} admin={admin} />
+              </div>
+
+              <div className="space-y-2 pt-3 border-t border-slate-100">
+                <div className="flex items-center gap-2 text-slate-600">
+                  <Mail className="w-4 h-4 text-slate-400" />
+                  <span className="text-sm truncate">{member.email}</span>
+                </div>
+                <div className="flex items-center gap-2 text-slate-600">
+                  <Phone className="w-4 h-4 text-slate-400" />
+                  <span className="text-sm">
+                    {member.countryCode}-{member.phoneNumber}
+                  </span>
+                </div>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+
+      {/* Empty State */}
+      {team.length === 0 && (
+        <div className="text-center py-16 bg-white rounded-2xl shadow-sm border border-slate-200">
+          <div className="w-16 h-16 rounded-full bg-slate-100 flex items-center justify-center mx-auto mb-4">
+            <UserIcon className="w-8 h-8 text-slate-400" />
+          </div>
+          <h3 className="text-lg font-semibold text-slate-900 mb-2">No team members yet</h3>
+          <p className="text-slate-500">Invite your first team member to get started.</p>
+        </div>
+      )}
+    </div>
   );
 }

@@ -1,572 +1,208 @@
 "use client";
 
-import { BranchType, Organisation, Region } from "@/lib/types";
-import { Input } from "../ui/input";
 import { startTransition, useActionState, useState } from "react";
+import { Loader2, User, Mail, Phone, ArrowLeft } from "lucide-react";
+import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
+import { Input } from "../ui/input";
+import { Button } from "../ui/button";
+import { Label } from "../ui/label";
 import {
   Select,
+  SelectContent,
+  SelectItem,
   SelectTrigger,
   SelectValue,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectLabel,
 } from "../ui/select";
+import { Gender } from "@/lib/types";
 import { createContact } from "@/actions/contact";
-import {
-  Tooltip,
-  TooltipProvider,
-  TooltipTrigger,
-  TooltipContent,
-} from "../ui/tooltip";
-import { Button } from "../ui/button";
-import { CheckIcon, ChevronDown, ChevronUp, Plus, X } from "lucide-react";
-import { Card, CardContent, CardHeader } from "../ui/card";
-import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
-import {
-  Command,
-  CommandEmpty,
-  CommandGroup,
-  CommandInput,
-  CommandItem,
-  CommandList,
-} from "../ui/command";
-import { cn } from "@/lib/utils";
-import ProtectedRoute from "../auth/protected-route";
+import Link from "next/link";
 
-interface ContactFormProps {
-  regions: Region[];
-  organisations: Organisation[];
+interface ContactCreateFormProps {
+  organisationId: string;
 }
 
 export default function ContactCreateForm({
-  regions,
-  organisations,
-}: ContactFormProps) {
-  const [selectedRegionId, setSelectedRegionId] = useState("");
-  const [selectedBranchId, setSelectedBranchId] = useState("");
-  const [selectedOrgId, setSelectedOrgId] = useState("");
-  const [orgSelectComboOpen, setOrgSelectComboOpen] = useState(false);
-  const [addOrg, setAddOrg] = useState(false);
-  const [addBranch, setAddBranch] = useState(false);
-  const [addRegion, setAddRegion] = useState(false);
-  const [searchTerm, setSearchTerm] = useState("");
-  const [filteredOrganisations, setFilteredOrganisations] =
-    useState<Organisation[]>(organisations);
-  const [branchType, setBranchType] = useState<BranchType>(
-    BranchType.HEADQUARTERS
-  );
+  organisationId,
+}: ContactCreateFormProps) {
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleSearchTermChange = (value: string) => {
-    setSearchTerm(value);
-    if (value.trim() === "") {
-      setFilteredOrganisations(organisations);
-    } else {
-      const lowerCaseValue = value.toLowerCase();
-      const filtered = organisations.filter((org) =>
-        org.name.toLowerCase().includes(lowerCaseValue)
-      );
-      setFilteredOrganisations(filtered);
+  const [formState, action] = useActionState(
+    createContact.bind(null, organisationId),
+    {
+      success: false,
+      message: "",
+      errors: {},
     }
-  };
-  const handleOrgValueChange = (value: string) => {
-    setSelectedOrgId(value);
-    setSelectedBranchId("");
-    setSelectedRegionId("");
-  };
-  const handleBranchValueChange = (value: string) => {
-    setSelectedBranchId(value);
-    setSelectedRegionId("");
-  };
-
-  const handleRegionValueChange = (value: string) => {
-    setSelectedRegionId(value);
-  };
-
-  const handleAddOrgClick = () => {
-    setSelectedOrgId("");
-    setAddOrg(!addOrg);
-    setAddBranch(!addBranch);
-  };
-  const handleAddBranchClick = () => {
-    setSelectedBranchId("");
-    setAddBranch(!addBranch);
-  };
-  const handleAddRegionClick = () => {
-    setSelectedRegionId("");
-    setAddRegion(!addRegion);
-  };
-
-  const selectedOrgBranches =
-    organisations.find((org) => org.id === selectedOrgId)?.branches || [];
-
-  const states = regions
-    .map((region: Region) => region.state)
-    .reduce<string[]>((acc, curr: string) => {
-      if (!acc.includes(curr)) {
-        acc.push(curr);
-      }
-      return acc;
-    }, []);
-
-  const formSubmitAction = createContact.bind(null, {
-    organisationId: selectedOrgId,
-    branchId: selectedBranchId,
-    regionId: selectedRegionId,
-  });
-
-  const [formState, action] = useActionState(formSubmitAction, {
-    success: false,
-    message: "",
-    errors: {},
-  });
+  );
 
   function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
+    setIsSubmitting(true);
     const formData = new FormData(event.target as HTMLFormElement);
-    startTransition(() => action(formData));
+    startTransition(() => {
+      action(formData);
+      setIsSubmitting(false);
+    });
   }
 
   return (
-    <ProtectedRoute>
-      <Card className="w-9/10 md:w-3/5 xl:w-2/5 mx-auto mt-20 px-2 py-4 shadow-lg bg-gradient-to-br from-slate-200 to-slate-300">
-        <CardHeader className="text-center">
-          <h2 className="text-2xl font-bold">Create a new contact</h2>
-        </CardHeader>
-        <CardContent>
-          <form
-            onSubmit={handleSubmit}
-            className="flex flex-col space-y-4 py-2"
-          >
-            <div className="flex flex-col space-y-2">
+    <Card className="bg-white rounded-2xl shadow-sm border border-slate-200">
+      <CardHeader className="pb-6">
+        <div className="flex items-center gap-4">
+          <div className="w-12 h-12 rounded-xl bg-oxford-blue flex items-center justify-center">
+            <User className="w-6 h-6 text-white" />
+          </div>
+          <div>
+            <CardTitle className="text-2xl font-bold text-slate-900">
+              Create New Contact
+            </CardTitle>
+            <p className="text-slate-500 text-sm mt-1">
+              Add a new contact to your organization
+            </p>
+          </div>
+        </div>
+      </CardHeader>
+      <CardContent>
+        <form onSubmit={handleSubmit} className="space-y-6">
+          {/* Name */}
+          <div className="space-y-2">
+            <Label htmlFor="name" className="text-slate-700 font-medium">
+              Name <span className="text-red-500">*</span>
+            </Label>
+            <div className="relative">
+              <User className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
               <Input
+                id="name"
                 name="name"
                 type="text"
-                placeholder="Name"
-                className="bg-slate-50"
+                placeholder="Enter contact name"
+                required
+                className="h-12 pl-11 bg-white border-slate-200 rounded-xl focus:border-oxford-blue focus:ring-oxford-blue/20"
               />
-              {!!formState.errors.name && (
-                <ul>
-                  {formState.errors.name.map((error: string, index: number) => (
-                    <li key={index} className="text-red-600">
-                      {error}
-                    </li>
-                  ))}
-                </ul>
-              )}
             </div>
-            <div>
-              <div className="w-full flex flex-row items-center justify-start space-x-2">
-                <Input
-                  name="countryCode"
-                  type="text"
-                  placeholder="+XXX"
-                  className="basis-1/4 bg-white"
-                />
-                <Input
-                  name="number"
-                  type="text"
-                  placeholder="Phone Number"
-                  className="basis-3/4 bg-white"
-                />
-              </div>
-              {!!formState.errors.countryCode && (
-                <ul>
-                  {formState.errors.countryCode.map(
-                    (error: string, index: number) => (
-                      <li key={index} className="text-red-600">
-                        {error}
-                      </li>
-                    )
-                  )}
-                </ul>
-              )}
-              {!!formState.errors.phoneNumber && (
-                <ul>
-                  {formState.errors.phoneNumber.map(
-                    (error: string, index: number) => (
-                      <li key={index} className="text-red-600">
-                        {error}
-                      </li>
-                    )
-                  )}
-                </ul>
-              )}
-            </div>
-            <div className="flex flex-col space-y-2">
+            {!!formState.errors.name && (
+              <ul className="text-sm text-red-500">
+                {formState.errors.name.map((error: string, index: number) => (
+                  <li key={index}>{error}</li>
+                ))}
+              </ul>
+            )}
+          </div>
+
+          {/* Phone */}
+          <div className="space-y-2">
+            <Label htmlFor="phoneNumber" className="text-slate-700 font-medium">
+              Phone Number <span className="text-red-500">*</span>
+            </Label>
+            <div className="relative">
+              <Phone className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
               <Input
+                id="phoneNumber"
+                name="phoneNumber"
+                type="tel"
+                placeholder="Enter phone number"
+                required
+                className="h-12 pl-11 bg-white border-slate-200 rounded-xl focus:border-oxford-blue focus:ring-oxford-blue/20"
+              />
+            </div>
+            {!!formState.errors.phoneNumber && (
+              <ul className="text-sm text-red-500">
+                {formState.errors.phoneNumber.map((error: string, index: number) => (
+                  <li key={index}>{error}</li>
+                ))}
+              </ul>
+            )}
+          </div>
+
+          {/* Email */}
+          <div className="space-y-2">
+            <Label htmlFor="email" className="text-slate-700 font-medium">
+              Email
+            </Label>
+            <div className="relative">
+              <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
+              <Input
+                id="email"
                 name="email"
                 type="email"
-                placeholder="Email"
-                className="bg-slate-50"
-              />
-              {!!formState.errors.email && (
-                <ul>
-                  {formState.errors.email.map(
-                    (error: string, index: number) => (
-                      <li key={index} className="text-red-600">
-                        {error}
-                      </li>
-                    )
-                  )}
-                </ul>
-              )}
-            </div>
-            <div className="flex flex-col space-y-2">
-              <Input
-                name="alternateNumber"
-                type="text"
-                placeholder="Alternate Number"
-                className="bg-slate-50"
+                placeholder="Enter email address"
+                className="h-12 pl-11 bg-white border-slate-200 rounded-xl focus:border-oxford-blue focus:ring-oxford-blue/20"
               />
             </div>
-            {organisations.length > 0 && (
-              <div className="flex flex-row space-x-2 justify-between">
-                <Popover
-                  open={orgSelectComboOpen}
-                  onOpenChange={setOrgSelectComboOpen}
-                >
-                  <PopoverTrigger asChild className="">
-                    <Button
-                      disabled={addOrg}
-                      variant="outline"
-                      role="combobox"
-                      aria-expanded={orgSelectComboOpen}
-                      className="w-full justify-between cursor-pointer bg-white basis-5/6"
-                    >
-                      {selectedOrgId
-                        ? organisations.find((org) => org.id === selectedOrgId)
-                            ?.name
-                        : "Select Organisation"}
-                      {orgSelectComboOpen ? (
-                        <ChevronUp size={16} />
-                      ) : (
-                        <ChevronDown size={16} />
-                      )}
-                    </Button>
-                  </PopoverTrigger>
-                  <PopoverContent
-                    className="bg-white border-none w-[var(--radix-popover-trigger-width)] basis-5/6 max-h-[42rem] overflow-y-auto"
-                    align="start"
-                    sideOffset={0}
-                  >
-                    <Command className="basis-5/6">
-                      <CommandInput
-                        placeholder="Search"
-                        value={searchTerm}
-                        onValueChange={handleSearchTermChange}
-                      />
-                      <CommandList className="basis-5/6">
-                        <CommandEmpty>No organisation found</CommandEmpty>
-                        <CommandGroup>
-                          {filteredOrganisations.map((org) => (
-                            <CommandItem
-                              key={org.id}
-                              value={org.name}
-                              onSelect={() => handleOrgValueChange(org.id)}
-                            >
-                              {org.name}
-                              <CheckIcon
-                                className={cn(
-                                  "mr-2 h-4 w-4",
-                                  selectedOrgId === org.id
-                                    ? "opacity-100"
-                                    : "opacity-0"
-                                )}
-                              />
-                            </CommandItem>
-                          ))}
-                        </CommandGroup>
-                      </CommandList>
-                    </Command>
-                  </PopoverContent>
-                </Popover>
-                <TooltipProvider>
-                  <Tooltip>
-                    <TooltipTrigger asChild>
-                      <Button
-                        type="button"
-                        className="basis-1/8 cursor-pointer bg-white"
-                        onClick={handleAddOrgClick}
-                      >
-                        {!addOrg ? <Plus size={16} /> : <X size={16} />}
-                      </Button>
-                    </TooltipTrigger>
-                    <TooltipContent className="bg-black text-white">
-                      Add a new Organisation
-                    </TooltipContent>
-                  </Tooltip>
-                </TooltipProvider>
-              </div>
+            {!!formState.errors.email && (
+              <ul className="text-sm text-red-500">
+                {formState.errors.email.map((error: string, index: number) => (
+                  <li key={index}>{error}</li>
+                ))}
+              </ul>
             )}
-            {(organisations.length === 0 || addOrg) && (
-              <>
-                <div className="flex flex-col space-y-2">
-                  <Input
-                    name="orgName"
-                    type="text"
-                    placeholder="Organisation Name"
-                    className="bg-white"
-                  />
-                  {!!formState.errors.orgName && (
-                    <ul>
-                      {formState.errors.orgName.map(
-                        (error: string, index: number) => (
-                          <li key={index} className="text-red-600">
-                            {error}
-                          </li>
-                        )
-                      )}
-                    </ul>
-                  )}
-                </div>
-              </>
+          </div>
+
+          {/* Gender */}
+          <div className="space-y-2">
+            <Label htmlFor="gender" className="text-slate-700 font-medium">
+              Gender
+            </Label>
+            <Select name="gender">
+              <SelectTrigger className="h-12 bg-white border-slate-200 rounded-xl focus:border-oxford-blue focus:ring-oxford-blue/20">
+                <SelectValue placeholder="Select gender" />
+              </SelectTrigger>
+              <SelectContent className="bg-white border-slate-200 rounded-xl">
+                <SelectItem value={Gender.MALE}>Male</SelectItem>
+                <SelectItem value={Gender.FEMALE}>Female</SelectItem>
+                <SelectItem value={Gender.OTHER}>Other</SelectItem>
+              </SelectContent>
+            </Select>
+            {!!formState.errors?.gender && (
+              <ul className="text-sm text-red-500">
+                {formState.errors?.gender.map((error: string, index: number) => (
+                  <li key={index}>{error}</li>
+                ))}
+              </ul>
             )}
-            {!!selectedOrgId &&
-              !addBranch &&
-              selectedOrgBranches.length > 0 && (
-                <div className="flex flex-row space-x-2">
-                  <Select
-                    value={selectedBranchId}
-                    onValueChange={handleBranchValueChange}
-                    disabled={addBranch}
-                  >
-                    <SelectTrigger className="basis-5/6 bg-white cursor-pointer">
-                      <SelectValue placeholder="Select Branch" />
-                    </SelectTrigger>
-                    <SelectContent className="basis-5/6 bg-white cursor-pointer">
-                      {selectedOrgBranches.map((branch) => (
-                        <SelectItem key={branch.id} value={branch.id}>
-                          {branch.type} {branch.city}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                  <TooltipProvider>
-                    <Tooltip>
-                      <TooltipTrigger asChild>
-                        <Button
-                          type="button"
-                          className="basis-1/6 cursor-pointer bg-white"
-                          onClick={handleAddBranchClick}
-                        >
-                          {!addBranch ? <Plus size={16} /> : <X size={16} />}
-                        </Button>
-                      </TooltipTrigger>
-                      <TooltipContent className="bg-black text-white">
-                        Add a new Branch
-                      </TooltipContent>
-                    </Tooltip>
-                  </TooltipProvider>
-                </div>
-              )}
-            {(!!selectedOrgId && addBranch) ||
-              ((organisations.length === 0 || addOrg) && (
-                <>
-                  <div className="flex flex-col space-y-2">
-                    <Input
-                      name="city"
-                      type="text"
-                      placeholder="City"
-                      className="bg-slate-50"
-                    />
-                    {!!formState.errors.city && (
-                      <ul>
-                        {formState.errors.city.map(
-                          (error: string, index: number) => (
-                            <li key={index} className="text-red-600">
-                              {error}
-                            </li>
-                          )
-                        )}
-                      </ul>
-                    )}
-                  </div>
-                  <div className="flex flex-col space-y-2">
-                    <Input
-                      name="address"
-                      type="text"
-                      placeholder="Area"
-                      className="bg-slate-50"
-                    />
-                  </div>
-                  <div className="flex flex-col space-y-2">
-                    <Input
-                      name="postalCode"
-                      type="text"
-                      placeholder="Postal Code"
-                      className="bg-slate-50"
-                    />
-                  </div>
-                  <div className="flex flex-col space-y-2 w-full">
-                    <Select
-                      value={branchType}
-                      onValueChange={(value) =>
-                        setBranchType(value as BranchType)
-                      }
-                    >
-                      <SelectTrigger className="bg-white cursor-pointer w-full">
-                        <SelectValue placeholder="Select Type" />
-                      </SelectTrigger>
-                      <SelectContent className="bg-white cursor-pointer w-full">
-                        {Object.values(BranchType).map((type, index) => (
-                          <SelectItem
-                            key={index}
-                            value={type}
-                            className="cursor-pointer hover:bg-slate-100"
-                          >
-                            {type.charAt(0).toUpperCase() +
-                              type.slice(1).toLowerCase()}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                    {!!formState.errors.type && (
-                      <ul>
-                        {formState.errors.type.map(
-                          (error: string, index: number) => (
-                            <li key={index} className="text-red-500 text-sm">
-                              {error}
-                            </li>
-                          )
-                        )}
-                      </ul>
-                    )}
-                  </div>
-                </>
-              ))}
-            {(addBranch || organisations.length === 0) &&
-              regions.length > 0 && (
-                <div className="flex flex-row space-x-2">
-                  <Select
-                    value={selectedRegionId}
-                    onValueChange={handleRegionValueChange}
-                    disabled={addRegion}
-                  >
-                    <SelectTrigger className="basis-5/6 bg-white cursor-pointer">
-                      <SelectValue placeholder="Select Region" />
-                    </SelectTrigger>
-                    <SelectContent className="basis-5/6 bg-white cursor-pointer">
-                      {states.map((state, index) => {
-                        return (
-                          <SelectGroup key={index}>
-                            <SelectLabel className="p-3 font-bold text-slate-500">
-                              {state}
-                            </SelectLabel>
-                            {regions
-                              .filter(
-                                (region: Region) => region.state === state
-                              )
-                              .map((region: Region) => {
-                                return (
-                                  <SelectItem
-                                    className="cursor-pointer"
-                                    key={region.id}
-                                    value={region.id}
-                                  >
-                                    {region.name} ({region.state},{" "}
-                                    {region.country})
-                                  </SelectItem>
-                                );
-                              })}
-                          </SelectGroup>
-                        );
-                      })}
-                    </SelectContent>
-                  </Select>
-                  <TooltipProvider>
-                    <Tooltip>
-                      <TooltipTrigger asChild>
-                        <Button
-                          type="button"
-                          className="basis-1/6 cursor-pointer bg-white"
-                          onClick={handleAddRegionClick}
-                        >
-                          {!addRegion ? <Plus size={16} /> : <X size={16} />}
-                        </Button>
-                      </TooltipTrigger>
-                      <TooltipContent className="bg-black text-white">
-                        Add a new Region
-                      </TooltipContent>
-                    </Tooltip>
-                  </TooltipProvider>
-                </div>
-              )}
-            {addBranch && (regions.length === 0 || addRegion) && (
-              <>
-                <div className="flex flex-col space-y-2">
-                  <Input
-                    name="regionName"
-                    type="text"
-                    placeholder="Region Name"
-                    className="bg-white"
-                  />
-                  {!!formState.errors.regionName && (
-                    <ul>
-                      {formState.errors.regionName.map(
-                        (error: string, index: number) => (
-                          <li key={index} className="text-red-600">
-                            {error}
-                          </li>
-                        )
-                      )}
-                    </ul>
-                  )}
-                </div>
-                <div className="flex flex-col space-y-2">
-                  <Input
-                    name="state"
-                    type="text"
-                    placeholder="State"
-                    className="bg-white"
-                  />
-                  {!!formState.errors.state && (
-                    <ul>
-                      {formState.errors.state.map(
-                        (error: string, index: number) => (
-                          <li key={index} className="text-red-600">
-                            {error}
-                          </li>
-                        )
-                      )}
-                    </ul>
-                  )}
-                </div>
-                <div className="flex flex-col space-y-2">
-                  <Input
-                    name="country"
-                    type="text"
-                    placeholder="Country"
-                    className="bg-white"
-                  />
-                  {!!formState.errors.country && (
-                    <ul>
-                      {formState.errors.country.map(
-                        (error: string, index: number) => (
-                          <li key={index} className="text-red-600">
-                            {error}
-                          </li>
-                        )
-                      )}
-                    </ul>
-                  )}
-                </div>
-              </>
-            )}
-            <Button
-              type="submit"
-              className="w-full bg-blue-600 text-white hover:bg-blue-700 transition-colors duration-200 cursor-pointer"
+          </div>
+
+          {/* Success/Error Message */}
+          {formState.message && (
+            <div
+              className={`p-4 rounded-xl text-sm font-medium ${
+                formState.success
+                  ? "bg-green-50 text-green-700 border border-green-200"
+                  : "bg-red-50 text-red-700 border border-red-200"
+              }`}
             >
-              Create Contact
-            </Button>
-          </form>
-          {formState.success && (
-            <div className="text-green-600 text-center mt-4">
               {formState.message}
             </div>
           )}
-        </CardContent>
-      </Card>
-    </ProtectedRoute>
+
+          {/* Submit Button */}
+          <div className="flex gap-4 pt-4">
+            <Link href="/contacts" className="flex-1">
+              <Button
+                type="button"
+                variant="outline"
+                className="w-full h-12 border-slate-200 text-slate-700 hover:bg-slate-50 rounded-xl font-semibold"
+              >
+                Cancel
+              </Button>
+            </Link>
+            <Button
+              type="submit"
+              disabled={isSubmitting}
+              className="flex-1 h-12 bg-oxford-blue hover:bg-oxford-blue-600 text-white font-semibold rounded-xl shadow-md hover:shadow-lg transition-all disabled:opacity-50"
+            >
+              {isSubmitting ? (
+                <div className="flex items-center gap-2">
+                  <Loader2 className="w-5 h-5 animate-spin" />
+                  Creating...
+                </div>
+              ) : (
+                "Create Contact"
+              )}
+            </Button>
+          </div>
+        </form>
+      </CardContent>
+    </Card>
   );
 }
