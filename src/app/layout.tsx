@@ -1,14 +1,26 @@
 import type { Metadata } from "next";
-import { IBM_Plex_Sans } from "next/font/google";
+import { Outfit, Sora, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import Providers from "./providers";
 import Footer from "@/components/general/footer";
 import { Analytics } from "@vercel/analytics/next";
 
-const ibmPlexSans = IBM_Plex_Sans({
-  weight: ["100", "300", "600"],
+const outfit = Outfit({
+  weight: ["300", "400", "500", "600", "700"],
   subsets: ["latin"],
-  variable: "--font-ibm-plex-sans",
+  variable: "--font-outfit",
+});
+
+const sora = Sora({
+  weight: ["600", "700", "800"],
+  subsets: ["latin"],
+  variable: "--font-sora",
+});
+
+const jetbrainsMono = JetBrains_Mono({
+  weight: ["400", "500", "700"],
+  subsets: ["latin"],
+  variable: "--font-jetbrains-mono",
 });
 
 export const metadata: Metadata = {
@@ -25,7 +37,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${ibmPlexSans.variable} antialiased overscroll-none bg-black-900`}
+        className={`${outfit.variable} ${sora.variable} ${jetbrainsMono.variable} antialiased overscroll-none bg-white`}
       >
         <Providers>
           <div className="min-h-screen">{children}</div>

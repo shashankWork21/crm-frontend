@@ -1,8 +1,5 @@
 "use client";
 
-import { startTransition, useActionState, useState } from "react";
-import { createLeadMagnet } from "@/actions/lead-magnet";
-import { useAuth } from "@/context/auth.context";
 import { Input } from "../ui/input";
 import { Textarea } from "../ui/textarea";
 import { Button } from "../ui/button";
@@ -11,41 +8,12 @@ import {
   DropzoneContent,
   DropzoneEmptyState,
 } from "../ui/shadcn-io/dropzone";
+import useCreateLeadMagnet from "@/hooks/use-create-lead-magnet";
 
 export default function CreateaLeadMagnetForm() {
-  const { user } = useAuth();
+  const { files, formState, handleDrop, handleSubmit, isSubmitting } =
+    useCreateLeadMagnet();
 
-  const [isSubmitting, setIsSubmitting] = useState(false);
-
-  const [files, setFiles] = useState<File[]>([]);
-
-  const [formState, action] = useActionState(
-    createLeadMagnet.bind(null, {
-      organisationId: user?.organisationId || "",
-      createdById: user?.id || "",
-      files,
-    }),
-    {
-      success: false,
-      message: "",
-      errors: {},
-    }
-  );
-
-  const handleDrop = (files: File[]) => {
-    console.log(files);
-    setFiles(files);
-  };
-
-  function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-    setIsSubmitting(true);
-    const formData = new FormData(event.target as HTMLFormElement);
-    startTransition(() => {
-      action(formData);
-      setIsSubmitting(false);
-    });
-  }
   return (
     <form onSubmit={handleSubmit} className="space-y-6 p-6">
       <div className="space-y-2">

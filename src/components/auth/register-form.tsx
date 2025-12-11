@@ -68,7 +68,7 @@ export default function RegisterForm({ role }: RegisterFormProps) {
         className="pointer-events-none absolute -bottom-32 -right-24 h-80 w-80 rounded-full bg-sunglow-500/30 blur-3xl"
       />
 
-      <div className="relative z-10 mb-4 flex min-h-[3.5rem] w-full max-w-2xl items-end">
+      <div className="relative z-10 mb-4 flex min-h-14 w-full max-w-2xl items-end">
         {showAlert && (
           <Alert
             variant="destructive"
@@ -294,9 +294,9 @@ export default function RegisterForm({ role }: RegisterFormProps) {
                 </ul>
               )}
             </div>
-            <div className="flex items-start gap-3 rounded-lg border border-powder-blue-700/40 bg-powder-blue-900/30 px-4 py-3">
+            <div className="flex flex-row items-center gap-3 rounded-lg border border-powder-blue-700/40 bg-powder-blue-900/30 px-4 py-3">
               <Checkbox
-                className="mt-1 border border-powder-blue-600 data-[state=checked]:bg-sunglow data-[state=checked]:text-rich-black"
+                className="border border-powder-blue-600 data-[state=checked]:bg-sunglow data-[state=checked]:text-rich-black"
                 checked={acceptedTerms}
                 onCheckedChange={() => setAcceptedTerms(!acceptedTerms)}
               />

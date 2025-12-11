@@ -1,22 +1,22 @@
 "use server";
 
-import { leadMagnetsByOrganisationPath } from "@/lib/paths";
+import { leadMagnetByIdPath, leadMagnetsByOrganisationPath } from "@/lib/paths";
 import axios from "axios";
-import { cookies } from "next/headers";
 
 export async function getLeadMagnetsByOrganisation(organisationId: string) {
-  const c = await cookies();
   const leadMagnets = await axios.get(
-    leadMagnetsByOrganisationPath(organisationId),
-    {
-      headers: {
-        "Content-Type": "application/json",
-        Cookie: `session=${c.get("session")?.value || ""}`,
-      },
-    }
+    leadMagnetsByOrganisationPath(organisationId)
   );
   if (leadMagnets.status !== 200) {
     throw new Error("Failed to fetch lead magnets");
   }
   return leadMagnets.data;
+}
+
+export async function getLeadMagnetById(id: string) {
+  const leadMagnet = await axios.get(leadMagnetByIdPath(id));
+  if (leadMagnet.status !== 200) {
+    throw new Error("Failed to fetch lead magnet");
+  }
+  return leadMagnet.data;
 }

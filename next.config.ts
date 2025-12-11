@@ -34,13 +34,7 @@ const nextConfig: NextConfig = {
       },
     ];
   },
-  experimental: {
-    turbo: {
-      resolveAlias: {
-        "proxy-from-env": "./src/lib/proxy-from-env.ts",
-      },
-    },
-  },
+
   webpack(config) {
     config.resolve = config.resolve ?? {};
     config.resolve.alias = {

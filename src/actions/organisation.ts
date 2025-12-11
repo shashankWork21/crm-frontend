@@ -11,7 +11,6 @@ import { FormState } from "@/lib/types";
 import axios from "axios";
 import { revalidatePath } from "next/cache";
 import { cookies } from "next/headers";
-import { redirect } from "next/navigation";
 
 export async function createEmployedOrganisation(
   cityId: string,
@@ -67,8 +66,6 @@ export async function createEmployedOrganisation(
         errors: {},
       };
     }
-  } finally {
-    redirect("/login");
   }
 }
 

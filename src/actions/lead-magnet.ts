@@ -2,14 +2,10 @@
 
 import axios from "axios";
 import { cookies } from "next/headers";
-import {
-  S3Client,
-  PutObjectCommand,
-  GetObjectCommand,
-} from "@aws-sdk/client-s3";
-import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
+import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
 import { leadMagnetPath } from "@/lib/paths/lead-magnet";
 import { FormState } from "@/lib/types";
+import { revalidatePath } from "next/cache";
 
 interface LeadMagnetData {
   createdById: string;
@@ -33,8 +29,8 @@ async function uploadFileToS3(
   const buffer = await file.arrayBuffer();
   const fileName = file.name;
   const timestamp = Date.now();
-  const fileId = `lead-magnet-${organisationId}-${timestamp}`;
-  const objectKey = `${fileId}/${fileName}`;
+  const folderName = `resources-${organisationId}`;
+  const objectKey = `${folderName}/${timestamp}_${fileName}`;
 
   // Upload file to S3
   const uploadCommand = new PutObjectCommand({
@@ -47,15 +43,7 @@ async function uploadFileToS3(
   await s3.send(uploadCommand);
 
   // Generate presigned URL (valid for 7 days)
-  const getCommand = new GetObjectCommand({
-    Bucket: process.env.R2_BUCKET_NAME || "",
-    Key: objectKey,
-  });
-
-  const presignedUrl = await getSignedUrl(s3, getCommand, {
-    expiresIn: 7 * 24 * 60 * 60, // 7 days
-  });
-
+  const presignedUrl = `${process.env.R2_CUSTOM_DOMAIN}/${objectKey}`;
   return presignedUrl;
 }
 
@@ -79,12 +67,13 @@ export async function createLeadMagnet(
         success: false,
         message: "File upload failed",
         errors: { file: "Failed to upload file to storage" },
+        itemId: "",
       };
     }
   }
 
   try {
-    await axios.post(
+    const newLeadMagnet = await axios.post(
       leadMagnetPath(),
       {
         title,
@@ -100,10 +89,13 @@ export async function createLeadMagnet(
         },
       }
     );
+
+    revalidatePath("/lead-magnets");
     return {
       success: true,
       message: "Lead Magnet created successfully",
       errors: {},
+      itemId: newLeadMagnet.data.leadMagnet.id,
     };
   } catch (error: unknown) {
     if (axios.isAxiosError(error) && error.response) {
@@ -113,12 +105,14 @@ export async function createLeadMagnet(
         success: false,
         message: "Lead Magnet creation failed",
         errors: JSON.parse(data.errors),
+        itemId: "",
       };
     } else {
       return {
         success: false,
         message: "An unexpected error occurred",
         errors: {},
+        itemId: "",
       };
     }
   }

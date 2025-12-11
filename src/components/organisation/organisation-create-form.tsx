@@ -1,8 +1,10 @@
 "use client";
 
-import { BusinessModel, FormState } from "@/lib/types";
-import { useActionState, startTransition, useState } from "react";
+import { useRouter } from "next/navigation";
 import { Building2, Loader2 } from "lucide-react";
+
+import { useActionState, startTransition, useState, useEffect } from "react";
+import { BusinessModel, FormState } from "@/lib/types";
 import {
   Card,
   CardContent,
@@ -42,6 +44,7 @@ interface OrganisationCreateFormProps {
 export default function OrganisationCreateForm({
   createOrganisationAction,
 }: OrganisationCreateFormProps) {
+  const router = useRouter();
   const [hasLegalEntity, setHasLegalEntity] = useState(false);
   const {
     selectedCountry,
@@ -110,14 +113,20 @@ export default function OrganisationCreateForm({
     });
   }
 
+  useEffect(() => {
+    if (formState.success) {
+      router.push("/dashboard");
+    }
+  }, [formState.success, router]);
+
   return (
     <section className="flex min-h-screen w-full flex-col items-center justify-center px-4 py-24">
       <Card className="w-full max-w-2xl shadow-2xl bg-white backdrop-blur-sm border-0 px-4 py-8">
         <CardHeader className="text-center space-y-4">
-          <div className="mx-auto w-16 h-16 bg-gradient-to-br from-oxford-blue-500 to-powder-blue-400 rounded-full flex items-center justify-center shadow-lg">
+          <div className="mx-auto w-16 h-16 bg-linear-to-br from-oxford-blue-500 to-powder-blue-400 rounded-full flex items-center justify-center shadow-lg">
             <Building2 className="w-8 h-8 text-white" />
           </div>
-          <CardTitle className="text-3xl font-bold bg-gradient-to-r from-powder-blue-200 to-sunglow-200 bg-clip-text text-transparent">
+          <CardTitle className="text-3xl font-bold bg-linear-to-r from-powder-blue-200 to-sunglow-200 bg-clip-text text-transparent">
             About your Work
           </CardTitle>
           <CardDescription className="text-black-700 text-lg">
@@ -129,7 +138,7 @@ export default function OrganisationCreateForm({
             <div className="space-y-2">
               <div className="flex items-start gap-3 rounded-lg border border-powder-blue-700/40 bg-powder-blue-900/30 px-4 py-3">
                 <Checkbox
-                  className="mt-1 border border-powder-blue-600 data-[state=checked]:bg-sunglow data-[state=checked]:text-rich-black"
+                  className="border border-powder-blue-600 data-[state=checked]:bg-sunglow data-[state=checked]:text-rich-black"
                   checked={hasLegalEntity}
                   onCheckedChange={() => setHasLegalEntity(!hasLegalEntity)}
                 />
