@@ -2,7 +2,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { siInstagram } from "simple-icons";
 import Link from "next/link";
-import { Token } from "@/lib/types";
+import { Platform, Token } from "@/lib/types";
 import InstagramConnect from "./connect/instagram-connect";
 
 interface LeadMagnetDistributionProps {
@@ -38,7 +38,9 @@ export default function LeadMagnetDistribution({
               </svg>
             </div>
             <InstagramConnect
-              authenticated={tokens?.some((t) => t.instagramId !== null)}
+              authenticated={tokens?.some(
+                (t) => t.platform === Platform.INSTAGRAM,
+              )}
             />
           </div>
         </div>
