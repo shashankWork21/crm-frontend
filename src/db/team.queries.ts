@@ -2,25 +2,24 @@
 
 import { validateSession } from "@/actions";
 import { teamPath, teamSearchPath, verifyKeyPath } from "@/lib/paths";
-import axios from "axios";
 import { cookies } from "next/headers";
 import { cache } from "react";
 
 export const getTeamMembers = cache(async (organisationId: string) => {
   const c = await cookies();
   try {
-    const response = await axios.get(teamPath(organisationId), {
+    const response = await fetch(teamPath(organisationId), {
       headers: {
         "Content-Type": "application/json",
         Cookie: `session=${c.get("session")?.value || ""}`,
       },
     });
 
-    if (response.status !== 200) {
+    if (!response.ok) {
       throw new Error("Failed to fetch team members");
     }
 
-    return response.data;
+    return response.json();
   } catch (error) {
     throw new Error(
       `Error fetching team members: ${
@@ -35,7 +34,7 @@ export const getTeamMembersBySearchTerm = cache(
     const { user } = await validateSession();
 
     try {
-      const response = await axios.get(
+      const response = await fetch(
         teamSearchPath(user?.organisationId as string, searchTerm),
         {
           headers: {
@@ -45,11 +44,11 @@ export const getTeamMembersBySearchTerm = cache(
         }
       );
 
-      if (response.status !== 200) {
+      if (!response.ok) {
         throw new Error("Failed to fetch team members");
       }
 
-      return response.data;
+      return response.json();
     } catch (error) {
       throw new Error(
         `Error fetching team members: ${
@@ -61,7 +60,12 @@ export const getTeamMembersBySearchTerm = cache(
 );
 
 export const getUserIdFromKey = async (key: string): Promise<string> => {
-  // Implement your logic to extract email from the key
-  const response = await axios.get(verifyKeyPath(key));
-  return response.data.userId;
+  const response = await fetch(verifyKeyPath(key));
+
+  if (!response.ok) {
+    throw new Error("Failed to verify key");
+  }
+
+  const data = await response.json();
+  return data.userId;
 };

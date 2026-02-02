@@ -20,10 +20,10 @@ export default function LeadMagnetStepItem({
     <div
       className={`flex items-start gap-4 p-4 rounded-lg border-l-4 ${
         isActive
-          ? "border-sunglow bg-sunglow-600"
+          ? "border-sunglow bg-sunglow-500/20"
           : isDone
-          ? "border-oxford-blue bg-powder-blue"
-          : "border-gray-300 bg-gray-300"
+          ? "border-green-500 bg-green-500/10"
+          : "border-slate-600 bg-slate-800/50"
       }`}
     >
       <div
@@ -31,8 +31,8 @@ export default function LeadMagnetStepItem({
           isActive
             ? "bg-sunglow text-rich-black"
             : isDone
-            ? "bg-oxford-blue text-gray-300"
-            : "bg-gray-400 text-gray-300"
+            ? "bg-green-500 text-white"
+            : "bg-slate-700 text-slate-400"
         }`}
       >
         {stepNumber}
@@ -40,14 +40,18 @@ export default function LeadMagnetStepItem({
       <div>
         <h3
           className={`text-lg font-semibold ${
-            isActive || isDone ? "text-rich-black" : "text-gray-400"
+            isActive
+              ? "text-sunglow"
+              : isDone
+              ? "text-green-400"
+              : "text-slate-400"
           }`}
         >
           {title}
         </h3>
         <p
           className={`mt-1 text-sm ${
-            isActive || isDone ? "text-rich-black/80" : "text-gray-400"
+            isActive || isDone ? "text-slate-300" : "text-slate-500"
           }`}
         >
           {description}

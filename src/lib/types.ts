@@ -1,7 +1,7 @@
 /**
  * Frontend TypeScript Types
  * Generated from Prisma Schema
- * Last Updated: October 16, 2025
+ * Last Updated: January 30, 2026
  */
 
 // ============================================================================
@@ -28,6 +28,21 @@ export enum Scope {
   META_INSTAGRAM_DM = "META_INSTAGRAM_DM",
   META_INSTAGRAM_BASIC = "META_INSTAGRAM_BASIC",
   META_INSTAGRAM_COMMENT = "META_INSTAGRAM_COMMENT",
+}
+
+export enum Platform {
+  INSTAGRAM = "INSTAGRAM",
+  WHATSAPP = "WHATSAPP",
+  EMAIL = "EMAIL",
+  SMS = "SMS",
+}
+
+export enum ChatSource {
+  INSTAGRAM = "INSTAGRAM",
+  WHATSAPP = "WHATSAPP",
+  EMAIL = "EMAIL",
+  SMS = "SMS",
+  OTHER = "OTHER",
 }
 
 export enum Gender {
@@ -143,14 +158,8 @@ export enum NoteCategory {
 }
 
 export enum ScheduleType {
-  ONCE = "ONCE",
-  DAILY = "DAILY",
-  WEEKLY = "WEEKLY",
-  MONTHLY = "MONTHLY",
-  YEARLY = "YEARLY",
-  CUSTOM_INTERVAL = "CUSTOM_INTERVAL",
-  CUSTOM_DATES = "CUSTOM_DATES",
-  CRON = "CRON",
+  ONE_TIME = "ONE_TIME",
+  RECURRING = "RECURRING",
 }
 
 export enum ReminderType {
@@ -236,12 +245,15 @@ export enum MessageStatus {
   FAILED = "FAILED",
 }
 
-export enum ChatSource {
-  INSTAGRAM = "INSTAGRAM",
-  WHATSAPP = "WHATSAPP",
-  EMAIL = "EMAIL",
-  SMS = "SMS",
-  OTHER = "OTHER",
+export enum MessageSender {
+  USER = "USER",
+  AUTOMATION = "AUTOMATION",
+  CONTACT = "CONTACT",
+}
+
+export enum MessageDirection {
+  INBOUND = "INBOUND",
+  OUTBOUND = "OUTBOUND",
 }
 
 export enum TriggerSource {
@@ -273,6 +285,67 @@ export enum ResponseType {
   FILE = "FILE",
 }
 
+export enum ResponseSource {
+  COMMENT_REPLY = "COMMENT_REPLY",
+  INSTAGRAM_DM = "INSTAGRAM_DM",
+  WHATSAPP_DM = "WHATSAPP_DM",
+  EMAIL = "EMAIL",
+}
+
+export enum ExecutionStatus {
+  SCHEDULED = "SCHEDULED",
+  AWAITING_RESPONSE = "AWAITING_RESPONSE",
+  COMPLETED = "COMPLETED",
+  FAILED = "FAILED",
+}
+
+export enum EmployeeAccess {
+  CONTACTS_READ = "CONTACTS_READ",
+  CONTACTS_WRITE = "CONTACTS_WRITE",
+  DEALS_READ = "DEALS_READ",
+  DEALS_WRITE = "DEALS_WRITE",
+  ACTIVITIES_READ = "ACTIVITIES_READ",
+  ACTIVITIES_WRITE = "ACTIVITIES_WRITE",
+  NOTES_READ = "NOTES_READ",
+  NOTES_WRITE = "NOTES_WRITE",
+  REMINDERS_READ = "REMINDERS_READ",
+  REMINDERS_WRITE = "REMINDERS_WRITE",
+  TASKS_READ = "TASKS_READ",
+  TASKS_WRITE = "TASKS_WRITE",
+  SCHEDULES_READ = "SCHEDULES_READ",
+  SCHEDULES_WRITE = "SCHEDULES_WRITE",
+  AUTOMATIONS_READ = "AUTOMATIONS_READ",
+  AUTOMATIONS_WRITE = "AUTOMATIONS_WRITE",
+  MESSAGES_READ = "MESSAGES_READ",
+  MESSAGES_WRITE = "MESSAGES_WRITE",
+  LEADMAGNETS_READ = "LEADMAGNETS_READ",
+  LEADMAGNETS_WRITE = "LEADMAGNETS_WRITE",
+}
+
+export enum Model {
+  DEAL = "DEAL",
+  CONTACT = "CONTACT",
+  ORGANISATION = "ORGANISATION",
+  ACTIVITY = "ACTIVITY",
+  REMINDER = "REMINDER",
+  MESSAGE_AUTOMATION = "MESSAGE_AUTOMATION",
+  LEAD_MAGNET = "LEAD_MAGNET",
+  TASK = "TASK",
+  NOTE = "NOTE",
+}
+
+export enum Currency {
+  INR = "INR",
+  USD = "USD",
+  AED = "AED",
+  EUR = "EUR",
+}
+
+export enum OfferType {
+  PRODUCT = "PRODUCT",
+  SERVICE = "SERVICE",
+}
+
 // ============================================================================
 // BASE TYPES
 // ============================================================================
@@ -298,7 +371,24 @@ export interface User extends BaseEntity {
   organisation?: Organisation;
   employeeAccess?: EmployeeAccess[];
   filterViews?: FilterView[];
-  instagramAccount?: InstagramAccount;
+  automations?: Automation[];
+  sessions?: Session[];
+  tokens?: Token[];
+  addedActivities?: Activity[];
+  createdNotes?: Note[];
+  contactFollowUps?: Contact[];
+  contactStageChange?: ContactStageChange[];
+  createdReminders?: Reminder[];
+  assignedReminders?: Reminder[];
+  primaryDeals?: Deal[];
+  teamDeals?: Deal[];
+  dealStageHistory?: DealStageHistory[];
+  orders?: Order[];
+  groups?: Group[];
+  leadMagnets?: LeadMagnet[];
+  assignedTasks?: Task[];
+  offers?: Offer[];
+  chats?: Chat[];
 }
 
 export interface Session extends BaseEntity {
@@ -309,26 +399,15 @@ export interface Session extends BaseEntity {
 
 export interface Token extends BaseEntity {
   userId: string;
+  user?: User;
+  organisationId: string;
+  organisation?: Organisation;
+  platform: Platform;
   scopes: Scope[];
   accessToken: string;
   refreshToken?: string;
-  user?: User;
-  instagramAccount?: InstagramAccount;
-}
-
-// ============================================================================
-// INSTAGRAM ACCOUNT
-// ============================================================================
-
-export interface InstagramAccount {
-  id: number;
-  userId: string;
-  user?: User;
-  tokenId: string;
-  instagramId: string;
-  token?: Token;
-  createdAt: string;
-  updatedAt: string;
+  expiresAt?: string;
+  platformId?: string;
 }
 
 // ============================================================================
@@ -340,6 +419,8 @@ export interface Country extends BaseEntity {
   code?: string;
   states?: State[];
   groupId?: string;
+  group?: Group;
+  groupEntities?: GroupEntity[];
 }
 
 export interface State extends BaseEntity {
@@ -348,6 +429,8 @@ export interface State extends BaseEntity {
   country?: Country;
   cities?: City[];
   groupId?: string;
+  group?: Group;
+  groupEntities?: GroupEntity[];
 }
 
 export interface City extends BaseEntity {
@@ -356,6 +439,10 @@ export interface City extends BaseEntity {
   stateId: string;
   state?: State;
   groupId?: string;
+  group?: Group;
+  organisations?: Organisation[];
+  contacts?: Contact[];
+  groupEntities?: GroupEntity[];
 }
 
 // ============================================================================
@@ -376,16 +463,27 @@ export interface Organisation extends BaseEntity {
   businessModel?: BusinessModel;
   contactOrgId?: string;
   contactOrganisation?: Organisation;
+  contactOrganisations?: Organisation[];
   aiTokensTotal: number;
   aiTokensUsed: number;
   team?: User[];
   tags?: Tag[];
+  createdTags?: Tag[];
   contacts?: Contact[];
+  orgContacts?: Contact[];
   deals?: Deal[];
   groups?: Group[];
   subscriptions?: Subscription[];
   orders?: Order[];
   filterViews?: FilterView[];
+  createdSchedules?: Schedule[];
+  chats?: Chat[];
+  automations?: Automation[];
+  tasks?: Task[];
+  groupEntities?: GroupEntity[];
+  createdLeadMagnets?: LeadMagnet[];
+  offers?: Offer[];
+  tokens?: Token[];
 }
 
 // ============================================================================
@@ -402,6 +500,8 @@ export interface Tag extends BaseEntity {
   activities?: Activity[];
   contacts?: Contact[];
   deals?: Deal[];
+  chats?: Chat[];
+  automations?: Automation[];
 }
 
 // ============================================================================
@@ -451,8 +551,10 @@ export interface Contact extends BaseEntity {
   stageHistory?: ContactStageChange[];
   reminders?: Reminder[];
   deals?: Deal[];
+  contactDeals?: Deal[];
   tasks?: Task[];
   chats?: Chat[];
+  groupEntities?: GroupEntity[];
 }
 
 export interface ContactStageChange extends BaseEntity {
@@ -504,8 +606,10 @@ export interface Deal extends BaseEntity {
   title: string;
   description?: string;
   value?: string;
-  currency: string;
+  currency: Currency;
   probability?: number;
+  offerId?: string;
+  offer?: Offer;
   stage: DealStage;
   phase: DealPhase;
   expectedCloseDate?: string;
@@ -525,7 +629,9 @@ export interface Deal extends BaseEntity {
   reminders?: Reminder[];
   stageHistory?: DealStageHistory[];
   tasks?: Task[];
-  chats?: Chat[];
+  groupEntities?: GroupEntity[];
+  chatId?: string;
+  chat?: Chat;
 }
 
 export interface DealStageHistory {
@@ -582,6 +688,7 @@ export interface Schedule extends BaseEntity {
   organisationId: string;
   organisation?: Organisation;
   reminders?: Reminder[];
+  automations?: Automation[];
 }
 
 export interface Reminder extends BaseEntity {
@@ -592,7 +699,7 @@ export interface Reminder extends BaseEntity {
   dueAt: string;
   scheduleId?: string;
   schedule?: Schedule;
-  channel: string; // ReminderChannel - default DASHBOARD
+  channel: ReminderChannel;
   contactId?: string;
   contact?: Contact;
   dealId?: string;
@@ -620,6 +727,9 @@ export interface Group extends BaseEntity {
   createdOrgId: string;
   createdOrg?: Organisation;
   groupEntities?: GroupEntity[];
+  cities?: City[];
+  states?: State[];
+  countries?: Country[];
 }
 
 export interface GroupEntity extends BaseEntity {
@@ -654,7 +764,7 @@ export interface LeadMagnet extends BaseEntity {
   createdById: string;
   createdBy?: User;
   contacts?: Contact[];
-  messageAutomations?: MessageAutomation[];
+  automations?: Automation[];
 }
 
 // ============================================================================
@@ -665,7 +775,7 @@ export interface SubscriptionPlan extends BaseEntity {
   name: string;
   frequency: SubscriptionFrequency;
   description?: string;
-  currency: string;
+  currency: Currency;
   razorpayPlanId?: string;
   baseAmount: string;
   baseSeatCount: number;
@@ -673,6 +783,7 @@ export interface SubscriptionPlan extends BaseEntity {
   freeAiTokenCount: number;
   relatedPlanId?: string;
   relatedPlan?: SubscriptionPlan;
+  relatedPlans?: SubscriptionPlan[];
   subscriptions?: Subscription[];
 }
 
@@ -693,7 +804,7 @@ export interface Order extends BaseEntity {
   amount: string;
   amountDue?: string;
   amountPaid?: string;
-  currency: string;
+  currency: Currency;
   razorpayOrderId?: string;
   razorpayOrderStatus?: string;
   status: OrderStatus;
@@ -701,6 +812,8 @@ export interface Order extends BaseEntity {
   organisation?: Organisation;
   userId: string;
   user?: User;
+  offerId?: string;
+  offer?: Offer;
   aiTokensPurchased?: number;
   payments?: Payment[];
 }
@@ -710,12 +823,34 @@ export interface Payment extends BaseEntity {
   razorpayOrderId?: string;
   amount: string;
   action: PaymentAction;
-  currency: string;
+  currency: Currency;
   status: string;
-  orderId: string;
+  orderId?: string;
   order?: Order;
   subscriptionId?: string;
   subscription?: Subscription;
+}
+
+// ============================================================================
+// OFFERS
+// ============================================================================
+
+export interface Offer extends BaseEntity {
+  title: string;
+  description?: string;
+  type: OfferType;
+  validFrom?: string;
+  validTill?: string;
+  organisationId: string;
+  organisation?: Organisation;
+  createdById?: string;
+  createdBy?: User;
+  amount: string;
+  currency: Currency;
+  inclusions: string[];
+  exclusions: string[];
+  orders?: Order[];
+  deals?: Deal[];
 }
 
 // ============================================================================
@@ -727,55 +862,101 @@ export interface Chat extends BaseEntity {
   sourceChatId: string;
   sourceUserId: string;
   sourceUserName?: string;
-  dealId?: string;
-  deal?: Deal;
   contactId?: string;
   contact?: Contact;
   organisationId?: string;
   organisation?: Organisation;
   messageCount: number;
   lastMessageAt?: string;
-  automationId?: string;
-  automation?: MessageAutomation;
+  deals?: Deal[];
+  automations?: Automation[];
   executions?: Execution[];
-  tags: Tag[];
+  tags?: Tag[];
+  messages?: Message[];
+  users?: User[];
 }
 
-export interface MessageAutomation extends BaseEntity {
+export interface Message extends BaseEntity {
+  chatId: string;
+  chat?: Chat;
+  sender: MessageSender;
+  senderId: string;
+  content: string;
+  mediaUrls: string[];
+  mediaTypes: string[];
+  platformMessageId?: string;
+  status: MessageStatus;
+  errorMessage?: string;
+  direction: MessageDirection;
+  sentAt?: string;
+  deliveredAt?: string;
+  readAt?: string;
+}
+
+export interface Automation extends BaseEntity {
   name: string;
   isActive: boolean;
+  platform: Platform;
   organisationId: string;
   organisation?: Organisation;
   createdById: string;
   createdBy?: User;
   leadMagnetId?: string;
   leadMagnet?: LeadMagnet;
-  reelId?: string;
-  reelUrl?: string;
+  assetId?: string;
+  assetUrl?: string;
   triggerSource: TriggerSource;
-  triggerType: string;
-  triggerValue: string;
+  triggerType: TriggerType;
+  triggerValues: string[];
+  responseSource: ResponseSource;
   responseType: ResponseType;
   responseContent: string;
-  maxExecutions: number;
+  responseButtonTextList: string[];
   timeDelay?: number;
+  replyToComment: boolean;
+  commentReplies: string[];
+  verifyFollower: boolean;
+  enforceFollow: boolean;
+  verificationMessage?: string;
+  verificationButtonText: string;
   chats?: Chat[];
   executions?: Execution[];
-  tags: Tag[];
+  tags?: Tag[];
+  scheduleId?: string;
+  schedule?: Schedule;
 }
 
 export interface Execution {
   id: string;
-  messageAutomationId: string;
-  messageAutomation?: MessageAutomation;
+  automationId: string;
+  automation?: Automation;
   incomingText?: string;
   responseText?: string;
   chatId: string;
   chat?: Chat;
   scheduledAt?: string;
   executedAt: string;
-  status: string;
+  status: ExecutionStatus;
   errorMessage?: string;
+}
+
+// ============================================================================
+// FILTER VIEWS
+// ============================================================================
+
+export interface FilterView extends BaseEntity {
+  name: string;
+  model: Model;
+  displayFields: string[];
+  filterCriteria: Record<string, unknown>;
+  sortCriteria?: Array<{
+    field: string;
+    order: "asc" | "desc";
+  }> | null;
+  organisationId: string;
+  organisation?: Organisation;
+  createdById: string;
+  createdBy?: User;
 }
 
 // ============================================================================
@@ -877,16 +1058,39 @@ export interface ActivityFilters extends PaginationParams {
 export interface ChatFilters extends PaginationParams {
   source?: ChatSource;
   contactId?: string;
-  dealId?: string;
   organisationId?: string;
-  automationId?: string;
+  dateRange?: DateRange;
+}
+
+export interface MessageFilters extends PaginationParams {
+  chatId?: string;
+  sender?: MessageSender;
+  senderId?: string;
+  status?: MessageStatus;
+  direction?: MessageDirection;
   dateRange?: DateRange;
 }
 
 export interface ExecutionFilters extends PaginationParams {
-  status?: string;
+  status?: ExecutionStatus;
   chatId?: string;
   automationId?: string;
+  dateRange?: DateRange;
+}
+
+export interface ScheduleFilters extends PaginationParams {
+  type?: ScheduleType;
+  isActive?: boolean;
+  organisationId?: string;
+  dateRange?: DateRange;
+}
+
+export interface AutomationFilters extends PaginationParams {
+  platform?: Platform;
+  triggerType?: TriggerType;
+  triggerSource?: TriggerSource;
+  isActive?: boolean;
+  organisationId?: string;
   dateRange?: DateRange;
 }
 
@@ -936,13 +1140,19 @@ export interface AutomationStatistics {
   executionsByType: Record<ResponseType, number>;
 }
 
-// Utility types
-export interface ApiResponse<T> {
-  data?: T;
-  error?: string;
-  message?: string;
-  statusCode: number;
+export interface MessageStatistics {
+  totalMessages: number;
+  byStatus: Record<MessageStatus, number>;
+  byDirection: Record<MessageDirection, number>;
+  bySender: Record<MessageSender, number>;
+  sentThisMonth: number;
+  deliveredThisMonth: number;
+  failedThisMonth: number;
 }
+
+// ============================================================================
+// FORM & UI TYPES
+// ============================================================================
 
 export interface FormState {
   success: boolean;
@@ -971,53 +1181,17 @@ export enum DateOptions {
   CUSTOM = "CUSTOM",
 }
 
-export enum EmployeeAccess {
-  CONTACTS_READ = "CONTACTS_READ",
-  CONTACTS_WRITE = "CONTACTS_WRITE",
-  DEALS_READ = "DEALS_READ",
-  DEALS_WRITE = "DEALS_WRITE",
-  ACTIVITIES_READ = "ACTIVITIES_READ",
-  ACTIVITIES_WRITE = "ACTIVITIES_WRITE",
-  NOTES_READ = "NOTES_READ",
-  NOTES_WRITE = "NOTES_WRITE",
-  REMINDERS_READ = "REMINDERS_READ",
-  REMINDERS_WRITE = "REMINDERS_WRITE",
-  TASKS_READ = "TASKS_READ",
-  TASKS_WRITE = "TASKS_WRITE",
-  SCHEDULES_READ = "SCHEDULES_READ",
-  SCHEDULES_WRITE = "SCHEDULES_WRITE",
-  AUTOMATIONS_READ = "AUTOMATIONS_READ",
-  AUTOMATIONS_WRITE = "AUTOMATIONS_WRITE",
-  MESSAGES_READ = "MESSAGES_READ",
-  MESSAGES_WRITE = "MESSAGES_WRITE",
-  LEADMAGNETS_READ = "LEADMAGNETS_READ",
-  LEADMAGNETS_WRITE = "LEADMAGNETS_WRITE",
-}
+// ============================================================================
+// EXTERNAL INTEGRATIONS
+// ============================================================================
 
-export enum Model {
-  DEAL = "DEAL",
-  CONTACT = "CONTACT",
-  ORGANISATION = "ORGANISATION",
-  ACTIVITY = "ACTIVITY",
-  REMINDER = "REMINDER",
-  MESSAGE_AUTOMATION = "MESSAGE_AUTOMATION",
-  LEAD_MAGNET = "LEAD_MAGNET",
-  TASK = "TASK",
-  NOTE = "NOTE",
-}
-
-export interface FilterView {
+export interface InstagramMedia {
+  caption: string;
   id: string;
-  name: string;
-  model: Model;
-  displayFields: string[];
-  filterCriteria: Record<string, unknown>; // JSON object for filter conditions
-  sortCriteria?: Array<{
-    field: string;
-    order: "asc" | "desc";
-  }> | null; // JSON array for sort order
-  organisationId: string;
-  createdById: string;
-  createdAt: string; // ISO date string
-  updatedAt: string; // ISO date string
+  media_type: "IMAGE" | "VIDEO" | "CAROUSEL_ALBUM";
+  media_url: string;
+  permalink: string;
+  thumbnail_url?: string;
+  timestamp: string;
+  alt_text: string;
 }

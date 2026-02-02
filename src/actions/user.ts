@@ -2,7 +2,6 @@
 
 import { changeRolePathById, userPathById } from "@/lib/paths";
 import { FormState } from "@/lib/types";
-import axios from "axios";
 import { revalidatePath } from "next/cache";
 import { cookies } from "next/headers";
 
@@ -10,25 +9,17 @@ export async function changeUserRole(userId: string, role: string) {
   const c = await cookies();
 
   try {
-    await axios.put(
-      changeRolePathById(userId),
-      { role },
-      {
-        headers: {
-          "Content-Type": "application/json",
-          Cookie: `session=${c.get("session")?.value || ""}`,
-        },
-      }
-    );
-    revalidatePath("/dashboard/team");
-    return {
-      success: true,
-      message: "User role updated successfully",
-      errors: {},
-    };
-  } catch (error) {
-    if (axios.isAxiosError(error) && error.response) {
-      const { data } = error.response;
+    const response = await fetch(changeRolePathById(userId), {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Cookie: `session=${c.get("session")?.value || ""}`,
+      },
+      body: JSON.stringify({ role }),
+    });
+
+    if (!response.ok) {
+      const data = await response.json();
       return {
         success: false,
         message: data.message || "Failed to update user role",
@@ -36,6 +27,13 @@ export async function changeUserRole(userId: string, role: string) {
       };
     }
 
+    revalidatePath("/dashboard/team");
+    return {
+      success: true,
+      message: "User role updated successfully",
+      errors: {},
+    };
+  } catch (error) {
     return {
       success: false,
       message:
@@ -52,12 +50,18 @@ export async function deleteUser(userId: string) {
   const c = await cookies();
 
   try {
-    await axios.delete(userPathById(userId), {
+    const response = await fetch(userPathById(userId), {
+      method: "DELETE",
       headers: {
         "Content-Type": "application/json",
         Cookie: `session=${c.get("session")?.value || ""}`,
       },
     });
+
+    if (!response.ok) {
+      throw new Error("Failed to delete user");
+    }
+
     revalidatePath("/dashboard/team");
 
     return {
@@ -91,33 +95,22 @@ export async function modifyProfile(
   const phoneNumber = formData.get("phoneNumber");
 
   try {
-    const response = await axios.put(
-      userPathById(userId),
-      {
+    const response = await fetch(userPathById(userId), {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Cookie: `session=${c.get("session")?.value || ""}`,
+      },
+      body: JSON.stringify({
         firstName,
         lastName,
         countryCode,
         phoneNumber,
-      },
-      {
-        headers: {
-          "Content-Type": "application/json",
-          Cookie: `session=${c.get("session")?.value || ""}`,
-        },
-      }
-    );
+      }),
+    });
 
-    revalidatePath("/profile");
-    revalidatePath("/dashboard/team");
-
-    return {
-      success: true,
-      message: response.data.message || "Profile updated successfully",
-      errors: {},
-    };
-  } catch (error) {
-    if (axios.isAxiosError(error) && error.response) {
-      const { data } = error.response;
+    if (!response.ok) {
+      const data = await response.json();
       return {
         success: false,
         message: data.message || "Failed to update profile",
@@ -125,6 +118,17 @@ export async function modifyProfile(
       };
     }
 
+    const responseData = await response.json();
+
+    revalidatePath("/profile");
+    revalidatePath("/dashboard/team");
+
+    return {
+      success: true,
+      message: responseData.message || "Profile updated successfully",
+      errors: {},
+    };
+  } catch (error) {
     return {
       success: false,
       message:

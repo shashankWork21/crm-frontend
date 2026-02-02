@@ -1,17 +1,13 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { Building2, Loader2 } from "lucide-react";
+import Link from "next/link";
+import Image from "next/image";
+import { Building2, Loader2, ArrowRight } from "lucide-react";
 
 import { useActionState, startTransition, useState, useEffect } from "react";
 import { BusinessModel, FormState } from "@/lib/types";
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-  CardDescription,
-} from "../ui/card";
+import { Card, CardContent, CardHeader } from "../ui/card";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import { Label } from "../ui/label";
@@ -31,13 +27,15 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../ui/select";
+import { getSessionCookie, validateSessionToken } from "@/actions";
+import { useAuth } from "@/context/auth.context";
 
 interface OrganisationCreateFormProps {
   createOrganisationAction: (
     cityId: string,
     businessModel: BusinessModel,
     formState: FormState,
-    formData: FormData
+    formData: FormData,
   ) => Promise<FormState>;
 }
 
@@ -45,6 +43,7 @@ export default function OrganisationCreateForm({
   createOrganisationAction,
 }: OrganisationCreateFormProps) {
   const router = useRouter();
+  const { setUser } = useAuth();
   const [hasLegalEntity, setHasLegalEntity] = useState(false);
   const {
     selectedCountry,
@@ -92,13 +91,13 @@ export default function OrganisationCreateForm({
     createOrganisationAction.bind(
       null,
       selectedCity?.id || "",
-      selectedBusinessModel?.value || BusinessModel.B2C
+      selectedBusinessModel?.value || BusinessModel.B2C,
     ),
     {
       success: false,
       message: "",
       errors: {},
-    }
+    },
   );
 
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -115,43 +114,77 @@ export default function OrganisationCreateForm({
 
   useEffect(() => {
     if (formState.success) {
-      router.push("/dashboard");
+      const refreshSession = async () => {
+        const sessionToken = await getSessionCookie();
+        try {
+          const { user: result } = await validateSessionToken(sessionToken);
+          if (setUser) {
+            setUser(result);
+          }
+          router.push("/dashboard");
+        } catch (error) {
+          console.error("Failed to refresh session:", error);
+        }
+      };
+      refreshSession();
     }
-  }, [formState.success, router]);
+  }, [formState.success, router, setUser]);
 
   return (
-    <section className="flex min-h-screen w-full flex-col items-center justify-center px-4 py-24">
-      <Card className="w-full max-w-2xl shadow-2xl bg-white backdrop-blur-sm border-0 px-4 py-8">
-        <CardHeader className="text-center space-y-4">
-          <div className="mx-auto w-16 h-16 bg-linear-to-br from-oxford-blue-500 to-powder-blue-400 rounded-full flex items-center justify-center shadow-lg">
-            <Building2 className="w-8 h-8 text-white" />
+    <div className="relative flex min-h-screen flex-col items-center justify-center px-4 py-16 overflow-hidden bg-rich-black">
+      {/* Background Effects */}
+      <div className="fixed inset-0 pointer-events-none" aria-hidden="true">
+        <div className="absolute top-1/4 -left-32 w-125 h-125 bg-sunglow-500/10 rounded-full blur-[120px]" />
+        <div className="absolute bottom-1/4 -right-32 w-100 h-100 bg-powder-blue-500/10 rounded-full blur-[100px]" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_0%,var(--rich-black)_70%)]" />
+      </div>
+
+      {/* Logo */}
+      <Link
+        href="/"
+        className="relative z-10 flex items-center gap-2 mb-8 text-white group focus:outline-none focus-visible:ring-2 focus-visible:ring-sunglow-500 rounded-lg px-2 py-1"
+      >
+        <Image
+          src="/initial_logo.svg"
+          alt="Smart CRM Logo"
+          width={40}
+          height={40}
+          className="w-10 h-10 group-hover:scale-110 transition-transform"
+        />
+        <span className="text-2xl font-bold tracking-tight">Smart CRM</span>
+      </Link>
+
+      {/* Card */}
+      <Card className="relative z-10 w-full max-w-2xl rounded-3xl border border-white/10 bg-oxford-blue backdrop-blur-xl shadow-2xl">
+        <CardHeader className="text-center space-y-3 pb-6 pt-8">
+          <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-sunglow-500/20 border border-sunglow-500/30">
+            <Building2 className="h-8 w-8 text-sunglow-500" />
           </div>
-          <CardTitle className="text-3xl font-bold bg-linear-to-r from-powder-blue-200 to-sunglow-200 bg-clip-text text-transparent">
-            About your Work
-          </CardTitle>
-          <CardDescription className="text-black-700 text-lg">
+          <h1 className="text-3xl font-bold text-white">About your Work</h1>
+          <p className="text-white/60">
             Tell us a bit about your work to begin your journey
-          </CardDescription>
+          </p>
         </CardHeader>
-        <CardContent className="space-y-6">
-          <form onSubmit={handleSubmit} className="space-y-6">
-            <div className="space-y-2">
-              <div className="flex items-start gap-3 rounded-lg border border-powder-blue-700/40 bg-powder-blue-900/30 px-4 py-3">
-                <Checkbox
-                  className="border border-powder-blue-600 data-[state=checked]:bg-sunglow data-[state=checked]:text-rich-black"
-                  checked={hasLegalEntity}
-                  onCheckedChange={() => setHasLegalEntity(!hasLegalEntity)}
-                />
-                <p className="text-sm text-rich-black-500">
-                  I&apos;ve registered a legal entity for my business
-                </p>
-              </div>
+
+        <CardContent className="space-y-6 px-8 pb-8">
+          <form onSubmit={handleSubmit} className="space-y-5">
+            {/* Legal Entity Checkbox */}
+            <div className="flex flex-row items-center gap-3 rounded-xl border border-white/10 bg-white/5 px-4 py-3">
+              <Checkbox
+                className="border border-white/30 data-[state=checked]:bg-sunglow-500 data-[state=checked]:text-rich-black data-[state=checked]:border-sunglow-500"
+                checked={hasLegalEntity}
+                onCheckedChange={() => setHasLegalEntity(!hasLegalEntity)}
+              />
+              <p className="text-sm text-white/70">
+                I&apos;ve registered a legal entity for my business
+              </p>
             </div>
 
+            {/* Organisation Name */}
             <div className="space-y-2">
               <Label
                 htmlFor="name"
-                className="text-sm font-medium text-rich-black flex items-center gap-2"
+                className="text-sm font-medium text-white/80"
               >
                 Name
               </Label>
@@ -160,26 +193,29 @@ export default function OrganisationCreateForm({
                 name="name"
                 type="text"
                 placeholder="Enter organisation / brand name"
-                className="h-11 bg-white border-gray-200 focus:border-powder-blue-500 focus:ring-powder-blue-500"
+                className="h-12 border border-white/10 bg-white/5 text-white placeholder:text-white/30 rounded-xl focus:border-sunglow-500 focus:ring-sunglow-500/20 focus:ring-2 transition-all"
               />
               {!!formState.errors.orgName && (
-                <ul>
+                <ul className="space-y-1 text-sm text-red-400">
                   {formState.errors.orgName.map(
                     (error: string, index: number) => (
-                      <li key={index} className="text-red-600">
+                      <li key={index} className="flex items-center gap-1">
+                        <span className="w-1 h-1 rounded-full bg-red-400" />
                         {error}
                       </li>
-                    )
+                    ),
                   )}
                 </ul>
               )}
             </div>
+
+            {/* Legal Entity Fields */}
             {hasLegalEntity && (
               <>
                 <div className="space-y-2">
                   <Label
                     htmlFor="legal-name"
-                    className="text-sm font-medium text-rich-black flex items-center gap-2"
+                    className="text-sm font-medium text-white/80"
                   >
                     Legal Entity Name
                   </Label>
@@ -188,13 +224,13 @@ export default function OrganisationCreateForm({
                     name="legalName"
                     type="text"
                     placeholder="Enter legal entity name"
-                    className="h-11 bg-white border-gray-200 focus:border-powder-blue-500 focus:ring-powder-blue-500"
+                    className="h-12 border border-white/10 bg-white/5 text-white placeholder:text-white/30 rounded-xl focus:border-sunglow-500 focus:ring-sunglow-500/20 focus:ring-2 transition-all"
                   />
                 </div>
                 <div className="space-y-2">
                   <Label
                     htmlFor="gst-number"
-                    className="text-sm font-medium text-rich-black flex items-center gap-2"
+                    className="text-sm font-medium text-white/80"
                   >
                     GST Number
                   </Label>
@@ -203,15 +239,17 @@ export default function OrganisationCreateForm({
                     name="gstNumber"
                     type="text"
                     placeholder="Enter GST number"
-                    className="h-11 bg-white border-gray-200 focus:border-powder-blue-500 focus:ring-powder-blue-500"
+                    className="h-12 border border-white/10 bg-white/5 text-white placeholder:text-white/30 rounded-xl focus:border-sunglow-500 focus:ring-sunglow-500/20 focus:ring-2 transition-all"
                   />
                 </div>
               </>
             )}
+
+            {/* Business Description */}
             <div className="space-y-2">
               <Label
                 htmlFor="business-description"
-                className="text-sm font-medium text-rich-black flex items-center gap-2"
+                className="text-sm font-medium text-white/80"
               >
                 Business Description
               </Label>
@@ -219,13 +257,15 @@ export default function OrganisationCreateForm({
                 id="business-description"
                 name="businessDescription"
                 placeholder="Enter a brief description of your business"
-                className="bg-white border-gray-200 focus:border-powder-blue-500 focus:ring-powder-blue-500"
+                className="min-h-25 border border-white/10 bg-white/5 text-white placeholder:text-white/30 rounded-xl focus:border-sunglow-500 focus:ring-sunglow-500/20 focus:ring-2 transition-all resize-none"
               />
             </div>
+
+            {/* Business Model */}
             <div className="space-y-2">
               <Label
                 htmlFor="business-model"
-                className="text-sm font-medium text-rich-black flex items-center gap-2"
+                className="text-sm font-medium text-white/80"
               >
                 Who is your business aiming to serve?
               </Label>
@@ -233,17 +273,17 @@ export default function OrganisationCreateForm({
                 value={selectedBusinessModel?.value || ""}
                 onValueChange={handleBusinessModelChange}
               >
-                <SelectTrigger className="w-full !h-11 bg-white border-gray-200 focus:border-powder-blue-500 focus:ring-powder-blue-500">
+                <SelectTrigger className="w-full h-12! border border-white/10 bg-white/5 text-white rounded-xl focus:border-sunglow-500 focus:ring-sunglow-500/20 focus:ring-2 transition-all [&>span]:text-white/70 [&>span[data-placeholder]]:text-white/30">
                   <SelectValue placeholder="Select one" />
                 </SelectTrigger>
-                <SelectContent className="bg-white border-gray-200 focus:border-powder-blue-500 focus:ring-powder-blue-500 w-full">
+                <SelectContent className="bg-oxford-blue-300 border border-white/10 rounded-xl">
                   {businessModelOptions.map((option, index) => (
                     <SelectItem
                       key={index}
                       value={option.value}
-                      className={`cursor-pointer ${
+                      className={`cursor-pointer text-white/80 hover:text-white focus:text-white focus:bg-white/10 ${
                         option.value === selectedBusinessModel?.value
-                          ? "font-semibold"
+                          ? "font-semibold bg-white/5"
                           : ""
                       }`}
                     >
@@ -253,10 +293,12 @@ export default function OrganisationCreateForm({
                 </SelectContent>
               </Select>
             </div>
+
+            {/* Country */}
             <div className="space-y-2">
               <Label
                 htmlFor="country"
-                className="text-sm font-medium text-rich-black flex items-center gap-2"
+                className="text-sm font-medium text-white/80"
               >
                 Country
               </Label>
@@ -272,10 +314,12 @@ export default function OrganisationCreateForm({
                 handleCreateCountry={handleCreateCountry}
               />
             </div>
+
+            {/* State */}
             <div className="space-y-2">
               <Label
                 htmlFor="state"
-                className="text-sm font-medium text-rich-black flex items-center gap-2"
+                className="text-sm font-medium text-white/80"
               >
                 State
               </Label>
@@ -292,10 +336,12 @@ export default function OrganisationCreateForm({
                 isCreatingState={isCreatingState}
               />
             </div>
+
+            {/* City */}
             <div className="space-y-2">
               <Label
                 htmlFor="city"
-                className="text-sm font-medium text-rich-black flex items-center gap-2"
+                className="text-sm font-medium text-white/80"
               >
                 City
               </Label>
@@ -312,11 +358,12 @@ export default function OrganisationCreateForm({
                 isCreatingCity={isCreatingCity}
               />
             </div>
+
+            {/* Submit Button */}
             <Button
               type="submit"
               disabled={isSubmitting}
-              className="w-full h-12 bg-sunglow hover:bg-sunglow-600 text-rich-black font-semibold text-lg transition-all duration-200 transform hover:scale-[1.02] disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none shadow-lg cursor-pointer"
-              variant="default"
+              className="w-full h-12 bg-sunglow-500 hover:bg-sunglow-400 text-rich-black font-bold text-base rounded-xl shadow-lg shadow-sunglow-500/25 hover:shadow-sunglow-500/40 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300 group"
             >
               {isSubmitting ? (
                 <div className="flex items-center gap-2">
@@ -324,21 +371,40 @@ export default function OrganisationCreateForm({
                   Creating Organisation...
                 </div>
               ) : (
-                "Create Organisation"
+                <div className="flex items-center gap-2">
+                  <span>Create Organisation</span>
+                  <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                </div>
               )}
             </Button>
           </form>
+
+          {/* Success/Error Message */}
           {formState.message && (
             <div
-              className={`mt-4 w-full text-center ${
-                formState.success ? "text-green-600" : "text-red-600"
+              className={`w-full text-center text-sm font-medium p-3 rounded-xl ${
+                formState.success
+                  ? "text-green-400 bg-green-500/10 border border-green-500/20"
+                  : "text-red-400 bg-red-500/10 border border-red-500/20"
               }`}
+              role="alert"
             >
               {formState.message}
             </div>
           )}
         </CardContent>
       </Card>
-    </section>
+
+      {/* Bottom Text */}
+      <p className="relative z-10 mt-8 text-sm text-white/40">
+        Need help?{" "}
+        <Link
+          href="/contact-us"
+          className="text-white/60 hover:text-sunglow-500 transition-colors underline underline-offset-2"
+        >
+          Contact Support
+        </Link>
+      </p>
+    </div>
   );
 }

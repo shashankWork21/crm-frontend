@@ -23,10 +23,11 @@ import {
   DropdownMenuTrigger,
   DropdownMenuSeparator,
 } from "../ui/dropdown-menu";
-import { ChevronUp, LogOut, User2, CreditCard, Sparkles } from "lucide-react";
+import { ChevronUp, LogOut, User2, CreditCard } from "lucide-react";
 import { User } from "@/lib/types";
 import { logoutUser } from "@/actions";
 import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
+import Image from "next/image";
 
 interface DashboardSidebarProps {
   user: User;
@@ -63,7 +64,13 @@ export default function DashboardSidebar({
           href="/dashboard"
           className="flex items-center gap-2 text-white hover:opacity-90 transition-opacity"
         >
-          <Sparkles className="w-6 h-6 text-sunglow-500 shrink-0" />
+          <Image
+            src="/logo-1024.svg"
+            alt="Logo"
+            width={24}
+            height={24}
+            className="shrink-0"
+          />
           {!isCollapsed && (
             <span className="text-lg font-bold whitespace-nowrap">
               Smart CRM

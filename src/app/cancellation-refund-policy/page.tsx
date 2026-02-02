@@ -1,8 +1,9 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { Button } from "@/components/ui/button";
-import { Sparkles, RotateCcw, CheckCircle2, Clock } from "lucide-react";
+import { RotateCcw, CheckCircle2 } from "lucide-react";
 
 export default function CancellationRefundPolicy() {
   return (
@@ -20,7 +21,13 @@ export default function CancellationRefundPolicy() {
             href="/"
             className="text-2xl font-bold text-white tracking-tight flex items-center gap-2 focus:outline-none focus-visible:ring-2 focus-visible:ring-sunglow-500 rounded-lg"
           >
-            <img src="/initial_logo.svg" alt="Smart CRM Logo" className="w-10 h-10" />
+            <Image
+              src="/initial_logo.svg"
+              alt="Smart CRM Logo"
+              width={40}
+              height={40}
+              className="w-10 h-10"
+            />
             <span>Smart CRM</span>
           </Link>
           <Link href="/login">
@@ -53,13 +60,13 @@ export default function CancellationRefundPolicy() {
       {/* Content */}
       <div className="relative z-10 px-6 pb-24">
         <div className="max-w-4xl mx-auto">
-          <div className="p-8 md:p-10 rounded-3xl bg-white/[0.03] border border-white/10 backdrop-blur-sm">
+          <div className="p-8 md:p-10 rounded-3xl bg-white/3 border border-white/10 backdrop-blur-sm">
             <p className="text-lg text-white/80 mb-8 leading-relaxed">
               At Icosihenagon Technologies LLP, we are committed to providing
               exceptional CRM solutions and ensuring complete customer
               satisfaction. This comprehensive Cancellation and Refund Policy
-              outlines our terms, procedures, and commitments regarding
-              refunds for our software services and solutions.
+              outlines our terms, procedures, and commitments regarding refunds
+              for our software services and solutions.
             </p>
 
             <div className="bg-linear-to-br from-sunglow-500/10 to-transparent border border-sunglow-500/20 rounded-2xl p-6 mb-8">
@@ -81,7 +88,9 @@ export default function CancellationRefundPolicy() {
                 </li>
                 <li className="flex items-start gap-2">
                   <CheckCircle2 className="w-5 h-5 text-sunglow-500 shrink-0 mt-0.5" />
-                  <span>No questions asked policy within eligibility period</span>
+                  <span>
+                    No questions asked policy within eligibility period
+                  </span>
                 </li>
               </ul>
             </div>
@@ -94,8 +103,8 @@ export default function CancellationRefundPolicy() {
                 <p className="text-white/80 leading-relaxed">
                   Customers are eligible for a full refund within{" "}
                   <strong className="text-sunglow-500">15 calendar days</strong>{" "}
-                  from the date of purchase. This policy applies to all our
-                  CRM software packages, including:
+                  from the date of purchase. This policy applies to all our CRM
+                  software packages, including:
                 </p>
                 <ul className="list-disc pl-6 space-y-2 text-white/70">
                   <li>Starter CRM Package</li>
@@ -106,10 +115,9 @@ export default function CancellationRefundPolicy() {
                 </ul>
                 <div className="bg-linear-to-br from-yellow-500/10 to-transparent border border-yellow-500/20 rounded-xl p-4 mt-4">
                   <p className="text-yellow-200">
-                    <strong>Important:</strong> Refund requests submitted
-                    after the 15-day period will be evaluated on a
-                    case-by-case basis and may not be eligible for a full
-                    refund.
+                    <strong>Important:</strong> Refund requests submitted after
+                    the 15-day period will be evaluated on a case-by-case basis
+                    and may not be eligible for a full refund.
                   </p>
                 </div>
               </div>
@@ -125,11 +133,13 @@ export default function CancellationRefundPolicy() {
                   steps:
                 </p>
                 <div className="grid md:grid-cols-3 gap-6 mt-6">
-                  <div className="bg-white/[0.03] border border-white/10 p-6 rounded-xl">
+                  <div className="bg-white/3 border border-white/10 p-6 rounded-xl">
                     <div className="w-8 h-8 bg-sunglow-500 text-rich-black rounded-full flex items-center justify-center font-bold mb-3">
                       1
                     </div>
-                    <h3 className="font-semibold text-white mb-2">Contact Support</h3>
+                    <h3 className="font-semibold text-white mb-2">
+                      Contact Support
+                    </h3>
                     <p className="text-sm text-white/70">
                       Email us at{" "}
                       <a
@@ -141,27 +151,31 @@ export default function CancellationRefundPolicy() {
                       within 15 days
                     </p>
                   </div>
-                  <div className="bg-white/[0.03] border border-white/10 p-6 rounded-xl">
+                  <div className="bg-white/3 border border-white/10 p-6 rounded-xl">
                     <div className="w-8 h-8 bg-sunglow-500 text-rich-black rounded-full flex items-center justify-center font-bold mb-3">
                       2
                     </div>
-                    <h3 className="font-semibold text-white mb-2">Provide Details</h3>
+                    <h3 className="font-semibold text-white mb-2">
+                      Provide Details
+                    </h3>
                     <p className="text-sm text-white/70">
                       Include your order number, purchase date, and reason for
                       refund
                     </p>
                   </div>
-                  <div className="bg-white/[0.03] border border-white/10 p-6 rounded-xl">
+                  <div className="bg-white/3 border border-white/10 p-6 rounded-xl">
                     <div className="w-8 h-8 bg-sunglow-500 text-rich-black rounded-full flex items-center justify-center font-bold mb-3">
                       3
                     </div>
-                    <h3 className="font-semibold text-white mb-2">Review Process</h3>
+                    <h3 className="font-semibold text-white mb-2">
+                      Review Process
+                    </h3>
                     <p className="text-sm text-white/70">
                       Our team will review and respond within 24 hours
                     </p>
                   </div>
                 </div>
-                <div className="mt-6 bg-white/[0.03] border border-white/10 p-4 rounded-xl">
+                <div className="mt-6 bg-white/3 border border-white/10 p-4 rounded-xl">
                   <h3 className="font-semibold text-white mb-3">
                     Required Information:
                   </h3>
@@ -195,29 +209,34 @@ export default function CancellationRefundPolicy() {
                     <div className="flex items-center">
                       <div className="w-4 h-4 bg-green-500 rounded-full mr-3"></div>
                       <span className="text-white/70">
-                        <strong className="text-white">0-24 hours:</strong> Initial review and
-                        approval
+                        <strong className="text-white">0-24 hours:</strong>{" "}
+                        Initial review and approval
                       </span>
                     </div>
                     <div className="flex items-center">
                       <div className="w-4 h-4 bg-green-500 rounded-full mr-3"></div>
                       <span className="text-white/70">
-                        <strong className="text-white">1-2 business days:</strong> Refund initiated
+                        <strong className="text-white">
+                          1-2 business days:
+                        </strong>{" "}
+                        Refund initiated
                       </span>
                     </div>
                     <div className="flex items-center">
                       <div className="w-4 h-4 bg-green-500 rounded-full mr-3"></div>
                       <span className="text-white/70">
-                        <strong className="text-white">3-5 business days:</strong> Amount credited to
-                        your account
+                        <strong className="text-white">
+                          3-5 business days:
+                        </strong>{" "}
+                        Amount credited to your account
                       </span>
                     </div>
                   </div>
                 </div>
                 <p className="text-white/60 text-sm mt-4">
-                  <strong>Note:</strong> Processing times may vary depending
-                  on your bank or payment provider. International transactions
-                  may take 7-10 business days.
+                  <strong>Note:</strong> Processing times may vary depending on
+                  your bank or payment provider. International transactions may
+                  take 7-10 business days.
                 </p>
               </div>
             </section>
@@ -256,7 +275,7 @@ export default function CancellationRefundPolicy() {
               <h2 className="text-2xl font-bold text-white mb-4 border-b-2 border-white/10 pb-2">
                 5. Contact Information
               </h2>
-              <div className="rounded-xl p-6 bg-white/[0.03] border border-white/10">
+              <div className="rounded-xl p-6 bg-white/3 border border-white/10">
                 <div className="grid md:grid-cols-2 gap-6">
                   <div>
                     <h3 className="font-semibold text-white mb-3">
@@ -273,11 +292,12 @@ export default function CancellationRefundPolicy() {
                         </a>
                       </p>
                       <p>
-                        <strong className="text-white">Phone:</strong> +91-7349172510
+                        <strong className="text-white">Phone:</strong>{" "}
+                        +91-7349172510
                       </p>
                       <p>
-                        <strong className="text-white">Business Hours:</strong> Monday-Friday, 9:00
-                        AM - 6:00 PM IST
+                        <strong className="text-white">Business Hours:</strong>{" "}
+                        Monday-Friday, 9:00 AM - 6:00 PM IST
                       </p>
                     </div>
                   </div>
@@ -287,7 +307,9 @@ export default function CancellationRefundPolicy() {
                     </h3>
                     <div className="space-y-2 text-white/70">
                       <p>
-                        <strong className="text-white">Icosihenagon Technologies LLP</strong>
+                        <strong className="text-white">
+                          Icosihenagon Technologies LLP
+                        </strong>
                       </p>
                       <p>
                         943, 16th cross, 1st stage, Kumaraswamy Layout
@@ -308,9 +330,9 @@ export default function CancellationRefundPolicy() {
               </h3>
               <p className="text-white/70">
                 Our customer success team is committed to ensuring your
-                satisfaction. If you have any questions about our refund
-                policy or need assistance with your CRM solution, don&apos;t
-                hesitate to reach out.
+                satisfaction. If you have any questions about our refund policy
+                or need assistance with your CRM solution, don&apos;t hesitate
+                to reach out.
               </p>
             </div>
           </div>
@@ -325,8 +347,8 @@ export default function CancellationRefundPolicy() {
               Ready to Get Started?
             </h2>
             <p className="text-white/60 mb-8 max-w-xl mx-auto">
-              Start your free trial today and see how Smart CRM can help
-              you close more clients with less effort.
+              Start your free trial today and see how Smart CRM can help you
+              close more clients with less effort.
             </p>
             <Link href="/register">
               <Button className="bg-sunglow-500 hover:bg-sunglow-400 text-rich-black font-bold px-8 py-6 text-lg rounded-xl shadow-lg shadow-sunglow-500/25 hover:shadow-sunglow-500/40 transition-all duration-300 group">

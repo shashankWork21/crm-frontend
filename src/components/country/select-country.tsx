@@ -39,7 +39,7 @@ export default function SelectCountry({
 }: SelectCountryProps) {
   const exactMatch = countryOptions.some(
     (country) =>
-      country.name?.toLowerCase() === countrySearchTerm.trim().toLowerCase()
+      country.name?.toLowerCase() === countrySearchTerm.trim().toLowerCase(),
   );
 
   return (
@@ -49,19 +49,19 @@ export default function SelectCountry({
           variant="outline"
           role="combobox"
           aria-expanded={openCountry}
-          className="w-full h-11 justify-between bg-white border-gray-200 hover:bg-gray-50"
+          className="w-full h-12! border border-white/10 bg-white/5 text-white rounded-xl focus:border-sunglow-500 focus:ring-sunglow-500/20 focus:ring-2 transition-all [&>span]:text-white/70 [&>span[data-placeholder]]:text-white/30 text-"
         >
-          {selectedCountry?.name || "Select country..."}
-          <div className="w-fit gap-1 flex flex-row items-center">
+          <div className="gap-1 flex flex-row items-center justify-between w-full">
+            {selectedCountry?.name || "Select country..."}
             <Globe className="ml-2 h-4 w-4 shrink-0 opacity-50" />
           </div>
         </Button>
       </PopoverTrigger>
       <PopoverContent
-        className="w-[var(--radix-popover-trigger-width)] p-0 bg-white border-none"
+        className="w-(--radix-popover-trigger-width) p-0 bg-oxford-blue-200 text-white border-none"
         align="start"
       >
-        <Command className="bg-white" shouldFilter={false}>
+        <Command className="bg-oxford-blue-200 text-white" shouldFilter={false}>
           <CommandInput
             placeholder="Search country..."
             value={countrySearchTerm}

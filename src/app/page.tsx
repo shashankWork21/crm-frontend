@@ -14,7 +14,7 @@ import {
   Star,
   Shield,
   TrendingUp,
-  Sparkles,
+  BrainCircuit,
 } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 
@@ -143,7 +143,12 @@ export default function Home() {
             className="text-2xl font-bold text-white tracking-tight flex items-center gap-2 focus:outline-none focus-visible:ring-2 focus-visible:ring-sunglow-500 focus-visible:ring-offset-2 focus-visible:ring-offset-rich-black rounded-lg"
             aria-label="Smart CRM Home"
           >
-            <img src="/initial_logo.svg" alt="Smart CRM Logo" className="w-10 h-10" aria-hidden="true" />
+            <img
+              src="/initial_logo.svg"
+              alt="Smart CRM Logo"
+              className="w-10 h-10"
+              aria-hidden="true"
+            />
             <span>Smart CRM</span>
           </Link>
 
@@ -478,7 +483,7 @@ export default function Home() {
                 highlight: false,
               },
               {
-                icon: Sparkles,
+                icon: BrainCircuit,
                 title: "AI Sales Coach",
                 description:
                   "Real-time feedback on your messages to improve tone, empathy, and closing effectiveness.",

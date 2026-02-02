@@ -20,7 +20,7 @@ export default function CreateCountry({
 }: CreateCountryProps) {
   return (
     <div className="flex flex-col items-center gap-3 py-6">
-      <p className="text-sm text-gray-600">
+      <p className="text-sm text-powder-blue-900/40">
         {optionsExist
           ? `These are the countries that have the term "${countrySearchTerm}" in them. In case you want to add a new country, click the button below.`
           : `No country found with name "${countrySearchTerm}". Want to add this country to our list?`}

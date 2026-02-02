@@ -22,11 +22,11 @@ export default function TncDialog({ onAccept }: TncDialogProps) {
   return (
     <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
       <DialogTrigger asChild>
-        <span className="cursor-pointer text-oxford-blue-600 underline-offset-2 hover:underline">
+        <span className="cursor-pointer text-sunglow-500 hover:text-sunglow-400 underline underline-offset-2">
           terms and conditions
         </span>
       </DialogTrigger>
-      <DialogContent className="md:min-w-[900px] max-h-[80vh] overflow-y-auto rounded-2xl border border-powder-blue-700/40 bg-powder-blue-700">
+      <DialogContent className="md:min-w-225 max-h-[80vh] overflow-y-auto rounded-2xl border border-powder-blue-700/40 bg-oxford-blue-200 backdrop-blur-xl shadow-2xl">
         <DialogHeader>
           <DialogTitle className="sr-only">Terms and Conditions</DialogTitle>
         </DialogHeader>

@@ -1,20 +1,20 @@
 import type { Metadata } from "next";
-import { Outfit, Sora, JetBrains_Mono } from "next/font/google";
+import { Inter, Space_Grotesk, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import Providers from "./providers";
 import Footer from "@/components/general/footer";
 import { Analytics } from "@vercel/analytics/next";
 
-const outfit = Outfit({
+const inter = Inter({
   weight: ["300", "400", "500", "600", "700"],
   subsets: ["latin"],
-  variable: "--font-outfit",
+  variable: "--font-inter",
 });
 
-const sora = Sora({
-  weight: ["600", "700", "800"],
+const spaceGrotesk = Space_Grotesk({
+  weight: ["500", "600", "700"],
   subsets: ["latin"],
-  variable: "--font-sora",
+  variable: "--font-space-grotesk",
 });
 
 const jetbrainsMono = JetBrains_Mono({
@@ -35,9 +35,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" className="dark">
       <body
-        className={`${outfit.variable} ${sora.variable} ${jetbrainsMono.variable} antialiased overscroll-none bg-white`}
+        className={`${inter.variable} ${spaceGrotesk.variable} ${jetbrainsMono.variable} antialiased overscroll-none bg-rich-black font-sans text-slate-100`}
       >
         <Providers>
           <div className="min-h-screen">{children}</div>

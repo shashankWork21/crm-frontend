@@ -4,7 +4,6 @@ import {
   contactPathByOurOrganisationId,
   contactPathByTheirOrganisationId,
 } from "@/lib/paths";
-import axios from "axios";
 import { cookies } from "next/headers";
 import { cache } from "react";
 
@@ -22,24 +21,25 @@ export const getContactsByOurOrganisation = cache(
     if (relationalFields) {
       url = `${url}&include=${relationalFields}`;
     }
-    const response = await axios.get(url, {
+    const response = await fetch(url, {
       headers: {
         "Content-Type": "application/json",
         Cookie: `session=${c.get("session")?.value || ""}`,
       },
     });
-    if (response.status !== 200) {
+
+    if (!response.ok) {
       throw new Error("Failed to fetch organisation");
     }
 
-    return response.data;
+    return response.json();
   }
 );
 
 export const getContactByTheirOrganisation = cache(
   async (organisationId: string) => {
     const c = await cookies();
-    const response = await axios.get(
+    const response = await fetch(
       contactPathByTheirOrganisationId(organisationId),
       {
         headers: {
@@ -48,10 +48,11 @@ export const getContactByTheirOrganisation = cache(
         },
       }
     );
-    if (response.status !== 200) {
+
+    if (!response.ok) {
       throw new Error("Failed to fetch organisation");
     }
 
-    return response.data;
+    return response.json();
   }
 );

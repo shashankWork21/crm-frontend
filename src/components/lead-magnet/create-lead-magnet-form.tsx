@@ -19,7 +19,7 @@ export default function CreateaLeadMagnetForm() {
       <div className="space-y-2">
         <label
           htmlFor="title"
-          className="text-sm font-semibold text-oxford-blue block"
+          className="text-sm font-semibold text-slate-200 block"
         >
           Title
         </label>
@@ -27,18 +27,18 @@ export default function CreateaLeadMagnetForm() {
           id="title"
           name="title"
           type="text"
-          className="w-full border-powder-blue/30 focus:border-oxford-blue focus:ring-oxford-blue/20"
+          className="w-full bg-rich-black border-slate-700 focus:border-sunglow focus:ring-sunglow/20 text-slate-100 placeholder:text-slate-500"
           placeholder="Enter lead magnet title"
         />
         {formState.errors.title && (
-          <p className="text-sm text-red-600 mt-1">{formState.errors.title}</p>
+          <p className="text-sm text-red-400 mt-1">{formState.errors.title}</p>
         )}
       </div>
 
       <div className="space-y-2">
         <label
           htmlFor="description"
-          className="text-sm font-semibold text-oxford-blue block"
+          className="text-sm font-semibold text-slate-200 block"
         >
           Description
         </label>
@@ -46,11 +46,11 @@ export default function CreateaLeadMagnetForm() {
           id="description"
           name="description"
           rows={6}
-          className="w-full border-powder-blue/30 focus:border-oxford-blue focus:ring-oxford-blue/20 resize-none"
+          className="w-full bg-rich-black border-slate-700 focus:border-sunglow focus:ring-sunglow/20 text-slate-100 placeholder:text-slate-500 resize-none"
           placeholder="Describe your lead magnet and its value proposition"
         />
         {formState.errors.description && (
-          <p className="text-sm text-red-600 mt-1">
+          <p className="text-sm text-red-400 mt-1">
             {formState.errors.description}
           </p>
         )}
@@ -59,7 +59,7 @@ export default function CreateaLeadMagnetForm() {
       <div className="space-y-2">
         <label
           htmlFor="fileUrl"
-          className="text-sm font-semibold text-oxford-blue block"
+          className="text-sm font-semibold text-slate-200 block"
         >
           URL
         </label>
@@ -67,11 +67,11 @@ export default function CreateaLeadMagnetForm() {
           id="fileUrl"
           name="fileUrl"
           type="url"
-          className="w-full border-powder-blue/30 focus:border-oxford-blue focus:ring-oxford-blue/20"
+          className="w-full bg-rich-black border-slate-700 focus:border-sunglow focus:ring-sunglow/20 text-slate-100 placeholder:text-slate-500"
           placeholder="https://example.com/your-lead-magnet.pdf"
         />
         {formState.errors.fileUrl && (
-          <p className="text-sm text-red-600 mt-1">
+          <p className="text-sm text-red-400 mt-1">
             {formState.errors.fileUrl}
           </p>
         )}
@@ -79,10 +79,12 @@ export default function CreateaLeadMagnetForm() {
 
       <div className="relative py-6">
         <div className="absolute inset-0 flex items-center">
-          <div className="w-full border-t border-powder-blue/30" />
+          <div className="w-full border-t border-slate-700" />
         </div>
         <div className="relative flex justify-center text-sm">
-          <span className="px-3 bg-white text-rich-black font-medium">OR</span>
+          <span className="px-3 bg-oxford-blue text-slate-400 font-medium">
+            OR
+          </span>
         </div>
       </div>
 
@@ -105,8 +107,8 @@ export default function CreateaLeadMagnetForm() {
         <div
           className={`p-4 rounded-lg ${
             formState.success
-              ? "bg-green-50 text-green-800 border border-green-200"
-              : "bg-red-50 text-red-800 border border-red-200"
+              ? "bg-green-500/20 text-green-400 border border-green-500/30"
+              : "bg-red-500/20 text-red-400 border border-red-500/30"
           }`}
         >
           {formState.message}

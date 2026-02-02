@@ -1,8 +1,9 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { Button } from "@/components/ui/button";
-import { Sparkles, Shield, CheckCircle2 } from "lucide-react";
+import { Shield, CheckCircle2 } from "lucide-react";
 
 export default function PrivacyPolicy() {
   return (
@@ -20,7 +21,13 @@ export default function PrivacyPolicy() {
             href="/"
             className="text-2xl font-bold text-white tracking-tight flex items-center gap-2 focus:outline-none focus-visible:ring-2 focus-visible:ring-sunglow-500 rounded-lg"
           >
-            <img src="/initial_logo.svg" alt="Smart CRM Logo" className="w-10 h-10" />
+            <Image
+              src="/initial_logo.svg"
+              alt="Smart CRM Logo"
+              width={40}
+              height={40}
+              className="w-10 h-10"
+            />
             <span>Smart CRM</span>
           </Link>
           <Link href="/login">
@@ -53,13 +60,12 @@ export default function PrivacyPolicy() {
       {/* Content */}
       <div className="relative z-10 px-6 pb-24">
         <div className="max-w-4xl mx-auto">
-          <div className="p-8 md:p-10 rounded-3xl bg-white/[0.03] border border-white/10 backdrop-blur-sm">
+          <div className="p-8 md:p-10 rounded-3xl bg-white/3 border border-white/10 backdrop-blur-sm">
             <p className="text-lg text-white/80 mb-8 leading-relaxed">
-              Smart CRM is committed to protecting your privacy and
-              ensuring the security of your personal information. This
-              comprehensive Privacy Policy describes how we collect, use,
-              store, and safeguard your data when you use our CRM platform and
-              related services.
+              Smart CRM is committed to protecting your privacy and ensuring the
+              security of your personal information. This comprehensive Privacy
+              Policy describes how we collect, use, store, and safeguard your
+              data when you use our CRM platform and related services.
             </p>
 
             <div className="bg-linear-to-br from-powder-blue-500/10 to-transparent border border-powder-blue-500/20 rounded-2xl p-6 mb-8">
@@ -96,7 +102,7 @@ export default function PrivacyPolicy() {
               </h2>
               <div className="space-y-6">
                 <div className="grid md:grid-cols-2 gap-6">
-                  <div className="rounded-xl p-4 bg-white/[0.03] border border-white/10">
+                  <div className="rounded-xl p-4 bg-white/3 border border-white/10">
                     <h3 className="font-semibold text-white mb-3">
                       Personal Information
                     </h3>
@@ -108,7 +114,7 @@ export default function PrivacyPolicy() {
                       <li>• Billing and payment information</li>
                     </ul>
                   </div>
-                  <div className="rounded-xl p-4 bg-white/[0.03] border border-white/10">
+                  <div className="rounded-xl p-4 bg-white/3 border border-white/10">
                     <h3 className="font-semibold text-white mb-3">
                       Usage Information
                     </h3>
@@ -121,15 +127,15 @@ export default function PrivacyPolicy() {
                     </ul>
                   </div>
                 </div>
-                <div className="p-4 rounded-xl bg-white/[0.03] border border-white/10">
+                <div className="p-4 rounded-xl bg-white/3 border border-white/10">
                   <h3 className="font-semibold text-white mb-2">
                     Data Sources
                   </h3>
                   <p className="text-white/70 text-sm">
                     We collect information directly from you during
-                    registration, through your use of our platform, from
-                    cookies and tracking technologies, and from third-party
-                    integrations you authorize.
+                    registration, through your use of our platform, from cookies
+                    and tracking technologies, and from third-party integrations
+                    you authorize.
                   </p>
                 </div>
               </div>
@@ -140,7 +146,7 @@ export default function PrivacyPolicy() {
                 2. How We Use Your Information
               </h2>
               <div className="grid md:grid-cols-3 gap-6">
-                <div className="p-6 rounded-xl bg-white/[0.03] border border-white/10">
+                <div className="p-6 rounded-xl bg-white/3 border border-white/10">
                   <h3 className="font-semibold text-white mb-3">
                     Service Delivery
                   </h3>
@@ -151,10 +157,8 @@ export default function PrivacyPolicy() {
                     <li>• Provide customer support</li>
                   </ul>
                 </div>
-                <div className="p-6 rounded-xl bg-white/[0.03] border border-white/10">
-                  <h3 className="font-semibold text-white mb-3">
-                    Improvement
-                  </h3>
+                <div className="p-6 rounded-xl bg-white/3 border border-white/10">
+                  <h3 className="font-semibold text-white mb-3">Improvement</h3>
                   <ul className="text-white/70 text-sm space-y-1">
                     <li>• Enhance platform features</li>
                     <li>• Analyze usage patterns</li>
@@ -162,7 +166,7 @@ export default function PrivacyPolicy() {
                     <li>• Develop new features</li>
                   </ul>
                 </div>
-                <div className="p-6 rounded-xl bg-white/[0.03] border border-white/10">
+                <div className="p-6 rounded-xl bg-white/3 border border-white/10">
                   <h3 className="font-semibold text-white mb-3">
                     Communication
                   </h3>
@@ -231,9 +235,7 @@ export default function PrivacyPolicy() {
                     <ul className="space-y-2 text-white/70">
                       <li className="flex items-start">
                         <span className="w-2 h-2 bg-powder-blue-500 rounded-full mt-2 mr-3 shrink-0"></span>
-                        <span>
-                          End-to-end encryption for data transmission
-                        </span>
+                        <span>End-to-end encryption for data transmission</span>
                       </li>
                       <li className="flex items-start">
                         <span className="w-2 h-2 bg-powder-blue-500 rounded-full mt-2 mr-3 shrink-0"></span>
@@ -258,9 +260,7 @@ export default function PrivacyPolicy() {
                     <ul className="space-y-2 text-white/70">
                       <li className="flex items-start">
                         <span className="w-2 h-2 bg-powder-blue-500 rounded-full mt-2 mr-3 shrink-0"></span>
-                        <span>
-                          Access controls and role-based permissions
-                        </span>
+                        <span>Access controls and role-based permissions</span>
                       </li>
                       <li className="flex items-start">
                         <span className="w-2 h-2 bg-powder-blue-500 rounded-full mt-2 mr-3 shrink-0"></span>
@@ -284,7 +284,7 @@ export default function PrivacyPolicy() {
               <h2 className="text-2xl font-bold text-white mb-4 border-b-2 border-white/10 pb-2">
                 5. Your Rights and Choices
               </h2>
-              <div className="p-6 rounded-xl bg-white/[0.03] border border-white/10">
+              <div className="p-6 rounded-xl bg-white/3 border border-white/10">
                 <div className="grid md:grid-cols-2 gap-6">
                   <div>
                     <h3 className="font-semibold text-white mb-3">
@@ -318,11 +318,10 @@ export default function PrivacyPolicy() {
               </h2>
               <div className="space-y-4">
                 <p className="text-white/80">
-                  We retain your personal information only as long as
-                  necessary to provide our services and comply with legal
-                  obligations:
+                  We retain your personal information only as long as necessary
+                  to provide our services and comply with legal obligations:
                 </p>
-                <div className="rounded-xl p-4 bg-white/[0.03] border border-white/10">
+                <div className="rounded-xl p-4 bg-white/3 border border-white/10">
                   <h3 className="font-semibold text-white mb-2">
                     Retention Periods
                   </h3>
@@ -344,7 +343,7 @@ export default function PrivacyPolicy() {
               <h2 className="text-2xl font-bold text-white mb-4 border-b-2 border-white/10 pb-2">
                 7. Contact Information
               </h2>
-              <div className="rounded-xl p-6 bg-white/[0.03] border border-white/10">
+              <div className="rounded-xl p-6 bg-white/3 border border-white/10">
                 <div className="grid md:grid-cols-2 gap-6">
                   <div>
                     <div className="space-y-2 text-white/70">
@@ -358,10 +357,12 @@ export default function PrivacyPolicy() {
                         </a>
                       </p>
                       <p>
-                        <strong className="text-white">Phone:</strong> +91-7349172510
+                        <strong className="text-white">Phone:</strong>{" "}
+                        +91-7349172510
                       </p>
                       <p>
-                        <strong className="text-white">Response Time:</strong> Within 2 days
+                        <strong className="text-white">Response Time:</strong>{" "}
+                        Within 2 days
                       </p>
                     </div>
                   </div>
@@ -371,7 +372,9 @@ export default function PrivacyPolicy() {
                     </h3>
                     <div className="space-y-2 text-white/70">
                       <p>
-                        <strong className="text-white">Icosihenagon Technologies LLP</strong>
+                        <strong className="text-white">
+                          Icosihenagon Technologies LLP
+                        </strong>
                       </p>
                       <p>
                         943, 16th cross, 1st stage, Kumaraswamy Layout
@@ -409,8 +412,8 @@ export default function PrivacyPolicy() {
               Ready to Get Started?
             </h2>
             <p className="text-white/60 mb-8 max-w-xl mx-auto">
-              Start your free trial today and see how Smart CRM can help
-              you close more clients with less effort.
+              Start your free trial today and see how Smart CRM can help you
+              close more clients with less effort.
             </p>
             <Link href="/register">
               <Button className="bg-sunglow-500 hover:bg-sunglow-400 text-rich-black font-bold px-8 py-6 text-lg rounded-xl shadow-lg shadow-sunglow-500/25 hover:shadow-sunglow-500/40 transition-all duration-300 group">

@@ -1,9 +1,9 @@
 import Link from "next/link";
-import { Sparkles, Mail, MapPin } from "lucide-react";
+import { Mail, MapPin } from "lucide-react";
 
 export default function Footer() {
   return (
-    <footer className="relative bg-slate-900 border-t border-slate-800">
+    <footer className="relative bg-rich-black border-t border-slate-800">
       {/* Subtle Gradient */}
       <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
         <div className="absolute bottom-0 left-1/4 w-[400px] h-[200px] bg-oxford-blue/10 rounded-full blur-[100px]" />
@@ -17,7 +17,11 @@ export default function Footer() {
               href="/"
               className="inline-flex items-center gap-2 text-white font-bold text-xl mb-4 hover:opacity-90 transition-opacity"
             >
-              <img src="/initial_logo.svg" alt="Smart CRM Logo" className="w-8 h-8" />
+              <img
+                src="/initial_logo.svg"
+                alt="Smart CRM Logo"
+                className="w-8 h-8"
+              />
               <span>Smart CRM by SmartAlgorhythm</span>
             </Link>
             <p className="text-slate-400 text-sm leading-relaxed mb-6 max-w-sm">

@@ -2,15 +2,21 @@
 
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { Sparkles, ArrowRight, FileText } from "lucide-react";
+import { ArrowRight, FileText } from "lucide-react";
 
-export default function TermsAndConditionsContent() {
+interface TermsAndConditionsContentProps {
+  showCTA?: boolean;
+}
+
+export default function TermsAndConditionsContent({
+  showCTA = false,
+}: TermsAndConditionsContentProps) {
   return (
     <div className="min-h-screen bg-rich-black overflow-hidden">
       {/* Background Effects */}
       <div className="fixed inset-0 pointer-events-none" aria-hidden="true">
-        <div className="absolute top-0 right-1/4 w-[600px] h-[600px] bg-sunglow-500/5 rounded-full blur-[120px]" />
-        <div className="absolute bottom-1/4 left-1/4 w-[400px] h-[400px] bg-powder-blue-500/5 rounded-full blur-[100px]" />
+        <div className="absolute top-0 right-1/4 w-150 h-150 bg-sunglow-500/5 rounded-full blur-[120px]" />
+        <div className="absolute bottom-1/4 left-1/4 w-100 h-100 bg-powder-blue-500/5 rounded-full blur-[100px]" />
       </div>
 
       {/* Navigation */}
@@ -20,7 +26,11 @@ export default function TermsAndConditionsContent() {
             href="/"
             className="text-2xl font-bold text-white tracking-tight flex items-center gap-2 focus:outline-none focus-visible:ring-2 focus-visible:ring-sunglow-500 rounded-lg"
           >
-            <img src="/initial_logo.svg" alt="Smart CRM Logo" className="w-10 h-10" />
+            <img
+              src="/initial_logo.svg"
+              alt="Smart CRM Logo"
+              className="w-10 h-10"
+            />
             <span>Smart CRM</span>
           </Link>
           <Link href="/login">
@@ -53,7 +63,7 @@ export default function TermsAndConditionsContent() {
       {/* Content */}
       <div className="relative z-10 px-6 pb-24">
         <div className="max-w-4xl mx-auto">
-          <div className="p-8 md:p-10 rounded-3xl bg-white/[0.03] border border-white/10 backdrop-blur-sm">
+          <div className="p-8 md:p-10 rounded-3xl bg-white/3 border border-white/10 backdrop-blur-sm">
             <p className="text-lg text-white/80 mb-8 leading-relaxed">
               Welcome to Smart CRM. These Terms and Conditions
               (&quot;Terms&quot;) govern your use of our CRM platform and
@@ -68,8 +78,7 @@ export default function TermsAndConditionsContent() {
               </h3>
               <ul className="text-white/70 space-y-2">
                 <li>
-                  • These terms form a legal agreement between you and
-                  Smart CRM
+                  • These terms form a legal agreement between you and Smart CRM
                 </li>
                 <li>• By using our services, you accept these terms in full</li>
                 <li>
@@ -89,14 +98,12 @@ export default function TermsAndConditionsContent() {
               </h2>
               <div className="space-y-4">
                 <div className="grid md:grid-cols-2 gap-6">
-                  <div className="bg-white/[0.03] border border-white/10 p-4 rounded-xl">
-                    <h3 className="font-semibold text-white mb-3">
-                      Key Terms
-                    </h3>
+                  <div className="bg-white/3 border border-white/10 p-4 rounded-xl">
+                    <h3 className="font-semibold text-white mb-3">Key Terms</h3>
                     <ul className="text-white/70 text-sm space-y-2">
                       <li>
-                        <strong>&quot;Service&quot;</strong> - Smart CRM
-                        CRM platform and related services
+                        <strong>&quot;Service&quot;</strong> - Smart CRM CRM
+                        platform and related services
                       </li>
                       <li>
                         <strong>&quot;User&quot;</strong> - Individual or entity
@@ -112,10 +119,8 @@ export default function TermsAndConditionsContent() {
                       </li>
                     </ul>
                   </div>
-                  <div className="bg-white/[0.03] border border-white/10 p-4 rounded-xl">
-                    <h3 className="font-semibold text-white mb-3">
-                      Parties
-                    </h3>
+                  <div className="bg-white/3 border border-white/10 p-4 rounded-xl">
+                    <h3 className="font-semibold text-white mb-3">Parties</h3>
                     <ul className="text-white/70 text-sm space-y-2">
                       <li>
                         <strong>
@@ -147,12 +152,12 @@ export default function TermsAndConditionsContent() {
               </h2>
               <div className="space-y-4">
                 <p className="text-white/80">
-                  You agree to use the Smart CRM platform responsibly
-                  and in compliance with all applicable laws. The following
-                  activities are strictly prohibited:
+                  You agree to use the Smart CRM platform responsibly and in
+                  compliance with all applicable laws. The following activities
+                  are strictly prohibited:
                 </p>
                 <div className="grid md:grid-cols-2 gap-6">
-                  <div className="rounded-xl p-4 bg-white/[0.03] border border-white/10">
+                  <div className="rounded-xl p-4 bg-white/3 border border-white/10">
                     <h3 className="font-semibold text-white mb-3">
                       Prohibited Activities
                     </h3>
@@ -165,7 +170,7 @@ export default function TermsAndConditionsContent() {
                       <li>• Illegal or fraudulent activities</li>
                     </ul>
                   </div>
-                  <div className="rounded-xl p-4 bg-white/[0.03] border border-white/10">
+                  <div className="rounded-xl p-4 bg-white/3 border border-white/10">
                     <h3 className="font-semibold text-white mb-3">
                       Permitted Uses
                     </h3>
@@ -187,7 +192,7 @@ export default function TermsAndConditionsContent() {
                 3. Account Management and Security
               </h2>
               <div className="space-y-4">
-                <div className="p-6 rounded-xl bg-white/[0.03] border border-white/10">
+                <div className="p-6 rounded-xl bg-white/3 border border-white/10">
                   <h3 className="font-semibold text-white mb-3">
                     Your Responsibilities
                   </h3>
@@ -206,7 +211,7 @@ export default function TermsAndConditionsContent() {
                     </ul>
                   </div>
                 </div>
-                <div className="rounded-xl p-4 bg-white/[0.03] border border-white/10">
+                <div className="rounded-xl p-4 bg-white/3 border border-white/10">
                   <h3 className="font-semibold text-white mb-2">
                     Account Suspension
                   </h3>
@@ -225,7 +230,7 @@ export default function TermsAndConditionsContent() {
               </h2>
               <div className="space-y-4">
                 <div className="grid md:grid-cols-2 gap-6">
-                  <div className="p-4 rounded-xl bg-white/[0.03] border border-white/10">
+                  <div className="p-4 rounded-xl bg-white/3 border border-white/10">
                     <h3 className="font-semibold text-white mb-3">
                       Our Intellectual Property
                     </h3>
@@ -237,7 +242,7 @@ export default function TermsAndConditionsContent() {
                       <li>• Proprietary algorithms and processes</li>
                     </ul>
                   </div>
-                  <div className="p-4 rounded-xl bg-white/[0.03] border border-white/10">
+                  <div className="p-4 rounded-xl bg-white/3 border border-white/10">
                     <h3 className="font-semibold text-white mb-3">
                       Your Content Rights
                     </h3>
@@ -258,7 +263,7 @@ export default function TermsAndConditionsContent() {
                 5. Service Availability and Performance
               </h2>
               <div className="space-y-4">
-                <div className="p-6 rounded-xl bg-white/[0.03] border border-white/10">
+                <div className="p-6 rounded-xl bg-white/3 border border-white/10">
                   <h3 className="font-semibold text-white mb-3">
                     Service Level Commitment
                   </h3>
@@ -267,17 +272,13 @@ export default function TermsAndConditionsContent() {
                       <div className="text-2xl font-bold text-sunglow-500">
                         99.9%
                       </div>
-                      <div className="text-sm text-white/60">
-                        Uptime Target
-                      </div>
+                      <div className="text-sm text-white/60">Uptime Target</div>
                     </div>
                     <div className="text-center">
                       <div className="text-2xl font-bold text-sunglow-500">
                         &lt;2s
                       </div>
-                      <div className="text-sm text-white/60">
-                        Response Time
-                      </div>
+                      <div className="text-sm text-white/60">Response Time</div>
                     </div>
                     <div className="text-center">
                       <div className="text-2xl font-bold text-sunglow-500">
@@ -301,14 +302,13 @@ export default function TermsAndConditionsContent() {
                 6. Limitation of Liability
               </h2>
               <div className="space-y-4">
-                <div className="rounded-xl p-6 bg-white/[0.03] border border-white/10">
+                <div className="rounded-xl p-6 bg-white/3 border border-white/10">
                   <h3 className="font-semibold text-white mb-3">
                     Liability Limitations
                   </h3>
                   <p className="text-white/70 text-sm mb-3">
-                    Smart CRM shall not be liable for any direct,
-                    indirect, incidental, special, or consequential damages
-                    arising from:
+                    Smart CRM shall not be liable for any direct, indirect,
+                    incidental, special, or consequential damages arising from:
                   </p>
                   <ul className="text-white/70 text-sm space-y-1">
                     <li>• Use or inability to use the platform</li>
@@ -331,7 +331,7 @@ export default function TermsAndConditionsContent() {
                 7. Payment and Billing Terms
               </h2>
               <div className="grid md:grid-cols-2 gap-6">
-                <div className="p-4 rounded-xl bg-white/[0.03] border border-white/10">
+                <div className="p-4 rounded-xl bg-white/3 border border-white/10">
                   <h3 className="font-semibold text-white mb-3">
                     Payment Obligations
                   </h3>
@@ -342,7 +342,7 @@ export default function TermsAndConditionsContent() {
                     <li>• Failed payments may result in service suspension</li>
                   </ul>
                 </div>
-                <div className="p-4 rounded-xl bg-white/[0.03] border border-white/10">
+                <div className="p-4 rounded-xl bg-white/3 border border-white/10">
                   <h3 className="font-semibold text-white mb-3">
                     Billing Policies
                   </h3>
@@ -365,7 +365,7 @@ export default function TermsAndConditionsContent() {
                   Either party may terminate this agreement with appropriate
                   notice. Upon termination:
                 </p>
-                <div className="p-6 rounded-xl bg-white/[0.03] border border-white/10">
+                <div className="p-6 rounded-xl bg-white/3 border border-white/10">
                   <div className="grid md:grid-cols-2 gap-6">
                     <div>
                       <h3 className="font-semibold text-white mb-3">
@@ -398,7 +398,7 @@ export default function TermsAndConditionsContent() {
               <h2 className="text-2xl font-bold text-white mb-4 border-b-2 border-white/10 pb-2">
                 9. Governing Law and Dispute Resolution
               </h2>
-              <div className="p-6 rounded-xl bg-white/[0.03] border border-white/10">
+              <div className="p-6 rounded-xl bg-white/3 border border-white/10">
                 <h3 className="font-semibold text-white mb-3">
                   Legal Framework
                 </h3>
@@ -415,7 +415,7 @@ export default function TermsAndConditionsContent() {
               <h2 className="text-2xl font-bold text-white mb-4 border-b-2 border-white/10 pb-2">
                 10. Contact Information
               </h2>
-              <div className="rounded-xl p-6 bg-white/[0.03] border border-white/10">
+              <div className="rounded-xl p-6 bg-white/3 border border-white/10">
                 <div className="grid md:grid-cols-2 gap-6">
                   <div>
                     <h3 className="font-semibold text-white mb-3">
@@ -432,11 +432,12 @@ export default function TermsAndConditionsContent() {
                         </a>
                       </p>
                       <p>
-                        <strong className="text-white">Phone:</strong> +91-7349172510
+                        <strong className="text-white">Phone:</strong>{" "}
+                        +91-7349172510
                       </p>
                       <p>
-                        <strong className="text-white">Business Hours:</strong> Monday-Friday, 9:00 AM
-                        - 6:00 PM IST
+                        <strong className="text-white">Business Hours:</strong>{" "}
+                        Monday-Friday, 9:00 AM - 6:00 PM IST
                       </p>
                     </div>
                   </div>
@@ -446,7 +447,9 @@ export default function TermsAndConditionsContent() {
                     </h3>
                     <div className="space-y-2 text-white/70">
                       <p>
-                        <strong className="text-white">Icosihenagon Technologies LLP</strong>
+                        <strong className="text-white">
+                          Icosihenagon Technologies LLP
+                        </strong>
                       </p>
                       <p>
                         943, 16th cross, 1st stage, Kumaraswamy Layout
@@ -476,25 +479,27 @@ export default function TermsAndConditionsContent() {
       </div>
 
       {/* CTA Section */}
-      <section className="relative z-10 px-6 pb-24">
-        <div className="max-w-4xl mx-auto">
-          <div className="p-10 rounded-3xl bg-linear-to-br from-sunglow-500/20 via-sunglow-500/10 to-transparent border border-sunglow-500/30 text-center">
-            <h2 className="text-3xl font-bold text-white mb-4">
-              Ready to Get Started?
-            </h2>
-            <p className="text-white/60 mb-8 max-w-xl mx-auto">
-              Start your free trial today and see how Smart CRM can help
-              you close more clients with less effort.
-            </p>
-            <Link href="/register">
-              <Button className="bg-sunglow-500 hover:bg-sunglow-400 text-rich-black font-bold px-8 py-6 text-lg rounded-xl shadow-lg shadow-sunglow-500/25 hover:shadow-sunglow-500/40 transition-all duration-300 group">
-                Start Free Trial
-                <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
-              </Button>
-            </Link>
+      {showCTA && (
+        <section className="relative z-10 px-6 pb-24">
+          <div className="max-w-4xl mx-auto">
+            <div className="p-10 rounded-3xl bg-linear-to-br from-sunglow-500/20 via-sunglow-500/10 to-transparent border border-sunglow-500/30 text-center">
+              <h2 className="text-3xl font-bold text-white mb-4">
+                Ready to Get Started?
+              </h2>
+              <p className="text-white/60 mb-8 max-w-xl mx-auto">
+                Start your free trial today and see how Smart CRM can help you
+                close more clients with less effort.
+              </p>
+              <Link href="/register">
+                <Button className="bg-sunglow-500 hover:bg-sunglow-400 text-rich-black font-bold px-8 py-6 text-lg rounded-xl shadow-lg shadow-sunglow-500/25 hover:shadow-sunglow-500/40 transition-all duration-300 group">
+                  Start Free Trial
+                  <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                </Button>
+              </Link>
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
+      )}
     </div>
   );
 }

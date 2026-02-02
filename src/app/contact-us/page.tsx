@@ -1,7 +1,7 @@
 "use client";
-
 import { useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import {
   Mail,
   Phone,
@@ -12,7 +12,6 @@ import {
   Building2,
   ArrowRight,
   CheckCircle2,
-  Sparkles,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -51,7 +50,13 @@ export default function ContactUs() {
             href="/"
             className="text-2xl font-bold text-white tracking-tight flex items-center gap-2 focus:outline-none focus-visible:ring-2 focus-visible:ring-sunglow-500 rounded-lg"
           >
-            <img src="/initial_logo.svg" alt="Smart CRM Logo" className="w-10 h-10" />
+            <Image
+              src="/initial_logo.svg"
+              alt="Smart CRM Logo"
+              width={40}
+              height={40}
+              className="w-10 h-10"
+            />
             <span>Smart CRM</span>
           </Link>
           <Link href="/login">
@@ -77,9 +82,8 @@ export default function ContactUs() {
             <span className="text-sunglow-500"> Conversation</span>
           </h1>
           <p className="text-xl text-white/60 max-w-2xl mx-auto">
-            Have questions about Smart CRM? We&apos;re here to help you
-            succeed. Reach out and let&apos;s discuss how we can transform your
-            business.
+            Have questions about Smart CRM? We&apos;re here to help you succeed.
+            Reach out and let&apos;s discuss how we can transform your business.
           </p>
         </div>
       </section>
@@ -90,7 +94,7 @@ export default function ContactUs() {
           <div className="grid lg:grid-cols-5 gap-8">
             {/* Contact Form */}
             <div className="lg:col-span-3">
-              <div className="p-8 rounded-3xl bg-white/[0.03] border border-white/10 backdrop-blur-sm">
+              <div className="p-8 rounded-3xl bg-white/3 border border-white/10 backdrop-blur-sm">
                 <h2 className="text-2xl font-bold text-white mb-6">
                   Send us a Message
                 </h2>
@@ -224,7 +228,7 @@ export default function ContactUs() {
                 </div>
               </div>
 
-              <div className="p-6 rounded-2xl bg-white/[0.03] border border-white/10">
+              <div className="p-6 rounded-2xl bg-white/3 border border-white/10">
                 <div className="flex items-start gap-4">
                   <div className="w-12 h-12 rounded-xl bg-white/10 flex items-center justify-center shrink-0">
                     <Phone className="w-6 h-6 text-white" />
@@ -246,7 +250,7 @@ export default function ContactUs() {
                 </div>
               </div>
 
-              <div className="p-6 rounded-2xl bg-white/[0.03] border border-white/10">
+              <div className="p-6 rounded-2xl bg-white/3 border border-white/10">
                 <div className="flex items-start gap-4">
                   <div className="w-12 h-12 rounded-xl bg-white/10 flex items-center justify-center shrink-0">
                     <MapPin className="w-6 h-6 text-white" />
@@ -271,7 +275,7 @@ export default function ContactUs() {
                 </div>
               </div>
 
-              <div className="p-6 rounded-2xl bg-white/[0.03] border border-white/10">
+              <div className="p-6 rounded-2xl bg-white/3 border border-white/10">
                 <div className="flex items-start gap-4">
                   <div className="w-12 h-12 rounded-xl bg-white/10 flex items-center justify-center shrink-0">
                     <Clock className="w-6 h-6 text-white" />
@@ -313,7 +317,7 @@ export default function ContactUs() {
             Reach the Right Team
           </h2>
           <div className="grid md:grid-cols-2 gap-6">
-            <div className="p-6 rounded-2xl bg-white/[0.03] border border-white/10 hover:border-white/20 transition-colors group">
+            <div className="p-6 rounded-2xl bg-white/3 border border-white/10 hover:border-white/20 transition-colors group">
               <div className="flex items-center gap-3 mb-4">
                 <div className="w-10 h-10 rounded-lg bg-sunglow-500/20 flex items-center justify-center">
                   <Building2 className="w-5 h-5 text-sunglow-500" />
@@ -335,7 +339,7 @@ export default function ContactUs() {
               </a>
             </div>
 
-            <div className="p-6 rounded-2xl bg-white/[0.03] border border-white/10 hover:border-white/20 transition-colors group">
+            <div className="p-6 rounded-2xl bg-white/3 border border-white/10 hover:border-white/20 transition-colors group">
               <div className="flex items-center gap-3 mb-4">
                 <div className="w-10 h-10 rounded-lg bg-powder-blue-500/20 flex items-center justify-center">
                   <MessageSquare className="w-5 h-5 text-powder-blue-500" />
@@ -368,8 +372,8 @@ export default function ContactUs() {
               Ready to Transform Your Business?
             </h2>
             <p className="text-white/60 mb-8 max-w-xl mx-auto">
-              Start your free trial today and see how Smart CRM can help
-              you close more clients with less effort.
+              Start your free trial today and see how Smart CRM can help you
+              close more clients with less effort.
             </p>
             <Link href="/register">
               <Button className="bg-sunglow-500 hover:bg-sunglow-400 text-rich-black font-bold px-8 py-6 text-lg rounded-xl shadow-lg shadow-sunglow-500/25 hover:shadow-sunglow-500/40 transition-all duration-300 group">

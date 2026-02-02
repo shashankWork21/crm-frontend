@@ -40,7 +40,7 @@ export default function SelectCity({
   isCreatingCity,
 }: SelectCityProps) {
   const exactMatch = cityOptions.some(
-    (city) => city.name?.toLowerCase() === citySearchTerm.trim().toLowerCase()
+    (city) => city.name?.toLowerCase() === citySearchTerm.trim().toLowerCase(),
   );
   return (
     <Popover open={openCity} onOpenChange={setOpenCity}>
@@ -49,19 +49,19 @@ export default function SelectCity({
           variant="outline"
           role="combobox"
           aria-expanded={openCity}
-          className="w-full h-11 justify-between bg-white border-gray-200 hover:bg-gray-50"
+          className="w-full h-12! border border-white/10 bg-white/5 text-white rounded-xl focus:border-sunglow-500 focus:ring-sunglow-500/20 focus:ring-2 transition-all [&>span]:text-white/70 [&>span[data-placeholder]]:text-white/30"
         >
-          {selectedCity?.name || "Select city..."}
-          <div className="w-fit gap-1 flex flex-row items-center">
+          <div className="gap-1 flex flex-row items-center justify-between w-full">
+            {selectedCity?.name || "Select city..."}
             <Globe className="ml-2 h-4 w-4 shrink-0 opacity-50" />
           </div>
         </Button>
       </PopoverTrigger>
       <PopoverContent
-        className="w-[var(--radix-popover-trigger-width)] p-0 bg-white border-none"
+        className="w-(--radix-popover-trigger-width) p-0 bg-oxford-blue-200 text-white border-none"
         align="start"
       >
-        <Command className="bg-white" shouldFilter={false}>
+        <Command className="bg-oxford-blue-200 text-white" shouldFilter={false}>
           <CommandInput
             placeholder="Search city..."
             value={citySearchTerm}
@@ -70,8 +70,8 @@ export default function SelectCity({
           <CommandList>
             {citySearchTerm.trim() !== "" && cityOptions.length === 0 && (
               <CommandEmpty>
-                <div className="flex flex-col items-center gap-3 py-6">
-                  <p className="text-sm text-gray-600">
+                <div className="flex flex-col items-center gap-3 py-6 px-4">
+                  <p className="text-sm text-powder-blue-900/40">
                     No city found with name &quot;
                     {citySearchTerm}&quot; in the state &quot;
                     {selectedState?.name}&quot;. Want to add this city to our
@@ -118,8 +118,8 @@ export default function SelectCity({
                   </CommandItem>
                 ))}
                 {!exactMatch && (
-                  <div className="flex flex-col items-center gap-3 py-6">
-                    <p className="text-sm text-gray-600">
+                  <div className="flex flex-col items-center gap-3 py-6 px-4">
+                    <p className="text-sm text-powder-blue-900/40">
                       These are the cities that have the term &quot;
                       {citySearchTerm}&quot; in them. In case you want to add a
                       new city, click the button below.

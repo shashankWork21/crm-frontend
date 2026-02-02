@@ -2,7 +2,6 @@
 
 import { contactCreatePath, contactPathById } from "@/lib/paths";
 import { Contact, FormState, Gender } from "@/lib/types";
-import axios from "axios";
 import { cookies } from "next/headers";
 
 export async function createContact(
@@ -17,42 +16,41 @@ export async function createContact(
   const gender = formData.get("gender") as Gender;
 
   try {
-    await axios.post(
-      contactCreatePath(),
-      {
+    const response = await fetch(contactCreatePath(), {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Cookie: `session=${c.get("session")?.value || ""}`,
+      },
+      body: JSON.stringify({
         name,
         email,
         phoneNumber,
         gender,
         contactOrgId,
-      },
-      {
-        headers: {
-          "Content-Type": "application/json",
-          Cookie: `session=${c.get("session")?.value || ""}`,
-        },
-      }
-    );
+      }),
+    });
+
+    if (!response.ok) {
+      const data = await response.json();
+      return {
+        success: false,
+        message: "Contact creation failed",
+        errors: JSON.parse(data.errors),
+      };
+    }
+
     return {
       success: true,
       message: "Contact created successfully",
       errors: {},
     };
   } catch (error: unknown) {
-    if (axios.isAxiosError(error) && error.response) {
-      const { data } = error.response;
-      return {
-        success: false,
-        message: "Contact creation failed",
-        errors: JSON.parse(data.errors),
-      };
-    } else {
-      return {
-        success: false,
-        message: "An unexpected error occurred",
-        errors: {},
-      };
-    }
+    return {
+      success: false,
+      message: "An unexpected error occurred",
+      errors: {},
+    };
   }
 }
 
@@ -74,37 +72,36 @@ export async function updateContact(
   const value = formData.get(field) || data[field as keyof Contact];
 
   try {
-    await axios.put(
-      contactPathById(contactId),
-      {
-        [field]: value,
+    const response = await fetch(contactPathById(contactId), {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Cookie: `session=${c.get("session")?.value || ""}`,
       },
-      {
-        headers: {
-          "Content-Type": "application/json",
-          Cookie: `session=${c.get("session")?.value || ""}`,
-        },
-      }
-    );
+      body: JSON.stringify({
+        [field]: value,
+      }),
+    });
+
+    if (!response.ok) {
+      const data = await response.json();
+      return {
+        success: false,
+        message: "Contact update failed",
+        errors: JSON.parse(data.errors),
+      };
+    }
+
     return {
       success: true,
       message: "Contact updated successfully",
       errors: {},
     };
   } catch (error: unknown) {
-    if (axios.isAxiosError(error) && error.response) {
-      const { data } = error.response;
-      return {
-        success: false,
-        message: "Contact update failed",
-        errors: JSON.parse(data.errors),
-      };
-    } else {
-      return {
-        success: false,
-        message: "An unexpected error occurred",
-        errors: {},
-      };
-    }
+    return {
+      success: false,
+      message: "An unexpected error occurred",
+      errors: {},
+    };
   }
 }

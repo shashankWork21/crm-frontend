@@ -3,7 +3,8 @@
 import { startTransition, useActionState, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { Eye, EyeOff, Mail, Lock, Loader2, Sparkles, ArrowRight } from "lucide-react";
+import Image from "next/image";
+import { Eye, EyeOff, Mail, Lock, Loader2, ArrowRight } from "lucide-react";
 import {
   getSessionCookie,
   loginUser,
@@ -78,8 +79,8 @@ export default function LoginForm() {
     <div className="relative flex min-h-screen flex-col items-center justify-center px-4 py-16 overflow-hidden bg-rich-black">
       {/* Background Effects */}
       <div className="fixed inset-0 pointer-events-none" aria-hidden="true">
-        <div className="absolute top-1/4 -left-32 w-[500px] h-[500px] bg-sunglow-500/10 rounded-full blur-[120px]" />
-        <div className="absolute bottom-1/4 -right-32 w-[400px] h-[400px] bg-powder-blue-500/10 rounded-full blur-[100px]" />
+        <div className="absolute top-1/4 -left-32 w-125 h-125 bg-sunglow-500/10 rounded-full blur-30" />
+        <div className="absolute bottom-1/4 -right-32 w-100 h-100 bg-powder-blue-500/10 rounded-full blur-25" />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_0%,var(--rich-black)_70%)]" />
       </div>
 
@@ -88,12 +89,18 @@ export default function LoginForm() {
         href="/"
         className="relative z-10 flex items-center gap-2 mb-8 text-white group focus:outline-none focus-visible:ring-2 focus-visible:ring-sunglow-500 rounded-lg px-2 py-1"
       >
-        <img src="/initial_logo.svg" alt="Smart CRM Logo" className="w-10 h-10 group-hover:scale-110 transition-transform" />
+        <Image
+          src="/initial_logo.svg"
+          alt="Smart CRM Logo"
+          width={40}
+          height={40}
+          className="w-10 h-10 group-hover:scale-110 transition-transform"
+        />
         <span className="text-2xl font-bold tracking-tight">Smart CRM</span>
       </Link>
 
       {/* Card */}
-      <Card className="relative z-10 w-full max-w-md rounded-3xl border border-white/10 bg-white/[0.03] backdrop-blur-xl shadow-2xl">
+      <Card className="relative z-10 w-full max-w-md rounded-3xl border border-white/10 bg-oxford-blue backdrop-blur-xl shadow-2xl">
         <CardHeader className="text-center space-y-3 pb-6 pt-8">
           <h1 className="text-3xl font-bold text-white">Welcome back</h1>
           <p className="text-white/60">Sign in to continue to your dashboard</p>
@@ -127,7 +134,7 @@ export default function LoginForm() {
                         <span className="w-1 h-1 rounded-full bg-red-400" />
                         {error}
                       </li>
-                    )
+                    ),
                   )}
                 </ul>
               )}
@@ -171,7 +178,7 @@ export default function LoginForm() {
                         <span className="w-1 h-1 rounded-full bg-red-400" />
                         {error}
                       </li>
-                    )
+                    ),
                   )}
                 </ul>
               )}
@@ -248,11 +255,17 @@ export default function LoginForm() {
       {/* Bottom Text */}
       <p className="relative z-10 mt-8 text-sm text-white/40">
         By signing in, you agree to our{" "}
-        <Link href="/terms-and-conditions" className="text-white/60 hover:text-sunglow-500 transition-colors underline underline-offset-2">
+        <Link
+          href="/terms-and-conditions"
+          className="text-white/60 hover:text-sunglow-500 transition-colors underline underline-offset-2"
+        >
           Terms
         </Link>{" "}
         and{" "}
-        <Link href="/privacy-policy" className="text-white/60 hover:text-sunglow-500 transition-colors underline underline-offset-2">
+        <Link
+          href="/privacy-policy"
+          className="text-white/60 hover:text-sunglow-500 transition-colors underline underline-offset-2"
+        >
           Privacy Policy
         </Link>
       </p>

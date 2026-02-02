@@ -1,7 +1,6 @@
 "use server";
 
 import { citySearchPath } from "@/lib/paths";
-import axios from "axios";
 import { cookies } from "next/headers";
 
 export async function getCitiesBySearchTerm(
@@ -9,11 +8,16 @@ export async function getCitiesBySearchTerm(
   stateId: string
 ) {
   const c = await cookies();
-  const results = await axios.get(citySearchPath(searchTerm, stateId), {
+  const response = await fetch(citySearchPath(searchTerm, stateId), {
     headers: {
       "Content-Type": "application/json",
       Cookie: `session=${c.get("session")?.value || ""}`,
     },
   });
-  return results.data;
+
+  if (!response.ok) {
+    throw new Error("Failed to fetch cities");
+  }
+
+  return response.json();
 }

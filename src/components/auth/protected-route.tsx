@@ -38,8 +38,8 @@ export default function ProtectedRoute({ children }: ProtectedRouteProps) {
   return (
     <SidebarProvider open={sidebarOpen} onOpenChange={setSidebarOpen}>
       <DashboardSidebar menuItems={menuItems} user={user} />
-      <main className="w-full min-h-screen ">
-        <SidebarTrigger className="cursor-pointer" />
+      <main className="w-full min-h-screen bg-rich-black">
+        <SidebarTrigger className="cursor-pointer text-slate-400 hover:text-slate-200" />
         {children}
       </main>
     </SidebarProvider>

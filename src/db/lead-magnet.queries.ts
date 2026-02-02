@@ -1,22 +1,23 @@
 "use server";
 
 import { leadMagnetByIdPath, leadMagnetsByOrganisationPath } from "@/lib/paths";
-import axios from "axios";
 
 export async function getLeadMagnetsByOrganisation(organisationId: string) {
-  const leadMagnets = await axios.get(
-    leadMagnetsByOrganisationPath(organisationId)
-  );
-  if (leadMagnets.status !== 200) {
+  const response = await fetch(leadMagnetsByOrganisationPath(organisationId));
+
+  if (!response.ok) {
     throw new Error("Failed to fetch lead magnets");
   }
-  return leadMagnets.data;
+
+  return response.json();
 }
 
 export async function getLeadMagnetById(id: string) {
-  const leadMagnet = await axios.get(leadMagnetByIdPath(id));
-  if (leadMagnet.status !== 200) {
+  const response = await fetch(leadMagnetByIdPath(id));
+
+  if (!response.ok) {
     throw new Error("Failed to fetch lead magnet");
   }
-  return leadMagnet.data;
+
+  return response.json();
 }

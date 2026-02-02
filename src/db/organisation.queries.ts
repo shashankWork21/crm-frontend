@@ -5,50 +5,53 @@ import {
   organisationPathById,
   contactOrgaisationPathById,
 } from "@/lib/paths";
-import axios from "axios";
 import { cookies } from "next/headers";
 import { cache } from "react";
 
 export const getTeamOranisations = cache(async () => {
   const c = await cookies();
-  const response = await axios.get(organisationForTeam(), {
+  const response = await fetch(organisationForTeam(), {
     headers: {
       "Content-Type": "application/json",
       Cookie: `session=${c.get("session")?.value || ""}`,
     },
   });
-  if (response.status !== 200) {
+
+  if (!response.ok) {
     throw new Error("Failed to fetch organisations");
   }
 
-  return response.data;
+  return response.json();
 });
 
 export const getOrganisationById = cache(async (organisationId: string) => {
   const c = await cookies();
-  const response = await axios.get(organisationPathById(organisationId), {
+  const response = await fetch(organisationPathById(organisationId), {
     headers: {
       "Content-Type": "application/json",
       Cookie: `session=${c.get("session")?.value || ""}`,
     },
   });
-  if (response.status !== 200) {
+
+  if (!response.ok) {
     throw new Error("Failed to fetch organisation");
   }
 
-  return response.data;
+  return response.json();
 });
 
 export const getContactOrganisations = cache(async (organisationId: string) => {
   const c = await cookies();
-  const response = await axios.get(contactOrgaisationPathById(organisationId), {
+  const response = await fetch(contactOrgaisationPathById(organisationId), {
     headers: {
       "Content-Type": "application/json",
       Cookie: `session=${c.get("session")?.value || ""}`,
     },
   });
-  if (response.status !== 200) {
+
+  if (!response.ok) {
     throw new Error("Failed to fetch organisation");
   }
-  return response.data;
+
+  return response.json();
 });

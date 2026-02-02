@@ -1,7 +1,6 @@
 "use server";
 
 import { cookies } from "next/headers";
-import axios from "axios";
 import { tagPathByOrganisationId } from "@/lib/paths";
 import { validateSession } from "@/actions";
 
@@ -10,7 +9,7 @@ export async function getOrganisationTags() {
 
   const { user } = await validateSession();
   try {
-    const response = await axios.get(
+    const response = await fetch(
       tagPathByOrganisationId(user?.organisationId as string),
       {
         headers: {
@@ -20,17 +19,16 @@ export async function getOrganisationTags() {
       }
     );
 
-    if (response.status !== 200) {
-      throw new Error("Failed to fetch tags");
+    if (!response.ok) {
+      const data = await response.json();
+      throw new Error(data.message || "An error occurred while fetching tags");
     }
 
-    return response.data;
+    return response.json();
   } catch (error) {
-    if (axios.isAxiosError(error) && error.response) {
-      const { data } = error.response;
-      throw new Error(data.message || "An error occurred while fetching tags");
-    } else {
-      throw new Error("An unexpected error occurred");
+    if (error instanceof Error) {
+      throw error;
     }
+    throw new Error("An unexpected error occurred");
   }
 }

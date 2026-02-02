@@ -1,6 +1,5 @@
 "use server";
 
-import axios from "axios";
 import { cookies } from "next/headers";
 import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
 import { leadMagnetPath } from "@/lib/paths/lead-magnet";
@@ -73,47 +72,47 @@ export async function createLeadMagnet(
   }
 
   try {
-    const newLeadMagnet = await axios.post(
-      leadMagnetPath(),
-      {
+    const response = await fetch(leadMagnetPath(), {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Cookie: `session=${c.get("session")?.value || ""}`,
+      },
+      body: JSON.stringify({
         title,
         description,
         fileUrl,
         createdById: data.createdById,
         organisationId: data.organisationId,
-      },
-      {
-        headers: {
-          "Content-Type": "application/json",
-          Cookie: `session=${c.get("session")?.value || ""}`,
-        },
-      }
-    );
+      }),
+    });
+
+    if (!response.ok) {
+      const responseData = await response.json();
+      console.log(responseData);
+      return {
+        success: false,
+        message: "Lead Magnet creation failed",
+        errors: JSON.parse(responseData.errors),
+        itemId: "",
+      };
+    }
+
+    const newLeadMagnet = await response.json();
 
     revalidatePath("/lead-magnets");
     return {
       success: true,
       message: "Lead Magnet created successfully",
       errors: {},
-      itemId: newLeadMagnet.data.leadMagnet.id,
+      itemId: newLeadMagnet.leadMagnet.id,
     };
   } catch (error: unknown) {
-    if (axios.isAxiosError(error) && error.response) {
-      console.log(error.response);
-      const { data } = error.response;
-      return {
-        success: false,
-        message: "Lead Magnet creation failed",
-        errors: JSON.parse(data.errors),
-        itemId: "",
-      };
-    } else {
-      return {
-        success: false,
-        message: "An unexpected error occurred",
-        errors: {},
-        itemId: "",
-      };
-    }
+    return {
+      success: false,
+      message: "An unexpected error occurred",
+      errors: {},
+      itemId: "",
+    };
   }
 }

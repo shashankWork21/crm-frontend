@@ -1,5 +1,6 @@
-import LeadMagnetView from "@/components/views/lead-magnets/lead-magnet-view";
 import { getLeadMagnetById } from "@/db/lead-magnet.queries";
+import LeadMagnetView from "@/components/views/lead-magnets/lead-magnet-view";
+import { getToken } from "@/actions/token";
 
 interface LeadMagnetItemPageParams {
   params: {
@@ -11,6 +12,7 @@ export default async function LeadMagnetItemPage({
   params,
 }: LeadMagnetItemPageParams) {
   const { id } = await params;
+  const tokens = await getToken();
   const leadMagnet = await getLeadMagnetById(id);
-  return <LeadMagnetView leadMagnet={leadMagnet} />;
+  return <LeadMagnetView leadMagnet={leadMagnet} tokens={tokens} />;
 }

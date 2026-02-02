@@ -1,17 +1,14 @@
 "use server";
 
-import { tokenPath } from "@/lib/paths";
-import {
-  instagramAccountPath,
-  instagramAccountSearchPath,
-} from "@/lib/paths/instagram-account";
+import { validateSession } from "@/actions";
+import { createInstagramToken, updateInstagramToken } from "@/actions/token";
+import { getTokenByInstagramId } from "@/db/token.queries";
 import { instagramScopes } from "@/lib/scopes";
-import axios from "axios";
-import { cookies } from "next/headers";
+import { Platform, User } from "@/lib/types";
 import { redirect } from "next/navigation";
 
 export async function GET(request: Request) {
-  const c = await cookies();
+  const { user } = await validateSession();
   const { searchParams } = new URL(request.url);
   const code = searchParams.get("code");
 
@@ -35,82 +32,71 @@ export async function GET(request: Request) {
   });
 
   try {
-    const response = await axios.post(tokenUrl, body.toString(), {
+    const response = await fetch(tokenUrl, {
+      method: "POST",
       headers: {
         "Content-Type": "application/x-www-form-urlencoded",
       },
+      body: body.toString(),
     });
 
-    const item = response.data;
+    if (!response.ok) {
+      throw new Error("Failed to fetch access token");
+    }
+
+    const item = await response.json();
 
     const { access_token, user_id, permissions } = item;
 
-    const existingAccountResponse = await axios.get(
-      instagramAccountSearchPath(user_id, "", ""),
-      {
-        headers: {
-          "Content-Type": "application/json",
-          Cookie: `session=${c.get("session")?.value || ""}`,
-        },
-      }
-    );
+    const longLivedTokenUrl = `https://graph.instagram.com/access_token?grant_type=ig_exchange_token&client_secret=${client_secret}&access_token=${access_token}`;
 
-    const existingAccount = existingAccountResponse.data;
+    const longLivedTokenResponse = await fetch(longLivedTokenUrl);
 
-    console.log("Existing Instagram Account check:", existingAccount);
+    if (!longLivedTokenResponse.ok) {
+      throw new Error("Failed to fetch long-lived token");
+    }
 
-    if (existingAccount.data) {
+    const longLivedTokenData = await longLivedTokenResponse.json();
+
+    const { access_token: longLivedAccessToken, expires_in } =
+      longLivedTokenData;
+
+    const expiresAt = new Date(Date.now() + expires_in * 1000).toISOString();
+
+    const scopes = permissions
+      .map(
+        (permission: string) =>
+          instagramScopes.find((item) => item.value === permission)?.scope ||
+          null,
+      )
+      .filter((scope: string | null) => scope !== null);
+
+    const existingToken = await getTokenByInstagramId(`${user_id}`);
+
+    if (existingToken) {
+      const tokenId = existingToken.id;
       console.log(
         "Instagram Account already linked:",
-        existingAccount.data?.id
+        existingToken.instagramId,
       );
+      await updateInstagramToken(tokenId, {
+        accessToken: longLivedAccessToken,
+        scopes,
+        expiresAt,
+      });
     } else {
-      const longLivedTokenUrl = `https://graph.instagram.com/access_token?grant_type=ig_exchange_token&client_secret=${client_secret}&access_token=${access_token}`;
-
-      const longLivedTokenResponse = await axios.get(longLivedTokenUrl);
-
-      const longLivedAccessToken = longLivedTokenResponse.data.access_token;
-
-      const scopes = permissions
-        .map(
-          (permission: string) =>
-            instagramScopes.find((item) => item.value === permission)?.scope ||
-            null
-        )
-        .filter((scope: string | null) => scope !== null);
-
-      const tokenResponse = await axios.post(
-        tokenPath(),
-        {
-          accessToken: longLivedAccessToken,
-          scopes,
-        },
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Cookie: `session=${c.get("session")?.value || ""}`,
-          },
-        }
-      );
-
-      const tokenId = tokenResponse.data.id;
+      const token = await createInstagramToken({
+        accessToken: longLivedAccessToken,
+        scopes,
+        platformId: `${user_id}`,
+        platform: Platform.INSTAGRAM,
+        expiresAt,
+        organisationId: user?.organisationId || "",
+        userId: user?.id || "",
+      });
+      const tokenId = token.id;
 
       console.log("Token ID:", tokenId);
-
-      const instagramAccount = await axios.post(
-        instagramAccountPath(),
-        {
-          instagramId: `${user_id}`,
-          tokenId,
-        },
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Cookie: `session=${c.get("session")?.value || ""}`,
-          },
-        }
-      );
-      console.log("Instagram Account linked:", instagramAccount.data);
     }
   } catch (error) {
     console.log("Error fetching access token:", JSON.stringify(error));

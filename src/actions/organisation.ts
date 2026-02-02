@@ -8,7 +8,6 @@ import {
 } from "@/lib/paths";
 import { BusinessModel } from "@/lib/types";
 import { FormState } from "@/lib/types";
-import axios from "axios";
 import { revalidatePath } from "next/cache";
 import { cookies } from "next/headers";
 
@@ -27,23 +26,30 @@ export async function createEmployedOrganisation(
     (formData.get("businessDescription") as string) || "";
 
   try {
-    await axios.post(
-      organisationPath(),
-      {
+    const response = await fetch(organisationPath(), {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Cookie: `session=${c.get("session")?.value || ""}`,
+      },
+      body: JSON.stringify({
         name,
         cityId,
         businessModel,
         legalName,
         GSTNumber,
         businessDescription,
-      },
-      {
-        headers: {
-          "Content-Type": "application/json",
-          Cookie: `session=${c.get("session")?.value || ""}`,
-        },
-      }
-    );
+      }),
+    });
+
+    if (!response.ok) {
+      const data = await response.json();
+      return {
+        success: false,
+        message: "Organisation creation failed",
+        errors: JSON.parse(data.errors),
+      };
+    }
 
     return {
       success: true,
@@ -51,36 +57,57 @@ export async function createEmployedOrganisation(
       errors: {},
     };
   } catch (error) {
-    if (axios.isAxiosError(error) && error.response) {
-      const { data } = error.response;
-
-      return {
-        success: false,
-        message: "Organisation creation failed",
-        errors: JSON.parse(data.errors),
-      };
-    } else {
-      return {
-        success: false,
-        message: "An unexpected error occurred",
-        errors: {},
-      };
-    }
+    return {
+      success: false,
+      message: "An unexpected error occurred",
+      errors: {},
+    };
   }
 }
 
 export async function updateEmployedOrganisation(organisationId: string) {
   const c = await cookies();
   try {
-    const sessionResponse = await axios.post(sessionValidatePath(), {
-      sessionToken: c.get("session")?.value || "",
+    const sessionResponse = await fetch(sessionValidatePath(), {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        sessionToken: c.get("session")?.value || "",
+      }),
     });
-    const { user } = sessionResponse.data;
 
-    await axios.put(connectUserOrganisationPath(), {
-      userId: user?.id,
-      organisationId,
+    if (!sessionResponse.ok) {
+      return {
+        success: false,
+        message: "Failed to validate session",
+        errors: {},
+      };
+    }
+
+    const sessionData = await sessionResponse.json();
+    const { user } = sessionData;
+
+    const updateResponse = await fetch(connectUserOrganisationPath(), {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        userId: user?.id,
+        organisationId,
+      }),
     });
+
+    if (!updateResponse.ok) {
+      const data = await updateResponse.json();
+      return {
+        success: false,
+        message: "Failed to fetch organisation",
+        errors: JSON.parse(data.errors),
+      };
+    }
 
     return {
       success: true,
@@ -88,32 +115,33 @@ export async function updateEmployedOrganisation(organisationId: string) {
       errors: {},
     };
   } catch (error) {
-    if (axios.isAxiosError(error) && error.response) {
-      const { data } = error.response;
-      return {
-        success: false,
-        message: "Failed to fetch organisation",
-        errors: JSON.parse(data.errors),
-      };
-    } else {
-      return {
-        success: false,
-        message: "An unexpected error occurred",
-        errors: {},
-      };
-    }
+    return {
+      success: false,
+      message: "An unexpected error occurred",
+      errors: {},
+    };
   }
 }
 
 export async function deleteOrganisationById(organisationId: string) {
   const c = await cookies();
   try {
-    await axios.delete(organisationPathById(organisationId), {
+    const response = await fetch(organisationPathById(organisationId), {
+      method: "DELETE",
       headers: {
         "Content-Type": "application/json",
         Cookie: `session=${c.get("session")?.value || ""}`,
       },
     });
+
+    if (!response.ok) {
+      const data = await response.json();
+      return {
+        success: false,
+        message: "Failed to delete organisation",
+        errors: JSON.parse(data.errors),
+      };
+    }
 
     revalidatePath("/dashboard/organisation");
 
@@ -123,19 +151,10 @@ export async function deleteOrganisationById(organisationId: string) {
       errors: {},
     };
   } catch (error) {
-    if (axios.isAxiosError(error) && error.response) {
-      const { data } = error.response;
-      return {
-        success: false,
-        message: "Failed to delete organisation",
-        errors: JSON.parse(data.errors),
-      };
-    } else {
-      return {
-        success: false,
-        message: "An unexpected error occurred",
-        errors: {},
-      };
-    }
+    return {
+      success: false,
+      message: "An unexpected error occurred",
+      errors: {},
+    };
   }
 }

@@ -18,6 +18,25 @@ const securityHeaders = [
 
 const nextConfig: NextConfig = {
   poweredByHeader: false,
+  images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "scontent.cdninstagram.com",
+        pathname: "/**",
+      },
+      {
+        protocol: "https",
+        hostname: "instagram.fblr12-1.fna.fbcdn.net",
+        pathname: "/**",
+      },
+      {
+        protocol: "https",
+        hostname: "scontent-*.cdninstagram.com",
+        pathname: "/**",
+      },
+    ],
+  },
   async headers() {
     return [
       {
@@ -41,7 +60,7 @@ const nextConfig: NextConfig = {
       ...(config.resolve.alias ?? {}),
       "proxy-from-env": path.resolve(
         process.cwd(),
-        "src/lib/proxy-from-env.ts"
+        "src/lib/proxy-from-env.ts",
       ),
     };
     return config;
@@ -51,7 +70,7 @@ const nextConfig: NextConfig = {
       "proxy-from-env": "./src/lib/proxy-from-env.ts",
     },
   },
-  /* config options here */
+  allowedDevOrigins: ["client-local.smartalgorhythm.com"],
 };
 
 export default nextConfig;
