@@ -52,7 +52,7 @@ export default function PrivacyPolicy() {
             Privacy Policy
           </h1>
           <p className="text-white/60 text-lg">
-            Effective Date: August 22, 2025 | Last Updated: August 22, 2025
+            Effective Date: August 22, 2025 | Last Updated: February 9, 2026
           </p>
         </div>
       </div>
@@ -219,7 +219,43 @@ export default function PrivacyPolicy() {
 
             <section className="mb-8">
               <h2 className="text-2xl font-bold text-white mb-4 border-b-2 border-white/10 pb-2">
-                4. Data Security Measures
+                4. Requests From Public Authorities
+              </h2>
+              <div className="space-y-4">
+                <p className="text-white/80">
+                  We maintain formal procedures for handling requests from
+                  public authorities for personal data and personal information.
+                  These procedures are designed to protect user rights and
+                  ensure lawful, proportionate disclosures.
+                </p>
+                <div className="rounded-xl p-6 bg-white/3 border border-white/10">
+                  <ul className="space-y-2 text-white/70">
+                    <li>
+                      • Required legal review before disclosure to verify each
+                      request is valid, lawful, and properly scoped.
+                    </li>
+                    <li>
+                      • Provisions to challenge, narrow, or reject requests
+                      that we reasonably believe are unlawful, overbroad, or
+                      otherwise invalid.
+                    </li>
+                    <li>
+                      • Data minimization controls to disclose only the minimum
+                      information necessary for the specific lawful request.
+                    </li>
+                    <li>
+                      • Documentation of requests and our responses, including
+                      legal reasoning, reviewing personnel, and decision records
+                      as required by applicable law.
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </section>
+
+            <section className="mb-8">
+              <h2 className="text-2xl font-bold text-white mb-4 border-b-2 border-white/10 pb-2">
+                5. Data Security Measures
               </h2>
               <div className="space-y-4">
                 <p className="text-white/80">
@@ -282,7 +318,7 @@ export default function PrivacyPolicy() {
 
             <section className="mb-8">
               <h2 className="text-2xl font-bold text-white mb-4 border-b-2 border-white/10 pb-2">
-                5. Your Rights and Choices
+                6. Your Rights and Choices
               </h2>
               <div className="p-6 rounded-xl bg-white/3 border border-white/10">
                 <div className="grid md:grid-cols-2 gap-6">
@@ -314,7 +350,7 @@ export default function PrivacyPolicy() {
 
             <section className="mb-8">
               <h2 className="text-2xl font-bold text-white mb-4 border-b-2 border-white/10 pb-2">
-                6. Data Retention
+                7. Data Retention
               </h2>
               <div className="space-y-4">
                 <p className="text-white/80">
@@ -341,7 +377,7 @@ export default function PrivacyPolicy() {
 
             <section className="mb-8">
               <h2 className="text-2xl font-bold text-white mb-4 border-b-2 border-white/10 pb-2">
-                7. Contact Information
+                8. Contact Information
               </h2>
               <div className="rounded-xl p-6 bg-white/3 border border-white/10">
                 <div className="grid md:grid-cols-2 gap-6">
