@@ -223,4 +223,26 @@ body {
   * {
     @apply font-sans;
   }
+  button,
+  a,
+  select,
+  label[for],
+  [role="button"],
+  [role="link"],
+  [role="checkbox"],
+  [role="radio"],
+  [role="switch"],
+  [role="tab"],
+  [role="menuitem"],
+  [role="option"],
+  [role="combobox"],
+  [role="listbox"],
+  [type="button"],
+  [type="submit"],
+  [type="reset"],
+  [type="checkbox"],
+  [type="radio"],
+  [tabindex]:not([tabindex="-1"]) {
+    cursor: pointer;
+  }
 }

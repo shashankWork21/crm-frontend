@@ -1,6 +1,6 @@
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
-import { Scope } from "./types";
+import { Scope, TriggerType } from "./types";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -40,7 +40,7 @@ export const leadMagnetSteps = [
   },
   {
     title: "Engage with Leads",
-    description: "Nurture your new leads through targeted Instagram campaigns.",
+    description: "Nurture your new leads by interacting with them on DM.",
     stepNumber: 3,
   },
 ];
@@ -50,3 +50,20 @@ export const instagramScopes = [
   Scope.META_INSTAGRAM_COMMENT,
   Scope.META_INSTAGRAM_DM,
 ];
+
+export function getTriggerTypeLabel(triggerType: TriggerType): string {
+  switch (triggerType) {
+    case TriggerType.COMMENT_ANY:
+      return "Any Comment";
+    case TriggerType.COMMENT_KEYWORD:
+      return "Keyword";
+    case TriggerType.MESSAGE_ANY:
+      return "Any Message";
+    case TriggerType.MESSAGE_KEYWORD:
+      return "Message Keyword";
+    case TriggerType.TIME_DELAY:
+      return "Time Delay";
+    default:
+      return triggerType;
+  }
+}

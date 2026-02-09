@@ -22,7 +22,7 @@ import { useEffect, useRef, useState } from "react";
 function useCountUp(
   end: number,
   duration: number = 2000,
-  startOnView: boolean = true
+  startOnView: boolean = true,
 ) {
   const [count, setCount] = useState(0);
   const [hasStarted, setHasStarted] = useState(false);
@@ -63,7 +63,7 @@ function useCountUp(
           setHasStarted(true);
         }
       },
-      { threshold: 0.5 }
+      { threshold: 0.5 },
     );
 
     observer.observe(ref.current);
@@ -126,8 +126,8 @@ export default function Home() {
     <main className="min-h-screen bg-rich-black overflow-hidden">
       {/* Ambient Background */}
       <div className="fixed inset-0 pointer-events-none" aria-hidden="true">
-        <div className="absolute top-0 left-1/4 w-[600px] h-[600px] bg-sunglow-500/10 rounded-full blur-[120px] animate-pulse" />
-        <div className="absolute bottom-1/4 right-1/4 w-[400px] h-[400px] bg-powder-blue-500/10 rounded-full blur-[100px]" />
+        <div className="absolute top-0 left-1/4 w-150 h-150 bg-sunglow-500/10 rounded-full blur-[120px] animate-pulse" />
+        <div className="absolute bottom-1/4 right-1/4 w-100 h-100 bg-powder-blue-500/10 rounded-full blur-[100px]" />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,transparent_0%,var(--rich-black)_70%)]" />
       </div>
 

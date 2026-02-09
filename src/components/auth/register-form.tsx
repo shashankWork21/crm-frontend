@@ -42,7 +42,7 @@ export default function RegisterForm({ role }: RegisterFormProps) {
     errors: {},
   });
 
-  function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+  function handleSubmit(event: React.SubmitEvent<HTMLFormElement>) {
     event.preventDefault();
     setIsSubmitting(true);
     if (!acceptedTerms) {

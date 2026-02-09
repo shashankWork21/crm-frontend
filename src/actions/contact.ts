@@ -1,13 +1,14 @@
 "use server";
 
 import { contactCreatePath, contactPathById } from "@/lib/paths";
-import { Contact, FormState, Gender } from "@/lib/types";
+import { Contact, Gender } from "@/lib/types";
+import { FormState } from "@/lib/types";
 import { cookies } from "next/headers";
 
 export async function createContact(
   contactOrgId: string,
   formState: FormState,
-  formData: FormData
+  formData: FormData,
 ) {
   const c = await cookies();
   const name = formData.get("name") as string;
@@ -58,7 +59,7 @@ export async function updateContact(
   data: Partial<Contact>,
   field: string,
   formState: FormState,
-  formData: FormData
+  formData: FormData,
 ) {
   const c = await cookies();
   const contactId = data.id;

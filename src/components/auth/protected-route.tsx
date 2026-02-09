@@ -5,6 +5,7 @@ import {
   adminMenuItems,
   employeeMenuItems,
   MenuItems,
+  reviewerMenuItems,
 } from "@/components/sidebar/sidebar-menu";
 import { Role } from "@/lib/types";
 import { usePathname, useRouter } from "next/navigation";
@@ -29,7 +30,11 @@ export default function ProtectedRoute({ children }: ProtectedRouteProps) {
   }, [user, loading, router, pathName]);
 
   const menuItems: MenuItems[] =
-    user?.role === Role.EMPLOYEE ? employeeMenuItems : adminMenuItems;
+    user?.role === Role.REVIEWER
+      ? reviewerMenuItems
+      : user?.role === Role.EMPLOYEE
+        ? employeeMenuItems
+        : adminMenuItems;
 
   if (!user) {
     return null;

@@ -32,10 +32,10 @@ export default function ContactCreateForm({
       success: false,
       message: "",
       errors: {},
-    }
+    },
   );
 
-  function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+  function handleSubmit(event: React.SubmitEvent<HTMLFormElement>) {
     event.preventDefault();
     setIsSubmitting(true);
     const formData = new FormData(event.target as HTMLFormElement);
@@ -107,9 +107,11 @@ export default function ContactCreateForm({
             </div>
             {!!formState.errors.phoneNumber && (
               <ul className="text-sm text-red-500">
-                {formState.errors.phoneNumber.map((error: string, index: number) => (
-                  <li key={index}>{error}</li>
-                ))}
+                {formState.errors.phoneNumber.map(
+                  (error: string, index: number) => (
+                    <li key={index}>{error}</li>
+                  ),
+                )}
               </ul>
             )}
           </div>
@@ -155,9 +157,11 @@ export default function ContactCreateForm({
             </Select>
             {!!formState.errors?.gender && (
               <ul className="text-sm text-red-500">
-                {formState.errors?.gender.map((error: string, index: number) => (
-                  <li key={index}>{error}</li>
-                ))}
+                {formState.errors?.gender.map(
+                  (error: string, index: number) => (
+                    <li key={index}>{error}</li>
+                  ),
+                )}
               </ul>
             )}
           </div>

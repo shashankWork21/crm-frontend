@@ -23,7 +23,7 @@ const s3 = new S3Client({
 
 async function uploadFileToS3(
   file: File,
-  organisationId: string
+  organisationId: string,
 ): Promise<string> {
   const buffer = await file.arrayBuffer();
   const fileName = file.name;
@@ -49,7 +49,7 @@ async function uploadFileToS3(
 export async function createLeadMagnet(
   data: LeadMagnetData,
   formState: FormState,
-  formData: FormData
+  formData: FormData,
 ) {
   const c = await cookies();
   const title = formData.get("title") as string;

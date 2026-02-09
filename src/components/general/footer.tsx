@@ -6,7 +6,7 @@ export default function Footer() {
     <footer className="relative bg-rich-black border-t border-slate-800">
       {/* Subtle Gradient */}
       <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
-        <div className="absolute bottom-0 left-1/4 w-[400px] h-[200px] bg-oxford-blue/10 rounded-full blur-[100px]" />
+        <div className="absolute bottom-0 left-1/4 w-100 h-50 bg-oxford-blue/10 rounded-full blur-[100px]" />
       </div>
 
       <div className="relative max-w-7xl mx-auto px-6 py-16">

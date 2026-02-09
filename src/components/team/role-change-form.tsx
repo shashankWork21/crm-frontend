@@ -26,7 +26,7 @@ export default function RoleChangeForm({ user, setEdit }: RoleChangeFormProps) {
       success: false,
       message: "",
       errors: {},
-    }
+    },
   );
 
   useEffect(() => {

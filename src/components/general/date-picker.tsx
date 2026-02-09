@@ -50,7 +50,7 @@ export function DatePicker({
           align="start"
         >
           <Calendar
-            className="bg-white [&[data-slot=popover-content]]:bg-white"
+            className="bg-white data-[slot=popover-content]:bg-white"
             mode="single"
             selected={date}
             captionLayout="dropdown"

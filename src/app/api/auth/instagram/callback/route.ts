@@ -4,7 +4,7 @@ import { validateSession } from "@/actions";
 import { createInstagramToken, updateInstagramToken } from "@/actions/token";
 import { getTokenByInstagramId } from "@/db/token.queries";
 import { instagramScopes } from "@/lib/scopes";
-import { Platform, User } from "@/lib/types";
+import { Platform, Role, User } from "@/lib/types";
 import { redirect } from "next/navigation";
 
 export async function GET(request: Request) {
@@ -46,7 +46,7 @@ export async function GET(request: Request) {
 
     const item = await response.json();
 
-    const { access_token, user_id, permissions } = item;
+    const { access_token, permissions } = item;
 
     const longLivedTokenUrl = `https://graph.instagram.com/access_token?grant_type=ig_exchange_token&client_secret=${client_secret}&access_token=${access_token}`;
 
@@ -61,6 +61,14 @@ export async function GET(request: Request) {
     const { access_token: longLivedAccessToken, expires_in } =
       longLivedTokenData;
 
+    console.log("Long-lived Access Token:", longLivedAccessToken);
+
+    const userData = await fetch(
+      `https://graph.instagram.com/v24.0/me?fields=id,user_id,username&access_token=${longLivedAccessToken}`,
+    );
+
+    const userInfo = await userData.json();
+
     const expiresAt = new Date(Date.now() + expires_in * 1000).toISOString();
 
     const scopes = permissions
@@ -71,16 +79,17 @@ export async function GET(request: Request) {
       )
       .filter((scope: string | null) => scope !== null);
 
-    const existingToken = await getTokenByInstagramId(`${user_id}`);
+    const existingToken = await getTokenByInstagramId(
+      userInfo.user_id,
+      userInfo.id,
+    );
 
     if (existingToken) {
       const tokenId = existingToken.id;
-      console.log(
-        "Instagram Account already linked:",
-        existingToken.instagramId,
-      );
       await updateInstagramToken(tokenId, {
         accessToken: longLivedAccessToken,
+        instagramId: `${userInfo.user_id}`,
+        appScopedInstagramId: `${userInfo.id}`,
         scopes,
         expiresAt,
       });
@@ -88,7 +97,8 @@ export async function GET(request: Request) {
       const token = await createInstagramToken({
         accessToken: longLivedAccessToken,
         scopes,
-        platformId: `${user_id}`,
+        instagramId: `${userInfo.user_id}`,
+        appScopedInstagramId: `${userInfo.id}`,
         platform: Platform.INSTAGRAM,
         expiresAt,
         organisationId: user?.organisationId || "",
@@ -101,5 +111,7 @@ export async function GET(request: Request) {
   } catch (error) {
     console.log("Error fetching access token:", JSON.stringify(error));
   }
-  redirect("/lead-magnets");
+  redirect(
+    user?.role === Role.REVIEWER ? "/instagram-review" : "/lead-magnets",
+  );
 }

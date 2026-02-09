@@ -35,7 +35,7 @@ export default function CreateLeadMagnetView() {
               Create a new lead magnet to capture more leads
             </p>
           </div>
-          <LeadMagnetSteps currentStep={1} />
+          <LeadMagnetSteps />
 
           {/* Main Form Card */}
           <div className="max-w-2xl mx-auto">

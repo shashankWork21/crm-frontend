@@ -10,7 +10,8 @@ import {
   sessionValidatePath,
   resetPasswordPath,
 } from "@/lib/paths";
-import { FormState, Role, Session, User } from "@/lib/types";
+import { Role, Session, User } from "@/lib/types";
+import { FormState } from "@/lib/types";
 import { redirect } from "next/navigation";
 
 export async function registerUser(
@@ -29,6 +30,7 @@ export async function registerUser(
   const confirmPassword = formData.get("confirmPassword") as string;
 
   const roles = {
+    [Role.REVIEWER]: "reviewer",
     [Role.SUPER_ADMIN]: "super_admin",
     [Role.PLATFORM_ADMIN]: "platform_admin",
     [Role.ORGANISATION_ADMIN]: "organisation_admin",

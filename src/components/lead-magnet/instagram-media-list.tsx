@@ -12,7 +12,6 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import {
   ChevronDown,
-  Instagram,
   ImageIcon,
   VideoIcon,
   ImagesIcon,
@@ -27,6 +26,7 @@ import {
   DropdownMenuCheckboxItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import InstagramBrandIcon from "./instagram-brand-icon";
 
 interface InstagramMediaListProps {
   leadMagnetId?: string;
@@ -38,7 +38,10 @@ interface InstagramMediaListProps {
 type MediaType = "IMAGE" | "VIDEO" | "CAROUSEL_ALBUM";
 type ViewMode = "grid" | "compact";
 
-const mediaTypeLabels: Record<MediaType, { label: string; icon: typeof ImageIcon }> = {
+const mediaTypeLabels: Record<
+  MediaType,
+  { label: string; icon: typeof ImageIcon }
+> = {
   IMAGE: { label: "Images", icon: ImageIcon },
   VIDEO: { label: "Videos", icon: VideoIcon },
   CAROUSEL_ALBUM: { label: "Carousels", icon: ImagesIcon },
@@ -52,7 +55,7 @@ export default function InstagramMediaList({
 }: InstagramMediaListProps) {
   const [isOpen, setIsOpen] = useState(defaultOpen);
   const [selectedTypes, setSelectedTypes] = useState<Set<MediaType>>(
-    new Set(["IMAGE", "VIDEO", "CAROUSEL_ALBUM"])
+    new Set(["IMAGE", "VIDEO", "CAROUSEL_ALBUM"]),
   );
   const [viewMode, setViewMode] = useState<ViewMode>("grid");
 
@@ -63,7 +66,7 @@ export default function InstagramMediaList({
         acc[post.media_type] = (acc[post.media_type] || 0) + 1;
         return acc;
       },
-      {} as Record<MediaType, number>
+      {} as Record<MediaType, number>,
     );
   }, [media]);
 
@@ -97,7 +100,7 @@ export default function InstagramMediaList({
         <CollapsibleTrigger asChild>
           <button className="flex items-center gap-3 group focus:outline-none">
             <div className="flex size-10 items-center justify-center rounded-lg bg-linear-to-br from-pink-500 via-purple-500 to-orange-400">
-              <Instagram className="size-5 text-white" />
+              <InstagramBrandIcon className="size-8 text-powder-blue-600/50" />
             </div>
             <div className="flex flex-col items-start">
               <span className="text-lg font-semibold text-powder-blue-800 group-hover:text-powder-blue transition-colors">
@@ -112,7 +115,7 @@ export default function InstagramMediaList({
             <ChevronDown
               className={cn(
                 "size-5 text-powder-blue-600 transition-transform duration-300 ml-2",
-                isOpen && "rotate-180"
+                isOpen && "rotate-180",
               )}
             />
           </button>
@@ -147,7 +150,7 @@ export default function InstagramMediaList({
                   "flex size-8 items-center justify-center rounded-md transition-colors",
                   viewMode === "grid"
                     ? "bg-powder-blue text-rich-black"
-                    : "text-powder-blue-600 hover:text-powder-blue"
+                    : "text-powder-blue-600 hover:text-powder-blue",
                 )}
                 aria-label="Grid view"
               >
@@ -159,7 +162,7 @@ export default function InstagramMediaList({
                   "flex size-8 items-center justify-center rounded-md transition-colors",
                   viewMode === "compact"
                     ? "bg-powder-blue text-rich-black"
-                    : "text-powder-blue-600 hover:text-powder-blue"
+                    : "text-powder-blue-600 hover:text-powder-blue",
                 )}
                 aria-label="Compact view"
               >
@@ -175,7 +178,7 @@ export default function InstagramMediaList({
                   size="sm"
                   className={cn(
                     "gap-2 border-powder-blue-700/30 text-powder-blue-700 hover:bg-powder-blue-700/10 hover:text-powder-blue",
-                    isFiltered && "border-sunglow text-sunglow"
+                    isFiltered && "border-sunglow text-sunglow",
                   )}
                 >
                   <Filter className="size-4" />
@@ -224,7 +227,7 @@ export default function InstagramMediaList({
               "gap-4",
               viewMode === "grid"
                 ? "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
-                : "grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6"
+                : "grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6",
             )}
           >
             {filteredMedia.map((post) => (
@@ -238,7 +241,7 @@ export default function InstagramMediaList({
         ) : (
           <div className="flex flex-col items-center justify-center rounded-xl border border-dashed border-powder-blue-700/30 bg-rich-black-500/50 py-16 px-6">
             <div className="flex size-16 items-center justify-center rounded-full bg-linear-to-br from-pink-500/20 via-purple-500/20 to-orange-400/20 mb-4">
-              <Instagram className="size-8 text-powder-blue-600/50" />
+              <InstagramBrandIcon className="size-8 text-powder-blue-600/50" />
             </div>
             <h3 className="text-lg font-semibold text-powder-blue-700 mb-2">
               No Instagram Posts

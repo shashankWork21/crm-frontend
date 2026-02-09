@@ -23,7 +23,7 @@ export default function ContactUs() {
     "idle" | "submitting" | "success" | "error"
   >("idle");
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
     setFormStatus("submitting");
 
@@ -39,8 +39,8 @@ export default function ContactUs() {
     <div className="min-h-screen bg-rich-black overflow-hidden">
       {/* Background Effects */}
       <div className="fixed inset-0 pointer-events-none" aria-hidden="true">
-        <div className="absolute top-0 right-1/4 w-[600px] h-[600px] bg-sunglow-500/5 rounded-full blur-[120px]" />
-        <div className="absolute bottom-1/4 left-1/4 w-[400px] h-[400px] bg-powder-blue-500/5 rounded-full blur-[100px]" />
+        <div className="absolute top-0 right-1/4 w-150 h-150 bg-sunglow-500/5 rounded-full blur-[120px]" />
+        <div className="absolute bottom-1/4 left-1/4 w-100 h-100 bg-powder-blue-500/5 rounded-full blur-[100px]" />
       </div>
 
       {/* Navigation */}

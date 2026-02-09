@@ -39,7 +39,7 @@ export default function SelectOrganisation() {
       success: false,
       message: "",
       errors: {},
-    }
+    },
   );
 
   useEffect(() => {
@@ -58,8 +58,12 @@ export default function SelectOrganisation() {
         <div className="w-14 h-14 rounded-2xl bg-oxford-blue flex items-center justify-center mx-auto mb-4">
           <Building2 className="w-7 h-7 text-white" />
         </div>
-        <h2 className="text-2xl font-bold text-slate-900">Select Organisation</h2>
-        <p className="text-slate-500 text-sm mt-1">Choose which organisation to work with</p>
+        <h2 className="text-2xl font-bold text-slate-900">
+          Select Organisation
+        </h2>
+        <p className="text-slate-500 text-sm mt-1">
+          Choose which organisation to work with
+        </p>
       </CardHeader>
       <CardContent>
         <Select value={organisationId} onValueChange={handleOrganisationChange}>

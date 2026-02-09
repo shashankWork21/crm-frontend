@@ -28,7 +28,7 @@ export default function useCountry() {
   // Capitalize search term
   const capitalizedSearchTerm = debouncedCountrySearchTerm.replace(
     /\w\S*/g,
-    (txt) => txt.charAt(0).toUpperCase() + txt.slice(1).toLowerCase()
+    (txt) => txt.charAt(0).toUpperCase() + txt.slice(1).toLowerCase(),
   );
 
   // Query for fetching countries

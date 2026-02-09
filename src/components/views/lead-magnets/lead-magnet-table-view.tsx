@@ -48,7 +48,7 @@ export default function LeadMagnetTableView({
             )}
           </div>
           <div className="mx-auto mb-8">
-            <LeadMagnetSteps currentStep={leadMagnets.length > 0 ? 2 : 1} />
+            <LeadMagnetSteps />
           </div>
 
           {/* Table */}

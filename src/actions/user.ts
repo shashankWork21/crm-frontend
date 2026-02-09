@@ -85,7 +85,7 @@ export async function deleteUser(userId: string) {
 export async function modifyProfile(
   userId: string,
   formState: FormState,
-  formData: FormData
+  formData: FormData,
 ) {
   const c = await cookies();
 

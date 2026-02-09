@@ -27,7 +27,7 @@ export default function useCreateLeadMagnet() {
       message: "",
       errors: {},
       itemId: "",
-    }
+    },
   );
 
   useEffect(() => {
@@ -40,7 +40,7 @@ export default function useCreateLeadMagnet() {
     setFiles(files);
   };
 
-  function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+  function handleSubmit(event: React.SubmitEvent<HTMLFormElement>) {
     event.preventDefault();
     setIsSubmitting(true);
     const formData = new FormData(event.target as HTMLFormElement);

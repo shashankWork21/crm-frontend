@@ -49,7 +49,7 @@ export default function SelectCountry({
           variant="outline"
           role="combobox"
           aria-expanded={openCountry}
-          className="w-full h-12! border border-white/10 bg-white/5 text-white rounded-xl focus:border-sunglow-500 focus:ring-sunglow-500/20 focus:ring-2 transition-all [&>span]:text-white/70 [&>span[data-placeholder]]:text-white/30 text-"
+          className="w-full h-12! border border-white/10 bg-white/5 text-white rounded-xl focus:border-sunglow-500 focus:ring-sunglow-500/20 focus:ring-2 transition-all [&>span]:text-white/70 [&>span[data-placeholder]]:text-white/30"
         >
           <div className="gap-1 flex flex-row items-center justify-between w-full">
             {selectedCountry?.name || "Select country..."}

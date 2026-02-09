@@ -27,7 +27,7 @@ export default function ResetPasswordForm({ userId }: ResetPasswordFormProps) {
     errors: {},
   });
 
-  function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+  function handleSubmit(event: React.SubmitEvent<HTMLFormElement>) {
     event.preventDefault();
     setIsSubmitting(true);
     const formData = new FormData(event.target as HTMLFormElement);
@@ -93,7 +93,7 @@ export default function ResetPasswordForm({ userId }: ResetPasswordFormProps) {
                   {formState.errors.password.map(
                     (error: string, index: number) => (
                       <li key={index}>{error}</li>
-                    )
+                    ),
                   )}
                 </ul>
               )}
@@ -132,7 +132,7 @@ export default function ResetPasswordForm({ userId }: ResetPasswordFormProps) {
                   {formState.errors.confirmPassword.map(
                     (error: string, index: number) => (
                       <li key={index}>{error}</li>
-                    )
+                    ),
                   )}
                 </ul>
               )}

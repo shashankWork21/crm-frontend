@@ -4,15 +4,21 @@ import { cookies } from "next/headers";
 
 import { tokenByUserIdPath, tokenSearchPath } from "@/lib/paths";
 
-export async function getTokenByInstagramId(instagramId: string) {
+export async function getTokenByInstagramId(
+  instagramId: string,
+  appScopedInstagramId: string,
+) {
   const c = await cookies();
   try {
-    const response = await fetch(tokenSearchPath({ instagramId }), {
-      headers: {
-        "Content-Type": "application/json",
-        Cookie: `session=${c.get("session")?.value || ""}`,
+    const response = await fetch(
+      tokenSearchPath({ instagramId, appScopedInstagramId }),
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Cookie: `session=${c.get("session")?.value || ""}`,
+        },
       },
-    });
+    );
 
     if (!response.ok) {
       throw new Error("Failed to fetch token by Instagram ID");

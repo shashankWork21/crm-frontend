@@ -8,7 +8,7 @@ export default function useGeoState(countryId: string) {
   const [stateSearchTerm, setStateSearchTerm] = useState("");
   const [debouncedStateSearchTerm, setDebouncedStateSearchTerm] = useState("");
   const [selectedState, setSelectedState] = useState<Partial<State> | null>(
-    null
+    null,
   );
   const [openState, setOpenState] = useState(false);
 
@@ -28,7 +28,7 @@ export default function useGeoState(countryId: string) {
   // Capitalize search term
   const capitalizedSearchTerm = debouncedStateSearchTerm.replace(
     /\w\S*/g,
-    (txt) => txt.charAt(0).toUpperCase() + txt.slice(1).toLowerCase()
+    (txt) => txt.charAt(0).toUpperCase() + txt.slice(1).toLowerCase(),
   );
 
   // Query for fetching states

@@ -21,7 +21,7 @@ export default function ProfileEditForm({
       success: false,
       message: "",
       errors: {},
-    }
+    },
   );
 
   useEffect(() => {
@@ -30,7 +30,7 @@ export default function ProfileEditForm({
     }
   }, [formState.success, setEdit]);
 
-  function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+  function handleSubmit(event: React.SubmitEvent<HTMLFormElement>) {
     event.preventDefault();
     const formData = new FormData(event.target as HTMLFormElement);
     startTransition(() => action(formData));
@@ -54,7 +54,7 @@ export default function ProfileEditForm({
                   <li key={index} className="text-red-500 text-sm">
                     {error}
                   </li>
-                )
+                ),
               )}
             </ul>
           )}
@@ -101,7 +101,7 @@ export default function ProfileEditForm({
                   <li key={index} className="text-red-600">
                     {error}
                   </li>
-                )
+                ),
               )}
             </ul>
           )}
@@ -112,7 +112,7 @@ export default function ProfileEditForm({
                   <li key={index} className="text-red-600">
                     {error}
                   </li>
-                )
+                ),
               )}
             </ul>
           )}

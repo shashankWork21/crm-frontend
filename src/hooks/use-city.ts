@@ -26,7 +26,7 @@ export default function useCity(stateId: string) {
   // Capitalize search term
   const capitalizedSearchTerm = debouncedCitySearchTerm.replace(
     /\w\S*/g,
-    (txt) => txt.charAt(0).toUpperCase() + txt.slice(1).toLowerCase()
+    (txt) => txt.charAt(0).toUpperCase() + txt.slice(1).toLowerCase(),
   );
 
   // Query for fetching cities

@@ -6,7 +6,8 @@ import Image from "next/image";
 import { Building2, Loader2, ArrowRight } from "lucide-react";
 
 import { useActionState, startTransition, useState, useEffect } from "react";
-import { BusinessModel, FormState } from "@/lib/types";
+import { BusinessModel, Role } from "@/lib/types";
+import { FormState } from "@/lib/types";
 import { Card, CardContent, CardHeader } from "../ui/card";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
@@ -102,7 +103,7 @@ export default function OrganisationCreateForm({
 
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+  function handleSubmit(event: React.SubmitEvent<HTMLFormElement>) {
     event.preventDefault();
     setIsSubmitting(true);
     const formData = new FormData(event.target as HTMLFormElement);
@@ -121,7 +122,9 @@ export default function OrganisationCreateForm({
           if (setUser) {
             setUser(result);
           }
-          router.push("/dashboard");
+          router.push(
+            result.role === Role.REVIEWER ? "/instagram-review" : "/dashboard",
+          );
         } catch (error) {
           console.error("Failed to refresh session:", error);
         }

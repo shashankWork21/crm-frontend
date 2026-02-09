@@ -2,7 +2,6 @@
 
 import { InstagramMedia } from "@/lib/types";
 import Image from "next/image";
-import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -11,8 +10,13 @@ import {
   ImagesIcon,
   ExternalLink,
   Sparkles,
+  Loader2,
 } from "lucide-react";
 import { formatDistanceToNow } from "date-fns";
+import { encryptData } from "@/actions/crypto";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+import Link from "next/link";
 
 interface InstagramMediaItemProps {
   post: InstagramMedia;
@@ -41,11 +45,30 @@ export default function InstagramMediaItem({
   post,
   leadMagnetId,
 }: InstagramMediaItemProps) {
+  const router = useRouter();
+  const [isNavigating, setIsNavigating] = useState(false);
   const mediaConfig = mediaTypeConfig[post.media_type];
   const MediaIcon = mediaConfig.icon;
   const timeAgo = formatDistanceToNow(new Date(post.timestamp), {
     addSuffix: true,
   });
+
+  const handleSetupAutomation = async () => {
+    setIsNavigating(true);
+    try {
+      const encryptedData = await encryptData({
+        asset_type: "instagram_post",
+        asset_id: post.id,
+        asset_url: post.thumbnail_url || post.media_url,
+      });
+      router.push(
+        `/lead-magnets/${leadMagnetId}/automations/instagram?data=${encryptedData}`,
+      );
+    } catch (error) {
+      console.error("Failed to encrypt data:", error);
+      setIsNavigating(false);
+    }
+  };
 
   return (
     <div className="group relative flex flex-col overflow-hidden rounded-xl border border-powder-blue-700/30 bg-linear-to-b from-rich-black-500 to-rich-black-400 shadow-md transition-all duration-300 hover:shadow-xl hover:shadow-powder-blue-400/10 hover:-translate-y-1">
@@ -107,13 +130,16 @@ export default function InstagramMediaItem({
         {/* Action Button */}
         <div className="mt-auto pt-2">
           <Button
-            asChild
+            onClick={handleSetupAutomation}
+            disabled={isNavigating}
             className="w-full bg-sunglow hover:bg-sunglow-600 text-rich-black font-semibold transition-all duration-300"
           >
-            <Link href={`/lead-magnets/${leadMagnetId}/automations/instagram`}>
+            {isNavigating ? (
+              <Loader2 className="size-4 animate-spin" />
+            ) : (
               <Sparkles className="size-4" />
-              Setup Automation
-            </Link>
+            )}
+            {isNavigating ? "Loading..." : "Setup Automation"}
           </Button>
         </div>
       </div>

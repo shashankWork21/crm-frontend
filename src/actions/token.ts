@@ -7,7 +7,12 @@ import { Token } from "@/lib/types";
 import { validateSessionCached } from "./auth";
 import { getTokenByUserId } from "@/db/token.queries";
 
-export async function createInstagramToken(data: Partial<Token>) {
+export async function createInstagramToken(
+  data: Partial<Token> & {
+    instagramId?: string;
+    appScopedInstagramId?: string;
+  },
+) {
   const c = await cookies();
   try {
     const response = await fetch(tokenPath(), {
@@ -32,7 +37,10 @@ export async function createInstagramToken(data: Partial<Token>) {
 
 export async function updateInstagramToken(
   tokenId: string,
-  data: Partial<Token>,
+  data: Partial<Token> & {
+    instagramId?: string;
+    appScopedInstagramId?: string;
+  },
 ) {
   const c = await cookies();
   try {

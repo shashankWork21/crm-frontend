@@ -16,6 +16,7 @@ import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import { Label } from "../ui/label";
 import { useAuth } from "@/context/auth.context";
+import { Role } from "@/lib/types";
 
 export default function LoginForm() {
   const { setUser } = useAuth();
@@ -28,7 +29,9 @@ export default function LoginForm() {
         const { user } = await validateSession();
         if (user) {
           setRedirecting(true);
-          router.push("/dashboard");
+          router.push(
+            user.role === Role.REVIEWER ? "/instagram-review" : "/dashboard",
+          );
         }
       } catch (error) {
         console.log(error);
@@ -65,7 +68,7 @@ export default function LoginForm() {
     }
   }, [formState.success, router, setUser]);
 
-  function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+  function handleSubmit(event: React.SubmitEvent<HTMLFormElement>) {
     event.preventDefault();
     setIsSubmitting(true);
     const formData = new FormData(event.target as HTMLFormElement);

@@ -8,6 +8,21 @@ import {
   LayoutDashboard,
   Magnet,
 } from "lucide-react";
+import { siInstagram } from "simple-icons/icons";
+
+function InstagramBrandIcon(props: React.SVGProps<SVGSVGElement>) {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      role="img"
+      aria-label="Instagram"
+      fill="currentColor"
+      {...props}
+    >
+      <path d={siInstagram.path} />
+    </svg>
+  );
+}
 
 const adminItemsOnly = [
   {
@@ -51,6 +66,15 @@ export const employeeMenuItems = [
 ];
 
 export const adminMenuItems = [...employeeMenuItems, ...adminItemsOnly];
+
+export const reviewerMenuItems = [
+  {
+    group: "Review",
+    title: "Instagram",
+    url: "/instagram-review",
+    icon: InstagramBrandIcon,
+  },
+];
 
 export interface MenuItems {
   group: string;
