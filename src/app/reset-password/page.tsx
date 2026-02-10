@@ -8,7 +8,6 @@ export default async function ResetPasswordPage({
 }) {
   try {
     const userId = await getUserIdFromKey(searchParams.key as string);
-    console.log(userId);
     return <ResetPasswordForm userId={userId} />;
   } catch (error) {
     // Handle error (e.g., invalid or expired key)

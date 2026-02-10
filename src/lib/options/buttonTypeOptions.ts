@@ -25,3 +25,19 @@ export const buttonTypeOptions = [
     value: "POSTBACK",
   },
 ];
+
+export interface ButtonTypeOptionReviewer {
+  label: string;
+  value: "web_url" | "postback";
+}
+
+export const buttonTypeOptionsReviewer = [
+  {
+    label: "Url",
+    value: "web_url",
+  },
+  {
+    label: "Postback",
+    value: "postback",
+  },
+];

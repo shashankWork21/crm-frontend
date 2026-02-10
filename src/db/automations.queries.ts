@@ -7,6 +7,10 @@ import { redirect } from "next/navigation";
 export async function getAutomationsByLeadMagnetId(leadMagnetId: string) {
   const c = await cookies();
 
+  if (!leadMagnetId) {
+    return [];
+  }
+
   const response = await fetch(
     `${process.env.BACKEND_URL}/automations/lead-magnet/${leadMagnetId}`,
     {

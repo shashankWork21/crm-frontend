@@ -126,32 +126,7 @@ export async function createAutomationReviewer(
   const verificationMessage =
     "Before I send you the resource, please verify that you're a follower by clicking the button below.";
   const verificationButtonText = "I'm a follower";
-  console.log(
-    JSON.stringify({
-      isActive,
-      createdById: data.createdById,
-      leadMagnetId: data.leadMagnetId,
-      assetId: data.assetId,
-      assetUrl: data.assetUrl,
-      triggerSource: data.triggerSource,
-      triggerType: data.triggerType,
-      triggerValues: data.triggerValues,
-      responseSource: data.responseSource,
-      responseType: data.responseType,
-      responseContent,
-      responseButtonList: data.responseButtonList,
-      replyToComment: data.replyToComment,
-      commentReplies,
-      verifyFollower: data.verifyFollower,
-      enforceFollow: data.enforceFollow,
-      verificationMessage,
-      verificationButtonText,
-      platform: data.platform,
-      organisationId: data.organisationId,
-      fieldsToCapture: data.fieldsToCapture,
-      trailingAutomationId: data.trailingAutomationId || null,
-    }),
-  );
+
   try {
     const response = await fetch(automationPath(), {
       method: "POST",

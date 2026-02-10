@@ -9,8 +9,8 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import InstagramBrandIcon from "@/components/lead-magnet/instagram-brand-icon";
 import { Automation, LeadMagnet, Platform, Token } from "@/lib/types";
 import useInstagramMedia from "@/hooks/use-instagram-media";
-import InstagramMediaListReviewer from "@/components/lead-magnet/instagram-media-list-reviewer";
-import ExistingAutomationsList from "@/components/lead-magnet/existing-automations-list";
+import InstagramMediaListReviewer from "@/components/lead-magnet/reviewer/instagram-media-list-reviewer";
+import ExistingAutomationsListReviewer from "@/components/lead-magnet/reviewer/existing-automations-list-reviewer";
 
 interface InstagramReviewViewProps {
   leadMagnet: LeadMagnet;
@@ -102,7 +102,10 @@ export default function InstagramReviewView({
                     </div>
                   </div>
                   <div className="w-full">
-                    <ExistingAutomationsList automations={automations} />
+                    <ExistingAutomationsListReviewer
+                      tokens={tokens}
+                      automations={automations}
+                    />
                   </div>
                   <div className="w-full mt-5">
                     <InstagramMediaListReviewer

@@ -26,7 +26,7 @@ import {
   DropdownMenuCheckboxItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import InstagramBrandIcon from "./instagram-brand-icon";
+import InstagramBrandIcon from "../instagram-brand-icon";
 import InstagramMediaItemReviewer from "./instagram-media-item-reviewer";
 
 interface InstagramMediaListProps {

@@ -20,7 +20,6 @@ export default function CreateIgDMAutomationView({
   assetUrl,
   assetType,
 }: CreateIgDMAutomationViewProps) {
-  console.log({ assetId, assetUrl, assetType });
   return (
     <ProtectedRoute>
       <Card className="p-6 md:p-8 lg:p-10 bg-rich-black border border-white/10 rounded-2xl shadow-lg w-9/10 max-w-400 mx-auto mb-20">

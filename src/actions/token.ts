@@ -75,7 +75,6 @@ export async function refreshInstagramToken(token: Token) {
     new Date(token.expiresAt as string).getTime() - Date.now();
 
   if (timeTillExpiry > 2 * 24 * 60 * 60 * 1000) {
-    console.log("Token not close to expiry, no refresh needed.");
     return false;
   }
   const refreshUrl = `https://graph.instagram.com/refresh_access_token?grant_type=ig_refresh_token&access_token=${accessToken}`;
@@ -95,7 +94,6 @@ export async function refreshInstagramToken(token: Token) {
       accessToken: updatedToken.access_token,
       expiresAt: expiresAt.toISOString(),
     });
-    console.log("Instagram token refreshed successfully.");
     return false;
   } catch (error) {
     console.log(error);
@@ -117,8 +115,6 @@ export async function deleteToken(tokenId: string) {
     if (!response.ok) {
       throw new Error("Failed to delete token");
     }
-
-    console.log("Token deleted successfully.");
   } catch (error) {
     console.error("Error deleting token:", error);
     throw error;

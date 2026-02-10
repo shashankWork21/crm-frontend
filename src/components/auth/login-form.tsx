@@ -5,12 +5,7 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
 import { Eye, EyeOff, Mail, Lock, Loader2, ArrowRight } from "lucide-react";
-import {
-  getSessionCookie,
-  loginUser,
-  validateSession,
-  validateSessionToken,
-} from "@/actions";
+import { getSessionCookie, loginUser, validateSessionToken } from "@/actions";
 import { Card, CardContent, CardHeader } from "../ui/card";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
@@ -19,26 +14,9 @@ import { useAuth } from "@/context/auth.context";
 import { Role } from "@/lib/types";
 
 export default function LoginForm() {
+  const router = useRouter();
   const { setUser } = useAuth();
   const [redirecting, setRedirecting] = useState(false);
-  const router = useRouter();
-
-  useEffect(() => {
-    async function verifyUser() {
-      try {
-        const { user } = await validateSession();
-        if (user) {
-          setRedirecting(true);
-          router.push(
-            user.role === Role.REVIEWER ? "/instagram-review" : "/dashboard",
-          );
-        }
-      } catch (error) {
-        console.log(error);
-      }
-    }
-    verifyUser();
-  }, [router]);
 
   const [showPassword, setShowPassword] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -59,7 +37,10 @@ export default function LoginForm() {
           if (setUser) {
             setUser(result);
           }
-          router.push("/dashboard");
+
+          router.push(
+            result.role === Role.REVIEWER ? "/instagram-review" : "/dashboard",
+          );
         } catch (error) {
           console.error("Failed to refresh session:", error);
         }

@@ -6,7 +6,6 @@ import { getLeadMagnetsByOrganisation } from "@/db/lead-magnet.queries";
 export default async function LeadMagnetsBasePage() {
   const { user } = await validateSession();
   const tokens = await getToken();
-  console.log(tokens);
   const leadMagnets = await getLeadMagnetsByOrganisation(
     user?.organisationId as string,
   );

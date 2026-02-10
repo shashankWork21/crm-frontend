@@ -17,7 +17,6 @@ export default async function LeadMagnetItemPage({
   const leadMagnet = await getLeadMagnetById(id);
 
   const automations = await getAutomationsByLeadMagnetId(id);
-  console.log(automations);
 
   return (
     <LeadMagnetView

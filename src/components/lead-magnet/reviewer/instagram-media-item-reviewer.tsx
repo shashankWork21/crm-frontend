@@ -1,13 +1,13 @@
 "use client";
 
-import { InstagramMedia } from "@/lib/types";
+import Link from "next/link";
+import { ImageIcon, VideoIcon, ImagesIcon, ExternalLink } from "lucide-react";
 import Image from "next/image";
+import { formatDistanceToNow } from "date-fns";
+
+import { InstagramMedia } from "@/lib/types";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { ImageIcon, VideoIcon, ImagesIcon, ExternalLink } from "lucide-react";
-import { formatDistanceToNow } from "date-fns";
-import { useRouter } from "next/navigation";
-import Link from "next/link";
 import useCommentDmAutomation from "@/hooks/use-comment-dm-automation";
 import { automationDefaultValues } from "@/lib/automation-default-values";
 
@@ -44,7 +44,7 @@ export default function InstagramMediaItemReviewer({
     addSuffix: true,
   });
 
-  const { isSubmitting, handleSubmit } = useCommentDmAutomation({
+  const { handleSubmit } = useCommentDmAutomation({
     assetId: post.id,
     assetUrl: post.thumbnail_url ? post.thumbnail_url : post.media_url,
     leadMagnetId: leadMagnetId!,

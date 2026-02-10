@@ -10,8 +10,6 @@ export default function useCreateLeadMagnet() {
   const router = useRouter();
   const { user } = useAuth();
 
-  console.log(user);
-
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const [files, setFiles] = useState<File[]>([]);

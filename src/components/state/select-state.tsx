@@ -43,7 +43,7 @@ export default function SelectState({
     (state) =>
       state.name?.toLowerCase() === stateSearchTerm.trim().toLowerCase(),
   );
-  console.log(stateOptions);
+
   return (
     <Popover open={openState} onOpenChange={setOpenState}>
       <PopoverTrigger

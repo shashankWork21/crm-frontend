@@ -61,8 +61,6 @@ export async function GET(request: Request) {
     const { access_token: longLivedAccessToken, expires_in } =
       longLivedTokenData;
 
-    console.log("Long-lived Access Token:", longLivedAccessToken);
-
     const userData = await fetch(
       `https://graph.instagram.com/v24.0/me?fields=id,user_id,username&access_token=${longLivedAccessToken}`,
     );
@@ -94,7 +92,7 @@ export async function GET(request: Request) {
         expiresAt,
       });
     } else {
-      const token = await createInstagramToken({
+      await createInstagramToken({
         accessToken: longLivedAccessToken,
         scopes,
         instagramId: `${userInfo.user_id}`,
@@ -104,9 +102,6 @@ export async function GET(request: Request) {
         organisationId: user?.organisationId || "",
         userId: user?.id || "",
       });
-      const tokenId = token.id;
-
-      console.log("Token ID:", tokenId);
     }
   } catch (error) {
     console.log("Error fetching access token:", JSON.stringify(error));

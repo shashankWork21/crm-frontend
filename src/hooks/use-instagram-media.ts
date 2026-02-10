@@ -9,7 +9,6 @@ export default function useInstagramMedia(
   existingMedia: string[],
 ) {
   const [media, setMedia] = useState([]);
-  console.log("Existing Media IDs:", existingMedia);
   useEffect(() => {
     async function fetchMedia() {
       if (token?.accessToken && token?.platform === Platform.INSTAGRAM) {
