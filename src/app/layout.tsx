@@ -35,9 +35,6 @@ export const metadata: Metadata = {
     type: "website",
     images: ["/logo.png"],
   },
-  other: {
-    "fb:app_id": process.env.NEXT_PUBLIC_FB_APP_ID || "",
-  },
 };
 
 export default function RootLayout({
@@ -47,6 +44,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="dark">
+      <head>
+        <meta
+          property="fb:app_id"
+          content={process.env.NEXT_PUBLIC_FB_APP_ID || ""}
+        />
+      </head>
       <body
         className={`${inter.variable} ${spaceGrotesk.variable} ${jetbrainsMono.variable} antialiased overscroll-none bg-rich-black font-sans text-slate-100`}
       >
