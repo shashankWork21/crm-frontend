@@ -166,6 +166,7 @@ export default function CommentSection({
               <DMForm
                 recipientId={comment.from.id}
                 accessToken={accessToken!}
+                onSuccess={() => setSendDMId(null)}
               />
             </div>
           )}

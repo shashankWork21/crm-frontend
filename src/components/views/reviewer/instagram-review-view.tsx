@@ -130,6 +130,14 @@ export default function InstagramReviewView({
                         prompt and can retry using{" "}
                         <span className="text-sunglow-500">I'm Following</span>.
                       </p>
+                      <p className="text-sm text-slate-400 mt-1">
+                        You can also check the flow manually by sending a
+                        comment to the post through instagram, and then choosing
+                        to reply to the comment or send a DM using the interface
+                        provided in the reviewer view. This allows you to
+                        simulate the user journey and ensure that the correct
+                        messages are being sent at each step of the flow.
+                      </p>
                     </div>
                   </div>
                 </div>

@@ -14,14 +14,19 @@ import {
 } from "@/components/ui/select";
 import { buttonTypeOptionsReviewer } from "@/lib/options/buttonTypeOptions";
 import { Plus, Trash2 } from "lucide-react";
-import { startTransition, useActionState, useState } from "react";
+import { startTransition, useActionState, useEffect, useState } from "react";
 
 interface DMFormProps {
   recipientId: string;
   accessToken: string;
+  onSuccess?: () => void;
 }
 
-export default function DMForm({ recipientId, accessToken }: DMFormProps) {
+export default function DMForm({
+  recipientId,
+  accessToken,
+  onSuccess,
+}: DMFormProps) {
   const [hasButtons, setHasButtons] = useState(false);
   const [buttonTextList, setButtonTextList] = useState<string[]>([]);
   const [buttonTypesList, setButtonTypesList] = useState<
@@ -56,6 +61,12 @@ export default function DMForm({ recipientId, accessToken }: DMFormProps) {
       errors: {},
     },
   );
+
+  useEffect(() => {
+    if (formState.success && onSuccess) {
+      onSuccess();
+    }
+  }, [formState]);
 
   function handleAddButton() {
     if (buttonTextList.length >= 3) return;
