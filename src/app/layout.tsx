@@ -31,7 +31,12 @@ export const metadata: Metadata = {
     title: "Smart CRM",
     description:
       "The Smart CRM is a powerful tool for managing customer relationships, streamlining communication, and enhancing productivity.",
+    url: "https://smartalgorhythm.com",
+    type: "website",
     images: ["/logo-1024.svg"],
+  },
+  other: {
+    "fb:app_id": process.env.NEXT_PUBLIC_FB_APP_ID || "",
   },
 };
 
