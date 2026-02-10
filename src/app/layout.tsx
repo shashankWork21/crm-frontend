@@ -27,6 +27,12 @@ export const metadata: Metadata = {
   title: "Smart CRM",
   description:
     "The Smart CRM is a powerful tool for managing customer relationships, streamlining communication, and enhancing productivity. It offers features like contact management, activity tracking, and intelligent insights to help businesses build stronger relationships with their customers.",
+  openGraph: {
+    title: "Smart CRM",
+    description:
+      "The Smart CRM is a powerful tool for managing customer relationships, streamlining communication, and enhancing productivity.",
+    images: ["/logo-1024.svg"],
+  },
 };
 
 export default function RootLayout({
