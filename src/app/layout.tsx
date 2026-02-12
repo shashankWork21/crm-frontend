@@ -24,6 +24,7 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://smartalgorhythm.com"),
   title: "Smart CRM",
   description:
     "The Smart CRM is a powerful tool for managing customer relationships, streamlining communication, and enhancing productivity. It offers features like contact management, activity tracking, and intelligent insights to help businesses build stronger relationships with their customers.",
