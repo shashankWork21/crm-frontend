@@ -49,7 +49,10 @@ export default function LeadMagnetView({
           <div className="mb-8">
             <LeadMagnetStats />
           </div>
-          <ExistingAutomationsList automations={automations} />
+          <ExistingAutomationsList
+            automations={automations}
+            tokenId={instagramToken.id}
+          />
           <InstagramMediaList
             media={instagramMedia}
             leadMagnetId={leadMagnet.id}
