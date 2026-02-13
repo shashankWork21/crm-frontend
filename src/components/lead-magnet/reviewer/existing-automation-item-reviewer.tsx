@@ -16,6 +16,8 @@ import { Button } from "@/components/ui/button";
 import { format } from "date-fns";
 import { getTriggerTypeLabel } from "@/lib/utils";
 import CommentSection from "./comment-section";
+import { useActionState } from "react";
+import { deleteAutomation } from "@/actions/automation";
 
 interface ExistingAutomationItemProps {
   tokens: Token[];
@@ -34,6 +36,16 @@ export default function ExistingAutomationItemReviewer({
 
   const instagramToken = tokens.find(
     (token: Token) => token.platform === Platform.INSTAGRAM,
+  );
+
+  const [formState, action] = useActionState(
+    deleteAutomation.bind(null, automation.id, instagramToken?.id || ""),
+    {
+      success: false,
+      message: "",
+      errors: {},
+      itemId: "",
+    },
   );
 
   return (
@@ -154,16 +166,17 @@ export default function ExistingAutomationItemReviewer({
               <Power className="size-3.5" />
             )}
           </Button>
-
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={() => onDelete?.(automation.id)}
-            className="bg-red-500/10 border-red-500/20 text-red-400 hover:bg-red-500/20 hover:text-red-300"
-            title="Delete"
-          >
-            <Trash2 className="size-3.5" />
-          </Button>
+          <form action={action}>
+            <Button
+              variant="outline"
+              size="sm"
+              type="submit"
+              className="bg-red-500/10 border-red-500/20 text-red-400 hover:bg-red-500/20 hover:text-red-300"
+              title="Delete"
+            >
+              <Trash2 className="size-3.5" />
+            </Button>
+          </form>
         </div>
       </div>
     </div>

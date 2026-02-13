@@ -12,7 +12,6 @@ export async function getLeadMagnetsByOrganisation(organisationId: string) {
       Cookie: `session=${c.get("session")?.value || ""}`,
     },
   });
-
   if (!response.ok) {
     redirect("/login");
   }

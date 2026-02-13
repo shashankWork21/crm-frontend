@@ -1,6 +1,6 @@
 "use server";
 
-import { automationPath } from "@/lib/paths";
+import { automationPath, tokenByIdPath } from "@/lib/paths";
 import {
   LeadMagnetField,
   Platform,
@@ -126,7 +126,6 @@ export async function createAutomationReviewer(
   const verificationMessage =
     "Before I send you the resource, please verify that you're a follower by clicking the button below.";
   const verificationButtonText = "I'm a follower";
-
   try {
     const response = await fetch(automationPath(), {
       method: "POST",
@@ -252,6 +251,55 @@ export async function updateAutomation(
     return {
       success: true,
       message: "Automation updated successfully",
+      errors: {},
+      itemId: automationId,
+    };
+  } catch (error: unknown) {
+    return {
+      success: false,
+      message: "An unexpected error occurred",
+      errors: {},
+      itemId: "",
+    };
+  }
+}
+
+export async function deleteAutomation(automationId: string, tokenId: string) {
+  const c = await cookies();
+
+  try {
+    const response = await fetch(`${automationPath()}/${automationId}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        Cookie: `session=${c.get("session")?.value || ""}`,
+      },
+    });
+    const tokenResponse = await fetch(`${tokenByIdPath(tokenId)}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        Cookie: `session=${c.get("session")?.value || ""}`,
+      },
+    });
+
+    if (!response.ok || !tokenResponse.ok) {
+      const responseData = await response.json();
+      console.log(responseData);
+      return {
+        success: false,
+        message: "Automation deletion failed",
+        errors: responseData.errors ? JSON.parse(responseData.errors) : {},
+        itemId: "",
+      };
+    }
+
+    revalidatePath("/automations");
+    revalidatePath("/instagram-review");
+
+    return {
+      success: true,
+      message: "Automation deleted successfully",
       errors: {},
       itemId: automationId,
     };

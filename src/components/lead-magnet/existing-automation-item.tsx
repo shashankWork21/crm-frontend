@@ -15,20 +15,32 @@ import {
 import { Button } from "../ui/button";
 import { format } from "date-fns";
 import { getTriggerTypeLabel } from "@/lib/utils";
+import { useActionState } from "react";
+import { deleteAutomation } from "@/actions/automation";
 
 interface ExistingAutomationItemProps {
   automation: Automation;
+  tokenId: string;
   onToggleActive?: (id: string, isActive: boolean) => void;
   onDelete?: (id: string) => void;
 }
 
 export default function ExistingAutomationItem({
   automation,
+  tokenId,
   onToggleActive,
   onDelete,
 }: ExistingAutomationItemProps) {
   const isActive = automation.isActive;
-
+  const [formState, action] = useActionState(
+    deleteAutomation.bind(null, automation.id, tokenId),
+    {
+      success: false,
+      message: "",
+      errors: {},
+      itemId: "",
+    },
+  );
   return (
     <div className="group relative bg-oxford-blue border border-white/10 rounded-xl overflow-hidden hover:border-white/20 transition-all duration-300">
       {/* Image */}
@@ -143,16 +155,17 @@ export default function ExistingAutomationItem({
               <Power className="size-3.5" />
             )}
           </Button>
-
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={() => onDelete?.(automation.id)}
-            className="bg-red-500/10 border-red-500/20 text-red-400 hover:bg-red-500/20 hover:text-red-300"
-            title="Delete"
-          >
-            <Trash2 className="size-3.5" />
-          </Button>
+          <form action={action}>
+            <Button
+              type="submit"
+              variant="outline"
+              size="sm"
+              className="bg-red-500/10 border-red-500/20 text-red-400 hover:bg-red-500/20 hover:text-red-300"
+              title="Delete"
+            >
+              <Trash2 className="size-3.5" />
+            </Button>
+          </form>
         </div>
       </div>
     </div>
